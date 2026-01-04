@@ -1867,7 +1867,7 @@
         let cropStart = { x: 0, y: 0, width: 0, height: 0 };
         let imageInfo = { width: 0, height: 0, naturalWidth: 0, naturalHeight: 0 };
         let replaceImageId = null;
-        let aspectRatio = null; // null = free
+        let aspectRatio = null;
 
         function openImageCropper(file) {
             if (!file) return;
@@ -1883,8 +1883,24 @@
 
         function cropExistingImage(imageUrl, imageId) {
             replaceImageId = imageId;
-            cropperImage = imageUrl;
-            loadImageToCropper();
+            
+            // For existing images, fetch and convert to base64 to avoid CORS
+            showToast('Loading image...');
+            
+            fetch(imageUrl)
+                .then(res => res.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        cropperImage = e.target.result;
+                        loadImageToCropper();
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(err => {
+                    console.error('Error loading image:', err);
+                    showToast('Cannot load image for cropping. Try uploading a new one.', true);
+                });
         }
 
         function loadImageToCropper() {
@@ -1916,7 +1932,13 @@
                 
                 initCropBox();
                 document.getElementById('imageCropperModal').classList.add('active');
-                setupCropperEvents();
+                
+                // Setup events after modal is visible
+                setTimeout(() => setupCropperEvents(), 100);
+            };
+            
+            img.onerror = () => {
+                showToast('Error loading image for crop', true);
             };
         }
 
@@ -1957,6 +1979,8 @@
 
         function updateCropBoxDisplay() {
             const box = document.getElementById('cropBox');
+            if (!box) return;
+            
             box.style.left = cropBox.x + 'px';
             box.style.top = cropBox.y + 'px';
             box.style.width = cropBox.width + 'px';
@@ -1965,13 +1989,18 @@
             // Update size info
             const realWidth = Math.round(cropBox.width / imageInfo.scale);
             const realHeight = Math.round(cropBox.height / imageInfo.scale);
-            document.getElementById('cropSizeInfo').textContent = `${realWidth} × ${realHeight} px`;
+            const sizeInfo = document.getElementById('cropSizeInfo');
+            if (sizeInfo) {
+                sizeInfo.textContent = `${realWidth} × ${realHeight} px`;
+            }
         }
 
         function setupCropperEvents() {
             const box = document.getElementById('cropBox');
             const container = document.getElementById('imageCropperContainer');
-            const handles = document.querySelectorAll('.crop-handle');
+            if (!box || !container) return;
+            
+            const handles = box.querySelectorAll('.crop-handle');
             
             // Handle resize
             handles.forEach(handle => {
@@ -2007,7 +2036,7 @@
                     updateCropBoxDisplay();
                 }
                 
-                if (isResizing) {
+                if (isResizing && resizeHandle) {
                     const dx = e.clientX - dragStart.x;
                     const dy = e.clientY - dragStart.y;
                     
@@ -2063,6 +2092,8 @@
         function closeImageCropper() {
             document.getElementById('imageCropperModal').classList.remove('active');
             cropperImage = null;
+            isDragging = false;
+            isResizing = false;
             document.onmousemove = null;
             document.onmouseup = null;
         }
