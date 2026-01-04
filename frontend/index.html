@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. Portfolio | Autthapol Saiyat</title>
+    <meta name="description" content="Portfolio of Autthapol Saiyat - Team Lead Developer & Forensic Tech Specialist">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --jarvis-blue: #00d4ff;
+            --jarvis-gold: #ffa500;
+            --jarvis-green: #00ff88;
+            --jarvis-red: #ff3333;
+            --bg-dark: #0a0a0f;
+            --bg-panel: rgba(0, 20, 40, 0.85);
+            --border-glow: rgba(0, 212, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg-dark); color: #fff; min-height: 100vh; overflow-x: hidden; }
+        
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 50px 50px; z-index: -2; animation: gridMove 20s linear infinite; }
+        @keyframes gridMove { 0% { transform: translate(0,0); } 100% { transform: translate(50px,50px); } }
+        
+        .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--jarvis-blue), transparent); animation: scanMove 4s linear infinite; z-index: 1000; pointer-events: none; opacity: 0.3; }
+        @keyframes scanMove { 0% { top: -4px; } 100% { top: 100vh; } }
+        
+        .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.5s; }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
+        .arc-reactor { width: 120px; height: 120px; position: relative; }
+        .arc-reactor-ring { position: absolute; border: 3px solid var(--jarvis-blue); border-radius: 50%; animation: rotate 3s linear infinite; }
+        .arc-reactor-ring:nth-child(1) { top: 0; left: 0; right: 0; bottom: 0; border-top-color: transparent; }
+        .arc-reactor-ring:nth-child(2) { top: 15px; left: 15px; right: 15px; bottom: 15px; border-bottom-color: transparent; animation-direction: reverse; }
+        .arc-reactor-ring:nth-child(3) { top: 30px; left: 30px; right: 30px; bottom: 30px; border-left-color: transparent; }
+        .arc-reactor-core { position: absolute; top: 45px; left: 45px; width: 30px; height: 30px; background: var(--jarvis-blue); border-radius: 50%; box-shadow: 0 0 30px var(--jarvis-blue); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .loading-text { font-family: 'Orbitron', sans-serif; color: var(--jarvis-blue); margin-top: 30px; letter-spacing: 3px; }
+        
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 15px 30px; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%); }
+        .header-content { max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--jarvis-blue); text-shadow: 0 0 20px var(--jarvis-blue); letter-spacing: 3px; }
+        .nav { display: flex; gap: 30px; }
+        .nav-link { font-family: 'Share Tech Mono', monospace; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; }
+        .nav-link:hover { color: var(--jarvis-blue); text-shadow: 0 0 10px var(--jarvis-blue); }
+        .menu-toggle { display: none; background: none; border: 2px solid var(--jarvis-blue); color: var(--jarvis-blue); padding: 8px 15px; font-family: 'Orbitron'; cursor: pointer; }
+        
+        .main-container { max-width: 1600px; margin: 0 auto; padding: 100px 30px 50px; }
+        
+        .hero { display: grid; grid-template-columns: 350px 1fr; gap: 40px; margin-bottom: 60px; animation: fadeInUp 1s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .panel { background: var(--bg-panel); border: 1px solid var(--border-glow); border-radius: 10px; padding: 30px; position: relative; }
+        .panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--jarvis-blue), transparent); }
+        .panel-title { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--jarvis-blue); letter-spacing: 3px; margin-bottom: 25px; }
+        .panel-title::before { content: '◈ '; }
+        
+        .avatar-container { width: 200px; height: 200px; margin: 0 auto 25px; position: relative; }
+        .avatar-ring { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--jarvis-blue); border-radius: 50%; animation: rotate 10s linear infinite; }
+        .avatar-ring::before { content: ''; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; background: var(--jarvis-blue); border-radius: 50%; box-shadow: 0 0 10px var(--jarvis-blue); }
+        .avatar-img { position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; border-radius: 50%; background: linear-gradient(135deg, #0099cc, #0a0a0f); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-size: 3rem; color: var(--jarvis-blue); overflow: hidden; }
+        .avatar-img img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .profile-name { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; text-align: center; margin-bottom: 5px; background: linear-gradient(90deg, var(--jarvis-blue), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .profile-role { text-align: center; color: var(--jarvis-gold); font-size: 0.95rem; margin-bottom: 20px; }
+        .profile-info { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .info-item { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+        .info-icon { width: 30px; height: 30px; border: 1px solid var(--border-glow); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: var(--jarvis-blue); }
+        
+        .social-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .social-btn { background: transparent; border: 1px solid var(--border-glow); color: rgba(255,255,255,0.7); padding: 10px; border-radius: 5px; font-family: 'Share Tech Mono'; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; text-decoration: none; text-align: center; }
+        .social-btn:hover { border-color: var(--jarvis-blue); color: var(--jarvis-blue); box-shadow: 0 0 15px rgba(0,212,255,0.3); }
+        
+        .timeline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 20px 0; position: relative; }
+        .timeline::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--jarvis-blue), var(--jarvis-gold)); }
+        .timeline-point { width: 20px; height: 20px; background: var(--bg-dark); border: 2px solid var(--jarvis-blue); border-radius: 50%; cursor: pointer; transition: all 0.3s; z-index: 1; position: relative; }
+        .timeline-point.active { background: var(--jarvis-blue); box-shadow: 0 0 20px var(--jarvis-blue); transform: scale(1.3); }
+        .timeline-label { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
+        
+        .exp-card { background: rgba(0,212,255,0.05); border: 1px solid var(--border-glow); border-radius: 10px; padding: 25px; margin-bottom: 20px; transition: all 0.3s; }
+        .exp-card:hover { border-color: var(--jarvis-blue); box-shadow: 0 0 30px rgba(0,212,255,0.1); }
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .exp-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--jarvis-blue); }
+        .exp-company { color: var(--jarvis-gold); font-size: 0.95rem; margin-top: 5px; }
+        .exp-duration { font-family: 'Share Tech Mono'; font-size: 0.85rem; color: rgba(255,255,255,0.6); background: rgba(0,212,255,0.1); padding: 5px 15px; border-radius: 20px; border: 1px solid var(--border-glow); }
+        .exp-description { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.7; margin-bottom: 15px; }
+        .exp-highlights { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .highlight-tag { background: rgba(255,165,0,0.1); border: 1px solid rgba(255,165,0,0.3); color: var(--jarvis-gold); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tech-tag { background: rgba(0,212,255,0.1); border: 1px solid var(--border-glow); color: var(--jarvis-blue); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-family: 'Share Tech Mono'; }
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .section-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--jarvis-blue); }
+        .section-title::before { content: '◈ '; }
+        
+        .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-tab { background: transparent; border: 1px solid var(--border-glow); color: rgba(255,255,255,0.6); padding: 8px 20px; border-radius: 20px; font-family: 'Share Tech Mono'; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .filter-tab.active, .filter-tab:hover { border-color: var(--jarvis-blue); color: var(--jarvis-blue); box-shadow: 0 0 15px rgba(0,212,255,0.3); }
+        
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .project-card { background: var(--bg-panel); border: 1px solid var(--border-glow); border-radius: 10px; overflow: hidden; transition: all 0.4s; cursor: pointer; }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--jarvis-blue); box-shadow: 0 20px 40px rgba(0,212,255,0.2); }
+        .project-thumbnail { width: 100%; height: 180px; background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,0,0,0.8)); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .project-card:hover .project-thumbnail img { transform: scale(1.1); }
+        .project-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,20,40,0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .project-card:hover .project-overlay { opacity: 1; }
+        .view-btn { background: var(--jarvis-blue); color: var(--bg-dark); border: none; padding: 12px 25px; border-radius: 25px; font-family: 'Orbitron'; font-size: 0.9rem; cursor: pointer; }
+        .project-info { padding: 20px; }
+        .project-name { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 8px; }
+        .project-desc { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; }
+        .project-meta { display: flex; justify-content: space-between; align-items: center; }
+        .project-category { font-size: 0.8rem; color: var(--jarvis-gold); }
+        .project-images-count { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+        
+        .skills-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .skill-item { margin-bottom: 20px; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .skill-name { font-size: 0.95rem; }
+        .skill-percent { font-family: 'Share Tech Mono'; color: var(--jarvis-blue); }
+        .skill-bar { height: 8px; background: rgba(0,212,255,0.1); border-radius: 4px; overflow: hidden; }
+        .skill-progress { height: 100%; background: linear-gradient(90deg, var(--jarvis-blue), var(--jarvis-gold)); border-radius: 4px; transition: width 1s ease-out; }
+        
+        .tech-arsenal { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
+        .tech-item { background: rgba(0,212,255,0.05); border: 1px solid var(--border-glow); border-radius: 10px; padding: 20px 15px; text-align: center; transition: all 0.3s; }
+        .tech-item:hover { border-color: var(--jarvis-blue); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,212,255,0.2); }
+        .tech-icon { font-size: 2rem; margin-bottom: 10px; }
+        .tech-name { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+        
+        .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 60px; }
+        .cert-card { background: var(--bg-panel); border: 1px solid var(--border-glow); border-radius: 10px; padding: 25px; transition: all 0.3s; }
+        .cert-card:hover { border-color: var(--jarvis-blue); transform: translateY(-5px); }
+        .cert-year { font-family: 'Share Tech Mono'; font-size: 0.8rem; color: var(--jarvis-gold); margin-bottom: 10px; }
+        .cert-year::before { content: '◈ '; }
+        .cert-name { font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: var(--jarvis-blue); margin-bottom: 8px; }
+        .cert-issuer { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+        .cert-view-btn { display: inline-block; margin-top: 12px; padding: 8px 16px; background: rgba(0,212,255,0.1); border: 1px solid var(--jarvis-blue); border-radius: 5px; color: var(--jarvis-blue); text-decoration: none; font-size: 0.85rem; transition: all 0.3s; cursor: pointer; }
+        .cert-view-btn:hover { background: var(--jarvis-blue); color: #000; }
+        
+        /* Deliveries Section */
+        .delivery-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; padding: 25px; background: var(--bg-panel); border: 1px solid var(--border-glow); border-radius: 10px; }
+        .delivery-stat-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .delivery-stat-icon { font-size: 1.5rem; }
+        .delivery-stat-value { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--jarvis-blue); }
+        .delivery-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+        .deliveries-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 60px; }
+        .delivery-card { background: var(--bg-panel); border: 1px solid var(--border-glow); border-radius: 10px; padding: 25px; transition: all 0.3s; }
+        .delivery-card:hover { border-color: var(--jarvis-blue); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,212,255,0.15); }
+        .delivery-year { font-family: 'Share Tech Mono'; font-size: 0.85rem; color: var(--jarvis-gold); margin-bottom: 8px; }
+        .delivery-year::before { content: '◈ '; }
+        .delivery-name { font-family: 'Orbitron'; font-size: 1rem; color: var(--jarvis-blue); margin-bottom: 10px; }
+        .delivery-client { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+        .delivery-budget { font-family: 'Share Tech Mono'; font-size: 1.1rem; color: var(--jarvis-green); margin-bottom: 10px; }
+        .delivery-contract { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+        .delivery-images-btn { display: inline-block; padding: 8px 16px; background: rgba(0,212,255,0.1); border: 1px solid var(--jarvis-blue); border-radius: 5px; color: var(--jarvis-blue); font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .delivery-images-btn:hover { background: var(--jarvis-blue); color: #000; }
+        .delivery-status { display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 0.75rem; margin-left: 10px; }
+        .delivery-status.completed { background: rgba(0,255,136,0.2); color: var(--jarvis-green); border: 1px solid var(--jarvis-green); }
+        .delivery-status.ongoing { background: rgba(255,165,0,0.2); color: var(--jarvis-gold); border: 1px solid var(--jarvis-gold); }
+        
+        /* Responsive - Timeline on mobile */
+        @media (max-width: 768px) {
+            .deliveries-grid { grid-template-columns: 1fr; }
+            .delivery-stats { gap: 20px; }
+        }
+        
+        .footer { background: var(--bg-panel); border-top: 1px solid var(--border-glow); padding: 30px; text-align: center; }
+        .footer-status { font-family: 'Share Tech Mono'; font-size: 0.9rem; color: rgba(255,255,255,0.6); display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
+        .status-item { display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; background: var(--jarvis-green); border-radius: 50%; animation: blink 1s ease-in-out infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        /* Lightbox */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; }
+        .lightbox-content { max-width: 90%; max-height: 90%; position: relative; }
+        .lightbox-img { max-width: 100%; max-height: 85vh; border: 2px solid var(--jarvis-blue); border-radius: 10px; }
+        .lightbox-close { position: absolute; top: -40px; right: 0; background: none; border: none; color: var(--jarvis-blue); font-size: 2rem; cursor: pointer; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,212,255,0.2); border: 1px solid var(--jarvis-blue); color: var(--jarvis-blue); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
+        .lightbox-prev { left: -70px; }
+        .lightbox-next { right: -70px; }
+        .lightbox-caption { text-align: center; margin-top: 20px; font-family: 'Orbitron'; }
+        .lightbox-counter { font-family: 'Share Tech Mono'; color: var(--jarvis-blue); font-size: 0.9rem; margin-top: 10px; text-align: center; }
+        
+        /* Certificate Lightbox */
+        .cert-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
+        .cert-lightbox.active { display: flex; }
+        .cert-lightbox-header { width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .cert-lightbox-title { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--jarvis-blue); }
+        .cert-lightbox-close { background: none; border: 2px solid var(--jarvis-blue); color: var(--jarvis-blue); width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
+        .cert-lightbox-close:hover { background: var(--jarvis-blue); color: #000; }
+        .cert-lightbox-content { max-width: 900px; max-height: 80vh; display: flex; align-items: center; justify-content: center; animation: certZoomIn 0.3s ease-out; }
+        @keyframes certZoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .profile-panel { max-width: 400px; margin: 0 auto; }
+            .skills-section { grid-template-columns: 1fr; }
+            .lightbox-nav { display: none; }
+        }
+        
+        @media (max-width: 768px) {
+            .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-panel); flex-direction: column; padding: 20px; }
+            .nav.active { display: flex; }
+            .menu-toggle { display: block; }
+            .main-container { padding: 80px 15px 30px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .footer-status { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="arc-reactor">
+            <div class="arc-reactor-ring"></div>
+            <div class="arc-reactor-ring"></div>
+            <div class="arc-reactor-ring"></div>
+            <div class="arc-reactor-core"></div>
+        </div>
+        <div class="loading-text">INITIALIZING J.A.R.V.I.S.</div>
+    </div>
+
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">◈ J.A.R.V.I.S.</div>
+            <nav class="nav" id="mainNav">
+                <a href="#profile" class="nav-link">Profile</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#certifications" class="nav-link">Certifications</a>
+                <a href="#deliveries" class="nav-link">Deliveries</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero" id="profile">
+            <div class="panel profile-panel">
+                <div class="panel-title">PROFILE IDENTITY</div>
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-img" id="avatarImg">A</div>
+                </div>
+                <h1 class="profile-name" id="profileName">Loading...</h1>
+                <p class="profile-role" id="profileRole">Loading...</p>
+                <div class="profile-info" id="profileInfo"></div>
+                <div class="social-links" id="socialLinks"></div>
+            </div>
+            <div class="panel" id="experience">
+                <div class="panel-title">EXPERIENCE TIMELINE</div>
+                <div class="timeline" id="timeline"></div>
+                <div id="experienceCards"></div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="section-header">
+                <h2 class="section-title">PROJECT GALLERY</h2>
+                <div class="filter-tabs" id="filterTabs"></div>
+            </div>
+            <div class="projects-grid" id="projectsGrid"></div>
+        </section>
+
+        <section class="skills-section" id="skills">
+            <div class="panel">
+                <div class="panel-title">SKILL MATRIX</div>
+                <div id="skillsList"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">TECH ARSENAL</div>
+                <div class="tech-arsenal" id="techArsenal"></div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <div class="section-header">
+                <h2 class="section-title">CERTIFICATIONS</h2>
+            </div>
+            <div class="certs-grid" id="certsGrid"></div>
+        </section>
+
+        <section id="deliveries">
+            <div class="section-header">
+                <h2 class="section-title">PROJECT DELIVERIES</h2>
+            </div>
+            <!-- Stats Summary -->
+            <div class="delivery-stats" id="deliveryStats">
+                <div class="delivery-stat-item">
+                    <span class="delivery-stat-icon">💰</span>
+                    <span class="delivery-stat-value" id="frontDeliveryBudget">฿0</span>
+                    <span class="delivery-stat-label">Total Budget</span>
+                </div>
+                <div class="delivery-stat-item">
+                    <span class="delivery-stat-icon">📦</span>
+                    <span class="delivery-stat-value" id="frontDeliveryCount">0</span>
+                    <span class="delivery-stat-label">Projects</span>
+                </div>
+                <div class="delivery-stat-item">
+                    <span class="delivery-stat-icon">📅</span>
+                    <span class="delivery-stat-value" id="frontDeliveryYears">-</span>
+                    <span class="delivery-stat-label">Years Active</span>
+                </div>
+            </div>
+            <div class="deliveries-grid" id="deliveriesGrid"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-status">
+            <div class="status-item"><span class="status-dot"></span>SYSTEM: ONLINE</div>
+            <div class="status-item">LAST UPDATE: <span id="lastUpdate">-</span></div>
+            <div class="status-item">VERSION: 4.0.0</div>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">✕</button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">◀</button>
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">▶</button>
+            <img src="" alt="" class="lightbox-img" id="lightboxImg">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-counter" id="lightboxCounter"></div>
+        </div>
+    </div>
+
+    <!-- Certificate Lightbox -->
+    <div class="cert-lightbox" id="certLightbox" onclick="if(event.target === this) closeCertLightbox()">
+        <div class="cert-lightbox-header">
+            <div class="cert-lightbox-title" id="certLightboxTitle"></div>
+            <button class="cert-lightbox-close" onclick="closeCertLightbox()">✕</button>
+        </div>
+        <div class="cert-lightbox-content" id="certLightboxContent"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://jarvis-portfolio-api.azurewebsites.net/api';
+        let portfolioData = {};
+        let currentImages = [];
+        let currentImageIndex = 0;
+
+        async function loadPortfolio() {
+            try {
+                const res = await fetch(API_URL + '/portfolio');
+                portfolioData = await res.json();
+                renderAll();
+            } catch (err) {
+                console.error('Error loading portfolio:', err);
+                loadFallbackData();
+            }
+        }
+
+        function loadFallbackData() {
+            portfolioData = {
+                profile: { name: 'Autthapol Saiyat', name_th: 'อรรถพล ไสญาติ', role: 'Team Lead Developer & Forensic Tech Specialist', location: 'Bangkok, Thailand', experience: '16+ Years Experience', company: 'Sangwit Science Co., Ltd.', email: 'contact@example.com' },
+                experiences: [{ id: 1, title: 'Team Lead Developer', company: 'Sangwit Science Co., Ltd.', start_date: '2009-01-01', is_current: true, description: 'ผู้นำทีมพัฒนาระบบเทคโนโลยีนิติวิทยาศาสตร์', tech_stack: ['PHP', 'JavaScript', '.NET', 'PostgreSQL', 'Azure'] }],
+                projects: [{ id: 1, name: 'FIDS Crime Scene System', description: 'ระบบฐานข้อมูลนิติวิทยาศาสตร์', category: 'web', images: [] }],
+                skills: [{ name: 'Database Development', percent: 95 }, { name: 'Backend Development', percent: 90 }, { name: 'System Architecture', percent: 85 }],
+                techStack: [{ icon: '🐘', name: 'PHP' }, { icon: '📱', name: '.NET' }, { icon: '🟨', name: 'JavaScript' }, { icon: '☁️', name: 'Azure' }],
+                certifications: [{ year: '2555', name: 'UFED Ultimate Certification', issuer: 'Cellebrite' }]
+            };
+            renderAll();
+        }
+
+        function renderAll() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            renderProfile();
+            renderExperience();
+            renderProjects();
+            renderSkills();
+            renderTechArsenal();
+            renderCertifications();
+            renderDeliveries();
+        }
+
+        function renderProfile() {
+            const p = portfolioData.profile || {};
+            document.getElementById('profileName').textContent = p.name || 'Unknown';
+            document.getElementById('profileRole').textContent = p.role || '';
+            
+            // Show avatar image or initial
+            const avatarEl = document.getElementById('avatarImg');
+            if (p.avatar_url) {
+                avatarEl.innerHTML = `<img src="${p.avatar_url}" alt="${p.name}">`;
+            } else {
+                avatarEl.textContent = (p.name || 'A')[0];
+            }
+            
+            document.getElementById('profileInfo').innerHTML = `
+                <div class="info-item"><div class="info-icon">📍</div><span>${p.location || '-'}</span></div>
+                <div class="info-item"><div class="info-icon">💼</div><span>${p.experience || '-'}</span></div>
+                <div class="info-item"><div class="info-icon">🏢</div><span>${p.company || '-'}</span></div>
+                <div class="info-item"><div class="info-icon">✉️</div><span>${p.email || '-'}</span></div>
+            `;
+            
+            document.getElementById('socialLinks').innerHTML = `
+                <a href="${p.github_url || '#'}" class="social-btn" target="_blank">⟦ GitHub ⟧</a>
+                <a href="${p.linkedin_url || '#'}" class="social-btn" target="_blank">⟦ LinkedIn ⟧</a>
+                <a href="mailto:${p.email || ''}" class="social-btn">⟦ Email ⟧</a>
+                <a href="${p.resume_url || '#'}" class="social-btn" target="_blank">⟦ Resume ⟧</a>
+            `;
+            
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('th-TH');
+        }
+
+        function renderExperience() {
+            const exps = portfolioData.experiences || [];
+            document.getElementById('experienceCards').innerHTML = exps.map(exp => `
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <div>
+                            <h3 class="exp-title">${exp.title}</h3>
+                            <p class="exp-company">@ ${exp.company}</p>
+                        </div>
+                        <span class="exp-duration">${exp.start_date?.slice(0,4) || '?'} - ${exp.is_current ? 'Present' : exp.end_date?.slice(0,4) || '?'}</span>
+                    </div>
+                    <p class="exp-description">${exp.description || ''}</p>
+                    <div class="tech-stack">${(exp.tech_stack || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderProjects() {
+            const projs = portfolioData.projects || [];
+            const categories = ['all', ...new Set(projs.map(p => p.category).filter(Boolean))];
+            
+            document.getElementById('filterTabs').innerHTML = categories.map((cat, i) => 
+                `<button class="filter-tab ${i === 0 ? 'active' : ''}" data-filter="${cat}">${cat === 'all' ? 'All' : cat}</button>`
+            ).join('');
+            
+            document.getElementById('projectsGrid').innerHTML = projs.map((proj, idx) => `
+                <div class="project-card" data-category="${proj.category}" onclick="openGallery(${idx})">
+                    <div class="project-thumbnail">
+                        ${proj.thumbnail_url ? `<img src="${proj.thumbnail_url}" alt="${proj.name}">` : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
+                        <div class="project-overlay"><button class="view-btn">VIEW</button></div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-name">${proj.name}</h3>
+                        <p class="project-desc">${proj.description || ''}</p>
+                        <div class="project-meta">
+                            <span class="project-category">${proj.category || '-'}</span>
+                            <span class="project-images-count">📷 ${(proj.images || []).length}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const filter = tab.dataset.filter;
+                    document.querySelectorAll('.project-card').forEach(card => {
+                        card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'block' : 'none';
+                    });
+                });
+            });
+        }
+
+        function renderSkills() {
+            const skills = portfolioData.skills || [];
+            document.getElementById('skillsList').innerHTML = skills.map(s => `
+                <div class="skill-item">
+                    <div class="skill-header"><span class="skill-name">${s.name}</span><span class="skill-percent">${s.percent}%</span></div>
+                    <div class="skill-bar"><div class="skill-progress" style="width:${s.percent}%"></div></div>
+                </div>
+            `).join('');
+        }
+
+        function renderTechArsenal() {
+            const tech = portfolioData.techStack || [];
+            document.getElementById('techArsenal').innerHTML = tech.map(t => `
+                <div class="tech-item"><div class="tech-icon">${t.icon || '⚡'}</div><div class="tech-name">${t.name}</div></div>
+            `).join('');
+        }
+
+        function renderCertifications() {
+            const certs = portfolioData.certifications || [];
+            document.getElementById('certsGrid').innerHTML = certs.map((c, index) => `
+                <div class="cert-card">
+                    <div class="cert-year">${c.year}</div>
+                    <h3 class="cert-name">${c.name}</h3>
+                    <p class="cert-issuer">${c.issuer || ''}</p>
+                    ${c.cert_url ? `<button class="cert-view-btn" onclick="openCertLightbox(${index})">📄 View Certificate</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Certificate Lightbox
+        function openCertLightbox(index) {
+            const cert = portfolioData.certifications[index];
+            if (!cert || !cert.cert_url) return;
+            
+            const lightbox = document.getElementById('certLightbox');
+            const content = document.getElementById('certLightboxContent');
+            const title = document.getElementById('certLightboxTitle');
+            
+            title.textContent = cert.name + ' (' + cert.year + ')';
+            
+            // Check if PDF or image
+            const url = cert.cert_url.toLowerCase();
+            if (url.endsWith('.pdf')) {
+                content.innerHTML = `<iframe src="${cert.cert_url}" style="width:100%;height:80vh;border:none;border-radius:10px;"></iframe>`;
+            } else {
+                content.innerHTML = `<img src="${cert.cert_url}" alt="${cert.name}" style="max-width:100%;max-height:80vh;border-radius:10px;box-shadow:0 0 30px rgba(0,212,255,0.3);">`;
+            }
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertLightbox() {
+            document.getElementById('certLightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ==================== DELIVERIES ====================
+        function renderDeliveries() {
+            const deliveries = portfolioData.deliveries || [];
+            const stats = portfolioData.deliveryStats || {};
+            
+            // Update stats
+            document.getElementById('frontDeliveryBudget').textContent = '฿' + formatBudget(stats.totalBudget || 0);
+            document.getElementById('frontDeliveryCount').textContent = stats.totalProjects || 0;
+            document.getElementById('frontDeliveryYears').textContent = stats.years ? `${stats.years.min} - ${stats.years.max}` : '-';
+            
+            document.getElementById('deliveriesGrid').innerHTML = deliveries.map((d, idx) => `
+                <div class="delivery-card">
+                    <div class="delivery-year">${d.year || '-'}
+                        <span class="delivery-status ${d.status}">${d.status === 'completed' ? '✅' : '🔄'}</span>
+                    </div>
+                    <h3 class="delivery-name">${d.project_name}</h3>
+                    <p class="delivery-client">${d.client || '-'}</p>
+                    <div class="delivery-budget">฿${formatBudget(d.budget)}</div>
+                    ${d.contract_no ? `<div class="delivery-contract">สัญญา: ${d.contract_no}</div>` : ''}
+                    ${d.images && d.images.length > 0 ? `<button class="delivery-images-btn" onclick="openDeliveryGallery(${idx})">📷 View ${d.images.length} Images</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function formatBudget(amount) {
+            if (!amount) return '0';
+            return parseFloat(amount).toLocaleString('th-TH');
+        }
+
+        function openDeliveryGallery(deliveryIndex) {
+            const delivery = portfolioData.deliveries[deliveryIndex];
+            currentImages = delivery.images || [];
+            currentImageIndex = 0;
+            
+            if (currentImages.length === 0) return;
+            
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function openGallery(projectIndex) {
+            const project = portfolioData.projects[projectIndex];
+            currentImages = project.images || [];
+            currentImageIndex = 0;
+            
+            if (currentImages.length === 0) {
+                currentImages = [{ image_url: '', caption: project.name + ' - No images' }];
+            }
+            
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function updateLightbox() {
+            const img = currentImages[currentImageIndex];
+            const lightboxImg = document.getElementById('lightboxImg');
+            
+            if (img.image_url) {
+                lightboxImg.src = img.image_url;
+            } else {
+                lightboxImg.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="#0a0a0f" width="400" height="300"/><text x="200" y="150" text-anchor="middle" fill="#00d4ff" font-size="40">◈</text></svg>');
+            }
+            
+            document.getElementById('lightboxCaption').textContent = img.caption || '';
+            document.getElementById('lightboxCounter').textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+        }
+
+        document.getElementById('lightboxClose').onclick = () => document.getElementById('lightbox').classList.remove('active');
+        document.getElementById('lightboxPrev').onclick = () => { currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length; updateLightbox(); };
+        document.getElementById('lightboxNext').onclick = () => { currentImageIndex = (currentImageIndex + 1) % currentImages.length; updateLightbox(); };
+        document.getElementById('lightbox').onclick = (e) => { if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.remove('active'); };
+        
+        document.addEventListener('keydown', (e) => {
+            // Project lightbox
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
+                if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
+                if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
+            }
+            // Certificate lightbox
+            if (document.getElementById('certLightbox').classList.contains('active')) {
+                if (e.key === 'Escape') closeCertLightbox();
+            }
+        });
+
+        document.getElementById('menuToggle').onclick = () => document.getElementById('mainNav').classList.toggle('active');
+
+        loadPortfolio();
+    </script>
+</body>
+</html>

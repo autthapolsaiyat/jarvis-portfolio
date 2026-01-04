@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --jarvis-blue: #00d4ff;
+            --jarvis-gold: #ffa500;
+            --jarvis-red: #ff3333;
+            --jarvis-green: #00ff88;
+            --bg-dark: #0a0a0f;
+            --bg-panel: rgba(0, 20, 40, 0.95);
+            --border-glow: rgba(0, 212, 255, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-screen.hidden { display: none; }
+
+        .login-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-glow);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--jarvis-blue);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--jarvis-blue);
+        }
+
+        .login-subtitle {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--jarvis-blue);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--jarvis-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--jarvis-blue);
+            color: var(--bg-dark);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px var(--jarvis-blue);
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: var(--jarvis-red);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Password Toggle */
+        .password-wrapper {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--jarvis-blue);
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .password-toggle:hover {
+            opacity: 1;
+        }
+
+        /* Dashboard */
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-glow);
+            padding: 20px 0;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--jarvis-blue);
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-glow);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-item:hover, .sidebar-item.active {
+            background: rgba(0, 212, 255, 0.1);
+            border-left-color: var(--jarvis-blue);
+            color: var(--jarvis-blue);
+        }
+
+        .sidebar-item-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--jarvis-blue);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--jarvis-blue);
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Panel */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--jarvis-blue);
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .data-table th {
+            color: var(--jarvis-blue);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .data-table tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Buttons */
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+        }
+
+        .btn-edit {
+            background: transparent;
+            border: 1px solid var(--jarvis-gold);
+            color: var(--jarvis-gold);
+        }
+
+        .btn-edit:hover {
+            background: var(--jarvis-gold);
+            color: var(--bg-dark);
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: 1px solid var(--jarvis-red);
+            color: var(--jarvis-red);
+        }
+
+        .btn-delete:hover {
+            background: var(--jarvis-red);
+            color: #fff;
+        }
+
+        .btn-add {
+            background: var(--jarvis-green);
+            color: var(--bg-dark);
+        }
+
+        .btn-add:hover {
+            box-shadow: 0 0 20px var(--jarvis-green);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: var(--bg-panel);
+            border: 1px solid var(--jarvis-blue);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--jarvis-blue);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--jarvis-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-grid .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Image Upload */
+        .image-upload {
+            border: 2px dashed var(--border-glow);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--jarvis-blue);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-item {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--jarvis-red);
+            color: #fff;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-panel);
+            border: 1px solid var(--jarvis-green);
+            border-radius: 10px;
+            padding: 15px 25px;
+            display: none;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.active { display: block; }
+        .toast.error { border-color: var(--jarvis-red); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Image Cropper Modal */
+        .cropper-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 4000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .cropper-modal.active { display: flex; }
+        .cropper-container {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--jarvis-blue);
+            position: relative;
+            cursor: move;
+            background: #111;
+        }
+        .cropper-image {
+            position: absolute;
+            max-width: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .cropper-controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .cropper-zoom {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--jarvis-blue);
+        }
+        .cropper-zoom input[type="range"] {
+            width: 200px;
+            accent-color: var(--jarvis-blue);
+        }
+        .cropper-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .cropper-hint {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid .form-group.full-width { grid-column: span 1; }
+        }
+
+        /* Page sections */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        /* Tags Input */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            min-height: 50px;
+        }
+
+        .tag {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--jarvis-blue);
+            color: var(--jarvis-blue);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-remove {
+            background: none;
+            border: none;
+            color: var(--jarvis-blue);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .tag-input {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .tag-input:focus { outline: none; }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">◈ J.A.R.V.I.S.</div>
+            <div class="login-subtitle">ADMIN CONTROL PANEL</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">USERNAME</label>
+                    <input type="text" class="form-input" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PASSWORD</label>
+                    <div class="password-wrapper">
+                        <input type="password" class="form-input" id="loginPassword" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">ACCESS SYSTEM</button>
+                <div class="error-msg" id="loginError"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">◈ JARVIS ADMIN</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active" data-page="overview">
+                    <span class="sidebar-item-icon">📊</span> Overview
+                </li>
+                <li class="sidebar-item" data-page="profile">
+                    <span class="sidebar-item-icon">👤</span> Profile
+                </li>
+                <li class="sidebar-item" data-page="experience">
+                    <span class="sidebar-item-icon">💼</span> Experience
+                </li>
+                <li class="sidebar-item" data-page="projects">
+                    <span class="sidebar-item-icon">📁</span> Projects
+                </li>
+                <li class="sidebar-item" data-page="deliveries">
+                    <span class="sidebar-item-icon">📦</span> Deliveries
+                </li>
+                <li class="sidebar-item" data-page="skills">
+                    <span class="sidebar-item-icon">⚡</span> Skills
+                </li>
+                <li class="sidebar-item" data-page="certifications">
+                    <span class="sidebar-item-icon">🏆</span> Certifications
+                </li>
+                <li class="sidebar-item" data-page="settings">
+                    <span class="sidebar-item-icon">⚙️</span> Settings
+                </li>
+                <li class="sidebar-item" id="logoutBtn">
+                    <span class="sidebar-item-icon">🚪</span> Logout
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Page -->
+            <section class="page-section active" id="page-overview">
+                <div class="page-header">
+                    <h1 class="page-title">◈ System Overview</h1>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statProjects">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statSkills">0</div>
+                        <div class="stat-label">Skills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statCerts">0</div>
+                        <div class="stat-label">Certifications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statImages">0</div>
+                        <div class="stat-label">Images</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Recent Activity</h3>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityLog"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Profile Page -->
+            <section class="page-section" id="page-profile">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Profile Settings</h1>
+                    <button class="btn btn-primary" id="saveProfileBtn">💾 Save Changes</button>
+                </div>
+                <div class="panel">
+                    <form id="profileForm">
+                        <!-- Avatar Upload Section -->
+                        <div class="form-group full-width" style="margin-bottom: 30px;">
+                            <label class="form-label">Profile Picture</label>
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <div id="avatarPreview" tabindex="0" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--jarvis-blue); overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(0,212,255,0.1); cursor: pointer;" title="Click here then Ctrl+V to paste image">
+                                    <span style="font-size: 3rem; color: var(--jarvis-blue);">A</span>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('avatarInput').click()">📷 Upload Photo</button>
+                                    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="uploadAvatar(this.files[0])">
+                                    <p style="margin-top: 10px; font-size: 0.85rem; color: rgba(255,255,255,0.6);">📋 Paste image: Click avatar → Ctrl+V / Cmd+V</p>
+                                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">Or click button to browse files</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Name (EN)</label>
+                                <input type="text" class="form-input" name="name" id="profileName">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Name (TH)</label>
+                                <input type="text" class="form-input" name="name_th" id="profileNameTh">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Role / Position</label>
+                                <input type="text" class="form-input" name="role" id="profileRole">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Company</label>
+                                <input type="text" class="form-input" name="company" id="profileCompany">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-input" name="location" id="profileLocation">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Experience</label>
+                                <input type="text" class="form-input" name="experience" id="profileExperience">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" name="email" id="profileEmail">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">GitHub URL</label>
+                                <input type="url" class="form-input" name="github_url" id="profileGithub">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">LinkedIn URL</label>
+                                <input type="url" class="form-input" name="linkedin_url" id="profileLinkedin">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Bio / About</label>
+                                <textarea class="form-input" name="bio" id="profileBio" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Experience Page -->
+            <section class="page-section" id="page-experience">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Experience</h1>
+                    <button class="btn btn-add" onclick="openModal('experience')">+ Add Experience</button>
+                </div>
+                <div class="panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Company</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="experienceTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Projects Page -->
+            <section class="page-section" id="page-projects">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Projects</h1>
+                    <button class="btn btn-add" onclick="openModal('project')">+ Add Project</button>
+                </div>
+                <div class="panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Images</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Skills Page -->
+            <section class="page-section" id="page-skills">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Skills</h1>
+                    <button class="btn btn-add" onclick="openModal('skill')">+ Add Skill</button>
+                </div>
+                <div class="panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Skill Name</th>
+                                <th>Level</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skillsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Certifications Page -->
+            <section class="page-section" id="page-certifications">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Certifications</h1>
+                    <button class="btn btn-add" onclick="openModal('certification')">+ Add Certification</button>
+                </div>
+                <div class="panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Issuer</th>
+                                <th>Year</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="certificationsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Deliveries Page -->
+            <section class="page-section" id="page-deliveries">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Project Deliveries</h1>
+                    <button class="btn btn-add" onclick="openModal('delivery')">+ Add Delivery</button>
+                </div>
+                <!-- Stats Summary -->
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-value" id="deliveryTotalBudget">฿0</div>
+                        <div class="stat-label">Total Budget</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="deliveryTotalProjects">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="deliveryYears">-</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Project</th>
+                                <th>Client</th>
+                                <th>Budget</th>
+                                <th>Images</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deliveriesTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Page -->
+            <section class="page-section" id="page-settings">
+                <div class="page-header">
+                    <h1 class="page-title">◈ Settings</h1>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Change Password</h3>
+                    </div>
+                    <form id="passwordForm">
+                        <div class="form-group" style="max-width: 400px;">
+                            <label class="form-label">Current Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" id="currentPassword" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('currentPassword', this)">👁️</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="max-width: 400px;">
+                            <label class="form-label">New Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" id="newPassword" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('newPassword', this)">👁️</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="max-width: 400px;">
+                            <label class="form-label">Confirm New Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" id="confirmPassword" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', this)">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add Item</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== CONFIG ====================
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3001/api'
+            : 'https://jarvis-portfolio-api.azurewebsites.net/api';
+
+        let authToken = localStorage.getItem('jarvis_token');
+        let currentData = {};
+
+        // ==================== AUTH ====================
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    authToken = data.token;
+                    localStorage.setItem('jarvis_token', authToken);
+                    showDashboard();
+                } else {
+                    document.getElementById('loginError').textContent = data.error || 'Login failed';
+                }
+            } catch (err) {
+                document.getElementById('loginError').textContent = 'Connection error';
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('jarvis_token');
+            authToken = null;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        // ==================== DASHBOARD ====================
+        async function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('active');
+            await loadAllData();
+        }
+
+        async function loadAllData() {
+            try {
+                // Load stats
+                const statsRes = await fetch(`${API_URL}/stats`);
+                const stats = await statsRes.json();
+                document.getElementById('statProjects').textContent = stats.projects || 0;
+                document.getElementById('statSkills').textContent = stats.skills || 0;
+                document.getElementById('statCerts').textContent = stats.certifications || 0;
+                document.getElementById('statImages').textContent = stats.images || 0;
+
+                // Load all data
+                const portfolioRes = await fetch(`${API_URL}/portfolio`);
+                currentData = await portfolioRes.json();
+
+                // Render tables
+                renderProfile();
+                renderExperience();
+                renderProjects();
+                renderSkills();
+                renderCertifications();
+                renderDeliveries();
+                loadActivityLog();
+            } catch (err) {
+                console.error('Error loading data:', err);
+            }
+        }
+
+        // ==================== NAVIGATION ====================
+        document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                const page = item.dataset.page;
+                document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+                document.getElementById(`page-${page}`).classList.add('active');
+            });
+        });
+
+        // ==================== PROFILE ====================
+        function renderProfile() {
+            const p = currentData.profile || {};
+            document.getElementById('profileName').value = p.name || '';
+            document.getElementById('profileNameTh').value = p.name_th || '';
+            document.getElementById('profileRole').value = p.role || '';
+            document.getElementById('profileCompany').value = p.company || '';
+            document.getElementById('profileLocation').value = p.location || '';
+            document.getElementById('profileExperience').value = p.experience || '';
+            document.getElementById('profileEmail').value = p.email || '';
+            document.getElementById('profileGithub').value = p.github_url || '';
+            document.getElementById('profileLinkedin').value = p.linkedin_url || '';
+            document.getElementById('profileBio').value = p.bio || '';
+            
+            // Show avatar if exists
+            if (p.avatar_url) {
+                document.getElementById('avatarPreview').innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                document.getElementById('avatarPreview').innerHTML = `<span style="font-size: 3rem; color: var(--jarvis-blue);">${(p.name || 'A').charAt(0).toUpperCase()}</span>`;
+            }
+        }
+
+        document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+            const formData = {
+                name: document.getElementById('profileName').value,
+                name_th: document.getElementById('profileNameTh').value,
+                role: document.getElementById('profileRole').value,
+                company: document.getElementById('profileCompany').value,
+                location: document.getElementById('profileLocation').value,
+                experience: document.getElementById('profileExperience').value,
+                email: document.getElementById('profileEmail').value,
+                github_url: document.getElementById('profileGithub').value,
+                linkedin_url: document.getElementById('profileLinkedin').value,
+                bio: document.getElementById('profileBio').value
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (res.ok) {
+                    showToast('Profile updated successfully!');
+                } else {
+                    showToast('Error updating profile', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
+            }
+        });
+
+        // ==================== EXPERIENCE ====================
+        function renderExperience() {
+            const tbody = document.getElementById('experienceTable');
+            tbody.innerHTML = (currentData.experiences || []).map(exp => `
+                <tr>
+                    <td>${exp.title}</td>
+                    <td>${exp.company}</td>
+                    <td>${exp.start_date || ''} - ${exp.is_current ? 'Present' : exp.end_date || ''}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-edit" onclick="editExperience(${exp.id})">Edit</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteItem('experiences', ${exp.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ==================== PROJECTS ====================
+        function renderProjects() {
+            const tbody = document.getElementById('projectsTable');
+            tbody.innerHTML = (currentData.projects || []).map(proj => `
+                <tr>
+                    <td>${proj.name}</td>
+                    <td>${proj.category || '-'}</td>
+                    <td>${(proj.images || []).length} images</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-edit" onclick="editProject(${proj.id})">Edit</button>
+                            <button class="btn btn-sm btn-primary" onclick="manageImages(${proj.id})">Images</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteItem('projects', ${proj.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ==================== SKILLS ====================
+        function renderSkills() {
+            const tbody = document.getElementById('skillsTable');
+            tbody.innerHTML = (currentData.skills || []).map(skill => `
+                <tr>
+                    <td>${skill.name}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 100px; height: 8px; background: rgba(0,212,255,0.2); border-radius: 4px;">
+                                <div style="width: ${skill.percent}%; height: 100%; background: var(--jarvis-blue); border-radius: 4px;"></div>
+                            </div>
+                            ${skill.percent}%
+                        </div>
+                    </td>
+                    <td>${skill.category || '-'}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-edit" onclick="editSkill(${skill.id})">Edit</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteItem('skills', ${skill.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ==================== CERTIFICATIONS ====================
+        function renderCertifications() {
+            const tbody = document.getElementById('certificationsTable');
+            tbody.innerHTML = (currentData.certifications || []).map(cert => `
+                <tr>
+                    <td>${cert.name}</td>
+                    <td>${cert.issuer || '-'}</td>
+                    <td>${cert.year || '-'}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-edit" onclick="editCertification(${cert.id})">Edit</button>
+                            <button class="btn btn-sm btn-primary" onclick="uploadCertFile(${cert.id})">📎 Upload</button>
+                            ${cert.cert_url ? `<a href="${cert.cert_url}" target="_blank" class="btn btn-sm" style="border:1px solid var(--jarvis-green);color:var(--jarvis-green);">👁️ View</a>` : ''}
+                            <button class="btn btn-sm btn-delete" onclick="deleteItem('certifications', ${cert.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Upload Certificate File
+        async function uploadCertFile(certId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.jpg,.jpeg,.png';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const formData = new FormData();
+                formData.append('cert_file', file);
+                
+                try {
+                    showToast('Uploading...');
+                    const res = await fetch(`${API_URL}/certifications/${certId}/upload`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${authToken}` },
+                        body: formData
+                    });
+                    
+                    if (res.ok) {
+                        showToast('Certificate uploaded successfully!');
+                        await loadAllData();
+                    } else {
+                        const data = await res.json();
+                        showToast(data.error || 'Upload failed', true);
+                    }
+                } catch (err) {
+                    showToast('Connection error', true);
+                }
+            };
+            input.click();
+        }
+
+        // ==================== DELIVERIES ====================
+        function renderDeliveries() {
+            const deliveries = currentData.deliveries || [];
+            const stats = currentData.deliveryStats || {};
+            
+            // Update stats
+            document.getElementById('deliveryTotalBudget').textContent = '฿' + formatBudget(stats.totalBudget || 0);
+            document.getElementById('deliveryTotalProjects').textContent = stats.totalProjects || 0;
+            document.getElementById('deliveryYears').textContent = stats.years ? `${stats.years.min} - ${stats.years.max}` : '-';
+            
+            const tbody = document.getElementById('deliveriesTable');
+            tbody.innerHTML = deliveries.map(d => `
+                <tr>
+                    <td><span style="color:var(--jarvis-gold);">${d.year || '-'}</span></td>
+                    <td>
+                        <strong>${d.project_name}</strong>
+                        ${d.contract_no ? `<br><small style="color:rgba(255,255,255,0.5);">สัญญา: ${d.contract_no}</small>` : ''}
+                    </td>
+                    <td>${d.client || '-'}</td>
+                    <td style="color:var(--jarvis-green);">฿${formatBudget(d.budget)}</td>
+                    <td>
+                        ${d.images && d.images.length > 0 ? `<span style="color:var(--jarvis-blue);">📷 ${d.images.length}</span>` : '-'}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-edit" onclick="editDelivery(${d.id})">Edit</button>
+                            <button class="btn btn-sm btn-primary" onclick="uploadDeliveryImages(${d.id})">📷 Images</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteItem('deliveries', ${d.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function formatBudget(amount) {
+            if (!amount) return '0';
+            return parseFloat(amount).toLocaleString('th-TH');
+        }
+
+        function editDelivery(id) {
+            const delivery = currentData.deliveries.find(d => d.id === id);
+            if (!delivery) return;
+            openModal('delivery', delivery);
+        }
+
+        async function uploadDeliveryImages(deliveryId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+            input.onchange = async (e) => {
+                const files = e.target.files;
+                if (!files.length) return;
+                
+                for (const file of files) {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    
+                    try {
+                        showToast(`Uploading ${file.name}...`);
+                        await fetch(`${API_URL}/deliveries/${deliveryId}/images`, {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${authToken}` },
+                            body: formData
+                        });
+                    } catch (err) {
+                        console.error('Upload error:', err);
+                    }
+                }
+                
+                showToast('Images uploaded successfully!');
+                await loadAllData();
+            };
+            input.click();
+        }
+
+        // ==================== ACTIVITY LOG ====================
+        async function loadActivityLog() {
+            try {
+                const res = await fetch(`${API_URL}/activity-log`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const logs = await res.json();
+                
+                document.getElementById('activityLog').innerHTML = logs.slice(0, 10).map(log => `
+                    <tr>
+                        <td>${log.action}</td>
+                        <td>${log.details || '-'}</td>
+                        <td>${new Date(log.created_at).toLocaleString('th-TH')}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading activity log');
+            }
+        }
+
+        // ==================== MODAL ====================
+        function openModal(type, data = null) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            let html = '';
+
+            switch(type) {
+                case 'experience':
+                    title.textContent = data ? 'Edit Experience' : 'Add Experience';
+                    html = `
+                        <form id="experienceForm">
+                            <input type="hidden" id="expId" value="${data?.id || ''}">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" class="form-input" id="expTitle" value="${data?.title || ''}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Company</label>
+                                    <input type="text" class="form-input" id="expCompany" value="${data?.company || ''}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" class="form-input" id="expStartDate" value="${data?.start_date || ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" class="form-input" id="expEndDate" value="${data?.end_date || ''}">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="expCurrent" ${data?.is_current ? 'checked' : ''}> Currently Working Here
+                                    </label>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-input" id="expDescription" rows="4">${data?.description || ''}</textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+                        </form>
+                    `;
+                    break;
+
+                case 'project':
+                    title.textContent = data ? 'Edit Project' : 'Add Project';
+                    html = `
+                        <form id="projectForm">
+                            <input type="hidden" id="projId" value="${data?.id || ''}">
+                            <div class="form-group">
+                                <label class="form-label">Project Name</label>
+                                <input type="text" class="form-input" id="projName" value="${data?.name || ''}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-input" id="projCategory">
+                                    <option value="web" ${data?.category === 'web' ? 'selected' : ''}>Web System</option>
+                                    <option value="mobile" ${data?.category === 'mobile' ? 'selected' : ''}>Mobile App</option>
+                                    <option value="database" ${data?.category === 'database' ? 'selected' : ''}>Database</option>
+                                    <option value="security" ${data?.category === 'security' ? 'selected' : ''}>Security</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-input" id="projDescription" rows="4">${data?.description || ''}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+                        </form>
+                    `;
+                    break;
+
+                case 'skill':
+                    title.textContent = data ? 'Edit Skill' : 'Add Skill';
+                    html = `
+                        <form id="skillForm">
+                            <input type="hidden" id="skillId" value="${data?.id || ''}">
+                            <div class="form-group">
+                                <label class="form-label">Skill Name</label>
+                                <input type="text" class="form-input" id="skillName" value="${data?.name || ''}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Level (%)</label>
+                                <input type="number" class="form-input" id="skillPercent" min="0" max="100" value="${data?.percent || 50}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <input type="text" class="form-input" id="skillCategory" value="${data?.category || ''}">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+                        </form>
+                    `;
+                    break;
+
+                case 'certification':
+                    title.textContent = data ? 'Edit Certification' : 'Add Certification';
+                    html = `
+                        <form id="certForm">
+                            <input type="hidden" id="certId" value="${data?.id || ''}">
+                            <div class="form-group">
+                                <label class="form-label">Certification Name</label>
+                                <input type="text" class="form-input" id="certName" value="${data?.name || ''}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Issuer</label>
+                                <input type="text" class="form-input" id="certIssuer" value="${data?.issuer || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Year</label>
+                                <input type="text" class="form-input" id="certYear" value="${data?.year || ''}">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+                        </form>
+                    `;
+                    break;
+
+                case 'delivery':
+                    title.textContent = data ? 'Edit Delivery' : 'Add Delivery';
+                    html = `
+                        <form id="deliveryForm">
+                            <input type="hidden" id="deliveryId" value="${data?.id || ''}">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Project Name *</label>
+                                    <input type="text" class="form-input" id="deliveryName" value="${data?.project_name || ''}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contract No.</label>
+                                    <input type="text" class="form-input" id="deliveryContract" value="${data?.contract_no || ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Client / หน่วยงาน</label>
+                                    <input type="text" class="form-input" id="deliveryClient" value="${data?.client || ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-input" id="deliveryCategory">
+                                        <option value="">-- Select --</option>
+                                        <option value="Forensic Systems" ${data?.category === 'Forensic Systems' ? 'selected' : ''}>Forensic Systems</option>
+                                        <option value="Database Platform" ${data?.category === 'Database Platform' ? 'selected' : ''}>Database Platform</option>
+                                        <option value="AI & Analytics" ${data?.category === 'AI & Analytics' ? 'selected' : ''}>AI & Analytics</option>
+                                        <option value="Equipment & Tools" ${data?.category === 'Equipment & Tools' ? 'selected' : ''}>Equipment & Tools</option>
+                                        <option value="Training" ${data?.category === 'Training' ? 'selected' : ''}>Training</option>
+                                        <option value="Maintenance" ${data?.category === 'Maintenance' ? 'selected' : ''}>Maintenance</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Budget (฿)</label>
+                                    <input type="number" class="form-input" id="deliveryBudget" value="${data?.budget || ''}" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Year (พ.ศ.)</label>
+                                    <input type="number" class="form-input" id="deliveryYear" value="${data?.year || ''}" min="2500" max="2600">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" class="form-input" id="deliveryStartDate" value="${data?.start_date ? data.start_date.split('T')[0] : ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" class="form-input" id="deliveryEndDate" value="${data?.end_date ? data.end_date.split('T')[0] : ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-input" id="deliveryStatus">
+                                        <option value="completed" ${data?.status === 'completed' ? 'selected' : ''}>✅ Completed</option>
+                                        <option value="ongoing" ${data?.status === 'ongoing' ? 'selected' : ''}>🔄 Ongoing</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-input" id="deliveryDesc" rows="3">${data?.description || ''}</textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+                        </form>
+                    `;
+                    break;
+
+                case 'images':
+                    title.textContent = 'Manage Project Images';
+                    const project = currentData.projects.find(p => p.id === data);
+                    html = `
+                        <input type="hidden" id="imageProjectId" value="${data}">
+                        <div class="image-upload" onclick="document.getElementById('imageInput').click()">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📷</div>
+                            <div>Click to upload images</div>
+                            <input type="file" id="imageInput" accept="image/*" multiple style="display: none;" onchange="uploadImages(this.files)">
+                        </div>
+                        <div class="image-preview" id="imagePreview">
+                            ${(project?.images || []).map(img => `
+                                <div class="preview-item">
+                                    <img src="${img.image_url}" alt="">
+                                    <button class="preview-remove" onclick="deleteImage(${img.id})">✕</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+            }
+
+            body.innerHTML = html;
+            modal.classList.add('active');
+
+            // Add form handlers
+            setTimeout(() => {
+                document.getElementById('experienceForm')?.addEventListener('submit', saveExperience);
+                document.getElementById('projectForm')?.addEventListener('submit', saveProject);
+                document.getElementById('skillForm')?.addEventListener('submit', saveSkill);
+                document.getElementById('certForm')?.addEventListener('submit', saveCertification);
+                document.getElementById('deliveryForm')?.addEventListener('submit', saveDelivery);
+            }, 100);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // ==================== SAVE FUNCTIONS ====================
+        async function saveExperience(e) {
+            e.preventDefault();
+            const id = document.getElementById('expId').value;
+            const data = {
+                title: document.getElementById('expTitle').value,
+                company: document.getElementById('expCompany').value,
+                start_date: document.getElementById('expStartDate').value || null,
+                end_date: document.getElementById('expEndDate').value || null,
+                is_current: document.getElementById('expCurrent').checked,
+                description: document.getElementById('expDescription').value
+            };
+
+            await saveItem('experiences', id, data);
+        }
+
+        async function saveProject(e) {
+            e.preventDefault();
+            const id = document.getElementById('projId').value;
+            const data = {
+                name: document.getElementById('projName').value,
+                category: document.getElementById('projCategory').value,
+                description: document.getElementById('projDescription').value
+            };
+
+            await saveItem('projects', id, data);
+        }
+
+        async function saveSkill(e) {
+            e.preventDefault();
+            const id = document.getElementById('skillId').value;
+            const data = {
+                name: document.getElementById('skillName').value,
+                percent: parseInt(document.getElementById('skillPercent').value),
+                category: document.getElementById('skillCategory').value
+            };
+
+            await saveItem('skills', id, data);
+        }
+
+        async function saveCertification(e) {
+            e.preventDefault();
+            const id = document.getElementById('certId').value;
+            const data = {
+                name: document.getElementById('certName').value,
+                issuer: document.getElementById('certIssuer').value,
+                year: document.getElementById('certYear').value
+            };
+
+            await saveItem('certifications', id, data);
+        }
+
+        async function saveDelivery(e) {
+            e.preventDefault();
+            const id = document.getElementById('deliveryId').value;
+            const data = {
+                project_name: document.getElementById('deliveryName').value,
+                contract_no: document.getElementById('deliveryContract').value,
+                client: document.getElementById('deliveryClient').value,
+                category: document.getElementById('deliveryCategory').value,
+                budget: document.getElementById('deliveryBudget').value || 0,
+                year: document.getElementById('deliveryYear').value,
+                start_date: document.getElementById('deliveryStartDate').value || null,
+                end_date: document.getElementById('deliveryEndDate').value || null,
+                status: document.getElementById('deliveryStatus').value,
+                description: document.getElementById('deliveryDesc').value
+            };
+
+            await saveItem('deliveries', id, data);
+        }
+
+        async function saveItem(endpoint, id, data) {
+            try {
+                const url = id ? `${API_URL}/${endpoint}/${id}` : `${API_URL}/${endpoint}`;
+                const method = id ? 'PUT' : 'POST';
+
+                const res = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (res.ok) {
+                    showToast('Saved successfully!');
+                    closeModal();
+                    await loadAllData();
+                } else {
+                    showToast('Error saving', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
+            }
+        }
+
+        async function deleteItem(endpoint, id) {
+            if (!confirm('Are you sure you want to delete this item?')) return;
+
+            try {
+                const res = await fetch(`${API_URL}/${endpoint}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                if (res.ok) {
+                    showToast('Deleted successfully!');
+                    await loadAllData();
+                } else {
+                    showToast('Error deleting', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
+            }
+        }
+
+        // ==================== EDIT FUNCTIONS ====================
+        function editExperience(id) {
+            const exp = currentData.experiences.find(e => e.id === id);
+            openModal('experience', exp);
+        }
+
+        function editProject(id) {
+            const proj = currentData.projects.find(p => p.id === id);
+            openModal('project', proj);
+        }
+
+        function editSkill(id) {
+            const skill = currentData.skills.find(s => s.id === id);
+            openModal('skill', skill);
+        }
+
+        function editCertification(id) {
+            const cert = currentData.certifications.find(c => c.id === id);
+            openModal('certification', cert);
+        }
+
+        function manageImages(projectId) {
+            openModal('images', projectId);
+        }
+
+        // ==================== IMAGE UPLOAD ====================
+        async function uploadImages(files) {
+            const projectId = document.getElementById('imageProjectId').value;
+
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('project_id', projectId);
+
+                try {
+                    const res = await fetch(`${API_URL}/upload`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${authToken}` },
+                        body: formData
+                    });
+
+                    if (res.ok) {
+                        showToast('Image uploaded!');
+                    }
+                } catch (err) {
+                    showToast('Upload error', true);
+                }
+            }
+
+            await loadAllData();
+            manageImages(parseInt(projectId));
+        }
+
+        async function deleteImage(imageId) {
+            if (!confirm('Delete this image?')) return;
+
+            try {
+                await fetch(`${API_URL}/images/${imageId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                showToast('Image deleted');
+                await loadAllData();
+                const projectId = document.getElementById('imageProjectId').value;
+                manageImages(parseInt(projectId));
+            } catch (err) {
+                showToast('Error deleting', true);
+            }
+        }
+
+        // ==================== PASSWORD CHANGE ====================
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (newPass !== confirmPass) {
+                showToast('Passwords do not match', true);
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/auth/change-password`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        currentPassword: document.getElementById('currentPassword').value,
+                        newPassword: newPass
+                    })
+                });
+
+                if (res.ok) {
+                    showToast('Password changed successfully!');
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    const data = await res.json();
+                    showToast(data.error || 'Error changing password', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
+            }
+        });
+
+        // ==================== TOAST ====================
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 3000);
+        }
+
+        // ==================== AVATAR UPLOAD ====================
+        // Paste image support
+        document.addEventListener('paste', async (e) => {
+            // Check if we're on profile page
+            if (!document.getElementById('page-profile').classList.contains('active')) return;
+            
+            const items = e.clipboardData?.items;
+            if (!items) return;
+            
+            for (const item of items) {
+                if (item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    const file = item.getAsFile();
+                    if (file) {
+                        openCropper(file);
+                    }
+                    break;
+                }
+            }
+        });
+
+        function uploadAvatar(file) {
+            if (!file) return;
+            openCropper(file);
+        }
+
+        // ==================== PASSWORD TOGGLE ====================
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+
+        // ==================== INIT ====================
+        if (authToken) {
+            // Verify token
+            fetch(`${API_URL}/profile`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            }).then(res => {
+                if (res.ok) {
+                    showDashboard();
+                } else {
+                    logout();
+                }
+            }).catch(() => logout());
+        }
+    </script>
+
+    <!-- Image Cropper Modal -->
+    <div class="cropper-modal" id="cropperModal">
+        <h2 style="color: var(--jarvis-blue); margin-bottom: 20px; font-family: 'Orbitron';">◈ Adjust Profile Photo</h2>
+        <div class="cropper-container" id="cropperContainer">
+            <img src="" alt="" class="cropper-image" id="cropperImage">
+        </div>
+        <div class="cropper-controls">
+            <div class="cropper-zoom">
+                <span>🔍 Zoom</span>
+                <input type="range" id="cropperZoom" min="100" max="300" value="100">
+                <span id="zoomValue">100%</span>
+            </div>
+            <p class="cropper-hint">🖱️ Drag image to adjust position</p>
+            <div class="cropper-buttons">
+                <button class="btn btn-delete" onclick="closeCropper()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCroppedAvatar()">✓ Save Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image Cropper Logic
+        let cropperState = {
+            file: null,
+            scale: 1,
+            x: 0,
+            y: 0,
+            isDragging: false,
+            startX: 0,
+            startY: 0
+        };
+
+        function openCropper(file) {
+            cropperState.file = file;
+            cropperState.scale = 1;
+            cropperState.x = 0;
+            cropperState.y = 0;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById('cropperImage');
+                img.src = e.target.result;
+                img.onload = () => {
+                    // Center image initially
+                    const container = document.getElementById('cropperContainer');
+                    cropperState.x = (container.offsetWidth - img.naturalWidth) / 2;
+                    cropperState.y = (container.offsetHeight - img.naturalHeight) / 2;
+                    updateCropperImage();
+                };
+            };
+            reader.readAsDataURL(file);
+            
+            document.getElementById('cropperZoom').value = 100;
+            document.getElementById('zoomValue').textContent = '100%';
+            document.getElementById('cropperModal').classList.add('active');
+        }
+
+        function closeCropper() {
+            document.getElementById('cropperModal').classList.remove('active');
+        }
+
+        function updateCropperImage() {
+            const img = document.getElementById('cropperImage');
+            img.style.transform = `translate(${cropperState.x}px, ${cropperState.y}px) scale(${cropperState.scale})`;
+        }
+
+        // Zoom control
+        document.getElementById('cropperZoom').addEventListener('input', (e) => {
+            cropperState.scale = e.target.value / 100;
+            document.getElementById('zoomValue').textContent = e.target.value + '%';
+            updateCropperImage();
+        });
+
+        // Drag functionality
+        const cropperContainer = document.getElementById('cropperContainer');
+        
+        cropperContainer.addEventListener('mousedown', (e) => {
+            cropperState.isDragging = true;
+            cropperState.startX = e.clientX - cropperState.x;
+            cropperState.startY = e.clientY - cropperState.y;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!cropperState.isDragging) return;
+            cropperState.x = e.clientX - cropperState.startX;
+            cropperState.y = e.clientY - cropperState.startY;
+            updateCropperImage();
+        });
+
+        document.addEventListener('mouseup', () => {
+            cropperState.isDragging = false;
+        });
+
+        // Touch support
+        cropperContainer.addEventListener('touchstart', (e) => {
+            cropperState.isDragging = true;
+            cropperState.startX = e.touches[0].clientX - cropperState.x;
+            cropperState.startY = e.touches[0].clientY - cropperState.y;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!cropperState.isDragging) return;
+            cropperState.x = e.touches[0].clientX - cropperState.startX;
+            cropperState.y = e.touches[0].clientY - cropperState.startY;
+            updateCropperImage();
+        });
+
+        document.addEventListener('touchend', () => {
+            cropperState.isDragging = false;
+        });
+
+        async function saveCroppedAvatar() {
+            const container = document.getElementById('cropperContainer');
+            const img = document.getElementById('cropperImage');
+            
+            // Create canvas to crop image
+            const canvas = document.createElement('canvas');
+            const size = 400; // Output size
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Fill with white background first
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Calculate the visible area in the circle
+            const containerSize = container.offsetWidth;
+            const scale = cropperState.scale;
+            
+            // Image dimensions after scaling
+            const scaledWidth = img.naturalWidth * scale;
+            const scaledHeight = img.naturalHeight * scale;
+            
+            // Position of image relative to container
+            const imgX = cropperState.x;
+            const imgY = cropperState.y;
+            
+            // Calculate source rectangle (what part of original image to draw)
+            const sourceX = Math.max(0, -imgX / scale);
+            const sourceY = Math.max(0, -imgY / scale);
+            const sourceW = Math.min(img.naturalWidth - sourceX, containerSize / scale);
+            const sourceH = Math.min(img.naturalHeight - sourceY, containerSize / scale);
+            
+            // Calculate destination rectangle (where to draw on canvas)
+            const destX = Math.max(0, imgX) * (size / containerSize);
+            const destY = Math.max(0, imgY) * (size / containerSize);
+            const destW = sourceW * scale * (size / containerSize);
+            const destH = sourceH * scale * (size / containerSize);
+            
+            ctx.drawImage(img, sourceX, sourceY, sourceW, sourceH, destX, destY, destW, destH);
+            
+            // Convert to blob and upload
+            canvas.toBlob(async (blob) => {
+                if (blob) {
+                    const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+                    closeCropper();
+                    await uploadAvatarFile(file);
+                } else {
+                    showToast('Failed to process image', true);
+                }
+            }, 'image/jpeg', 0.92);
+        }
+
+        async function uploadAvatarFile(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            try {
+                showToast('Uploading avatar...');
+                const res = await fetch(`${API_URL}/upload`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` },
+                    body: formData
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('avatarPreview').innerHTML = `<img src="${data.url}" style="width:100%;height:100%;object-fit:cover;">`;
+                    
+                    await fetch(`${API_URL}/profile`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({ avatar_url: data.url })
+                    });
+                    
+                    showToast('Avatar uploaded successfully!');
+                    await loadAllData();
+                } else {
+                    showToast('Upload failed', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
+            }
+        }
+    </script>
+</body>
+</html>
