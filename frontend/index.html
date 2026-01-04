@@ -425,7 +425,8 @@
             <button class="lightbox-close" id="lightboxClose">✕</button>
             <button class="lightbox-nav lightbox-prev" id="lightboxPrev">◀</button>
             <button class="lightbox-nav lightbox-next" id="lightboxNext">▶</button>
-            <img src="" alt="" class="lightbox-img" id="lightboxImg">
+            <img src="" alt="" class="lightbox-img" id="lightboxImg" crossorigin="anonymous" onerror="this.style.display='none'" onload="this.style.display='block'">
+            <div class="lightbox-loading" id="lightboxLoading" style="color: var(--jarvis-blue); font-family: 'Orbitron'; display: none;">Loading...</div>
             <div class="lightbox-caption" id="lightboxCaption"></div>
             <div class="lightbox-counter" id="lightboxCounter"></div>
             <div class="lightbox-links" id="lightboxLinks" style="display:flex;gap:10px;justify-content:center;margin-top:15px;"></div>
@@ -717,14 +718,35 @@
         function updateLightbox() {
             const img = currentImages[currentImageIndex];
             const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxLoading = document.getElementById('lightboxLoading');
             
-            if (img.image_url) {
-                lightboxImg.src = img.image_url;
+            if (img && img.image_url) {
+                lightboxLoading.style.display = 'block';
+                lightboxImg.style.display = 'none';
+                
+                // Create new image to preload
+                const newImg = new Image();
+                newImg.crossOrigin = 'anonymous';
+                newImg.onload = () => {
+                    lightboxImg.src = img.image_url;
+                    lightboxImg.style.display = 'block';
+                    lightboxLoading.style.display = 'none';
+                };
+                newImg.onerror = () => {
+                    // Try without crossorigin
+                    lightboxImg.removeAttribute('crossorigin');
+                    lightboxImg.src = img.image_url;
+                    lightboxImg.style.display = 'block';
+                    lightboxLoading.style.display = 'none';
+                };
+                newImg.src = img.image_url;
             } else {
                 lightboxImg.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="#0a0a0f" width="400" height="300"/><text x="200" y="150" text-anchor="middle" fill="#00d4ff" font-size="40">◈</text></svg>');
+                lightboxImg.style.display = 'block';
+                lightboxLoading.style.display = 'none';
             }
             
-            document.getElementById('lightboxCaption').textContent = img.caption || '';
+            document.getElementById('lightboxCaption').textContent = img?.caption || '';
             document.getElementById('lightboxCounter').textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
         }
 
