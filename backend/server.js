@@ -119,6 +119,7 @@ async function initDatabase() {
                 thumbnail_url TEXT,
                 demo_url TEXT,
                 github_url TEXT,
+                admin_notes TEXT,
                 is_featured BOOLEAN DEFAULT FALSE,
                 sort_order INT DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -440,13 +441,13 @@ app.get('/api/projects', async (req, res) => {
 
 app.post('/api/projects', authenticateToken, async (req, res) => {
     try {
-        const { name, description, category, is_featured, demo_url, github_url } = req.body;
+        const { name, description, category, is_featured, demo_url, github_url, admin_notes } = req.body;
         
         const result = await pool.query(`
-            INSERT INTO projects (name, description, category, is_featured, demo_url, github_url)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO projects (name, description, category, is_featured, demo_url, github_url, admin_notes)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *
-        `, [name, description, category, is_featured, demo_url, github_url]);
+        `, [name, description, category, is_featured, demo_url, github_url, admin_notes]);
 
         res.json(result.rows[0]);
     } catch (err) {
@@ -457,7 +458,7 @@ app.post('/api/projects', authenticateToken, async (req, res) => {
 app.put('/api/projects/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, category, is_featured, sort_order, demo_url, github_url } = req.body;
+        const { name, description, category, is_featured, sort_order, demo_url, github_url, admin_notes } = req.body;
         
         const result = await pool.query(`
             UPDATE projects SET 
@@ -467,10 +468,11 @@ app.put('/api/projects/:id', authenticateToken, async (req, res) => {
                 is_featured = COALESCE($4, is_featured),
                 sort_order = COALESCE($5, sort_order),
                 demo_url = COALESCE($6, demo_url),
-                github_url = COALESCE($7, github_url)
-            WHERE id = $8
+                github_url = COALESCE($7, github_url),
+                admin_notes = COALESCE($8, admin_notes)
+            WHERE id = $9
             RETURNING *
-        `, [name, description, category, is_featured, sort_order, demo_url, github_url, id]);
+        `, [name, description, category, is_featured, sort_order, demo_url, github_url, admin_notes, id]);
 
         res.json(result.rows[0]);
     } catch (err) {

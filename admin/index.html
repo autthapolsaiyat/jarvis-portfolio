@@ -1210,7 +1210,10 @@
             const tbody = document.getElementById('projectsTable');
             tbody.innerHTML = (currentData.projects || []).map(proj => `
                 <tr>
-                    <td>${proj.name}</td>
+                    <td>
+                        ${proj.name}
+                        ${proj.admin_notes ? `<span title="${proj.admin_notes.replace(/"/g, '&quot;')}" style="cursor:help;margin-left:8px;color:rgba(255,200,100,0.8);">📝</span>` : ''}
+                    </td>
                     <td>${proj.category || '-'}</td>
                     <td>${(proj.images || []).length} images</td>
                     <td>
@@ -1475,6 +1478,10 @@
                                 <label class="form-label">📦 GitHub URL <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">(Source code)</span></label>
                                 <input type="url" class="form-input" id="projGithubUrl" value="${data?.github_url || ''}" placeholder="https://github.com/...">
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">📝 Admin Notes <span style="color:rgba(255,200,100,0.8);font-size:0.85rem">(เห็นเฉพาะ Admin เท่านั้น)</span></label>
+                                <textarea class="form-input" id="projAdminNotes" rows="3" placeholder="บันทึกสำหรับ Admin..." style="background:rgba(255,200,100,0.05);border-color:rgba(255,200,100,0.3);">${data?.admin_notes || ''}</textarea>
+                            </div>
                             <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
                         </form>
                     `;
@@ -1663,7 +1670,8 @@
                 category: document.getElementById('projCategory').value,
                 description: document.getElementById('projDescription').value,
                 demo_url: document.getElementById('projDemoUrl').value || null,
-                github_url: document.getElementById('projGithubUrl').value || null
+                github_url: document.getElementById('projGithubUrl').value || null,
+                admin_notes: document.getElementById('projAdminNotes').value || null
             };
 
             await saveItem('projects', id, data);
