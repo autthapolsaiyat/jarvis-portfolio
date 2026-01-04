@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jarvis-portfolio-v1';
+const CACHE_NAME = 'jarvis-portfolio-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -35,43 +35,64 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - Network first for API and external resources
 self.addEventListener('fetch', event => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
   
-  // Skip API calls - always fetch from network
-  if (event.request.url.includes('/api/')) {
+  const url = new URL(event.request.url);
+  
+  // API calls and Azure Blob Storage - always network first, no cache interference
+  if (event.request.url.includes('/api/') || 
+      event.request.url.includes('blob.core.windows.net') ||
+      event.request.url.includes('azurewebsites.net')) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          // If network fails for API, return error
+          return new Response(JSON.stringify({ error: 'Offline' }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        })
+    );
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
-        
-        return fetch(event.request).then(response => {
-          // Don't cache non-successful responses
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+  // For same-origin static assets - cache first
+  if (url.origin === location.origin) {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => {
+          if (response) {
             return response;
           }
+          
+          return fetch(event.request).then(response => {
+            // Don't cache non-successful responses
+            if (!response || response.status !== 200) {
+              return response;
+            }
 
-          // Clone the response
-          const responseToCache = response.clone();
+            // Clone the response
+            const responseToCache = response.clone();
 
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseToCache);
+              });
 
-          return response;
-        });
-      })
-      .catch(() => {
-        // Return offline page if available
-        return caches.match('/');
-      })
-  );
+            return response;
+          });
+        })
+        .catch(() => {
+          // Return offline page if available
+          return caches.match('/');
+        })
+    );
+    return;
+  }
+
+  // External resources - just fetch, don't interfere
+  event.respondWith(fetch(event.request));
 });
