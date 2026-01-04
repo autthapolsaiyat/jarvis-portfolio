@@ -262,16 +262,16 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
         /* Lightbox */
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; flex-direction: column; }
         .lightbox.active { display: flex; }
-        .lightbox-content { max-width: 90%; max-height: 90%; position: relative; }
-        .lightbox-img { max-width: 100%; max-height: 85vh; border: 2px solid var(--jarvis-blue); border-radius: 10px; }
-        .lightbox-close { position: absolute; top: -40px; right: 0; background: none; border: none; color: var(--jarvis-blue); font-size: 2rem; cursor: pointer; }
-        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,212,255,0.2); border: 1px solid var(--jarvis-blue); color: var(--jarvis-blue); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
-        .lightbox-prev { left: -70px; }
-        .lightbox-next { right: -70px; }
-        .lightbox-caption { text-align: center; margin-top: 20px; font-family: 'Orbitron'; }
+        .lightbox-content { max-width: 90%; max-height: 80%; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .lightbox-img { max-width: 100%; max-height: 70vh; border: 2px solid var(--jarvis-blue); border-radius: 10px; touch-action: pan-y pinch-zoom; }
+        .lightbox-close { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 2px solid var(--jarvis-blue); color: var(--jarvis-blue); font-size: 1.5rem; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; z-index: 2001; }
+        .lightbox-nav { background: rgba(0,212,255,0.2); border: 1px solid var(--jarvis-blue); color: var(--jarvis-blue); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
+        .lightbox-nav-container { display: flex; gap: 30px; margin-top: 20px; }
+        .lightbox-caption { text-align: center; margin-top: 15px; font-family: 'Orbitron'; font-size: 0.9rem; max-width: 90%; }
         .lightbox-counter { font-family: 'Share Tech Mono'; color: var(--jarvis-blue); font-size: 0.9rem; margin-top: 10px; text-align: center; }
+        .lightbox-swipe-hint { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px; display: none; }
         
         /* Certificate Lightbox */
         .cert-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
@@ -287,7 +287,7 @@
             .hero { grid-template-columns: 1fr; }
             .profile-panel { max-width: 400px; margin: 0 auto; }
             .skills-section { grid-template-columns: 1fr; }
-            .lightbox-nav { display: none; }
+            .lightbox-swipe-hint { display: block; }
         }
         
         @media (max-width: 768px) {
@@ -421,14 +421,17 @@
     </footer>
 
     <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">✕</button>
         <div class="lightbox-content">
-            <button class="lightbox-close" id="lightboxClose">✕</button>
-            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">◀</button>
-            <button class="lightbox-nav lightbox-next" id="lightboxNext">▶</button>
             <img src="" alt="" class="lightbox-img" id="lightboxImg" crossorigin="anonymous" onerror="this.style.display='none'" onload="this.style.display='block'">
             <div class="lightbox-loading" id="lightboxLoading" style="color: var(--jarvis-blue); font-family: 'Orbitron'; display: none;">Loading...</div>
-            <div class="lightbox-caption" id="lightboxCaption"></div>
             <div class="lightbox-counter" id="lightboxCounter"></div>
+            <div class="lightbox-nav-container">
+                <button class="lightbox-nav lightbox-prev" id="lightboxPrev">◀</button>
+                <button class="lightbox-nav lightbox-next" id="lightboxNext">▶</button>
+            </div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-swipe-hint">👆 Swipe ซ้าย/ขวา เพื่อเลื่อนรูป</div>
             <div class="lightbox-links" id="lightboxLinks" style="display:flex;gap:10px;justify-content:center;margin-top:15px;"></div>
         </div>
     </div>
@@ -754,6 +757,35 @@
         document.getElementById('lightboxPrev').onclick = () => { currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length; updateLightbox(); };
         document.getElementById('lightboxNext').onclick = () => { currentImageIndex = (currentImageIndex + 1) % currentImages.length; updateLightbox(); };
         document.getElementById('lightbox').onclick = (e) => { if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.remove('active'); };
+        
+        // Swipe gesture for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const lightboxEl = document.getElementById('lightbox');
+        
+        lightboxEl.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        lightboxEl.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next image
+                    document.getElementById('lightboxNext').click();
+                } else {
+                    // Swipe right - prev image
+                    document.getElementById('lightboxPrev').click();
+                }
+            }
+        }
         
         document.addEventListener('keydown', (e) => {
             // Project lightbox
