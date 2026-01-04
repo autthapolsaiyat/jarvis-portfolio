@@ -1,0 +1,17 @@
+<step title="Incoming Request" date="2026-01-04T12:41:31.936" instance="6ab2f6" url="/api/zipdeploy?isAsync=true" method="POST" type="request" pid="835,1,39" Accept="*/*" Host="jarvis-portfolio-api.scm.azurewebsites.net" User-Agent="AZURECLI/2.78.0 (HOMEBREW)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Content-Length="8448740" x-ms-client-request-id="afa8c69a-e96a-11f0-b6f0-c6eea053c943" x-ms-artifact-checksum="c1b9f2431afaedbfd89b368e0a0f46b2cbc89653bfd28b905e38e44b3403e96c" X-ARR-LOG-ID="afa8c69a-e96a-11f0-b6f0-c6eea053c943" CLIENT-IP="184.22.107.190:64356" X-SITE-DEPLOYMENT-ID="jarvis-portfolio-api" WAS-DEFAULT-HOSTNAME="jarvis-portfolio-api.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/zipdeploy?isAsync=true" X-Client-IP="184.22.107.190" X-Client-Port="64356" >
+  <step title="Cleanup Xml Logs" date="2026-01-04T12:41:31.948" /><!-- duration: 50ms -->
+  <step title="ZipPushDeploy" date="2026-01-04T12:41:32.120" >
+    <step title="ZipDeploy. Extract zip." date="2026-01-04T12:41:32.157" /><!-- duration: 2ms -->
+    <step title="Starting PushDeployAsync" date="2026-01-04T12:41:32.170" /><!-- duration: 9ms -->
+    <step title="Removing node_modules symlink" date="2026-01-04T12:41:32.200" >
+      <step title="Writing artifact to /tmp/zipdeploy/0302b2f3-607f-445e-a837-5e998e7538dd.zip" date="2026-01-04T12:41:32.450" >
+        <step title="Writing multipart request body to /tmp/zipdeploy/0302b2f3-607f-445e-a837-5e998e7538dd.zip" date="2026-01-04T12:41:32.452" /><!-- duration: 8ms -->
+      </step><!-- duration: 262ms -->
+      <step title="Removing previous build artifact&apos;s manifest file" date="2026-01-04T12:41:32.721" >
+        <step title="Start deployment in the background" date="2026-01-04T12:41:32.732" >
+          <step title="Acquiring Deployment Lock" date="2026-01-04T12:41:32.760" /><!-- duration: 9ms -->
+          <step title="Acquired Deployment Lock" date="2026-01-04T12:41:32.819" /><!-- duration: 2ms -->
+        </step><!-- duration: 300ms -->
+      </step><!-- duration: 332ms -->
+      <step title="Outgoing response" date="2026-01-04T12:41:33.063" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 10ms -->
+    </step><!-- duration: 902ms -->

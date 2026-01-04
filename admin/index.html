@@ -1882,32 +1882,9 @@
         }
 
         function cropExistingImage(imageUrl, imageId) {
-            replaceImageId = imageId;
-            
-            // Use proxy endpoint to bypass CORS
-            showToast('Loading image...');
-            
-            const proxyUrl = `${API_URL}/image-proxy?url=${encodeURIComponent(imageUrl)}`;
-            
-            fetch(proxyUrl, {
-                headers: { 'Authorization': `Bearer ${authToken}` }
-            })
-                .then(res => {
-                    if (!res.ok) throw new Error('Failed to load');
-                    return res.blob();
-                })
-                .then(blob => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        cropperImage = e.target.result;
-                        loadImageToCropper();
-                    };
-                    reader.readAsDataURL(blob);
-                })
-                .catch(err => {
-                    console.error('Error loading image:', err);
-                    showToast('Cannot load image for cropping. Try uploading a new one.', true);
-                });
+            // CORS limitation: cannot crop existing images from Azure Blob
+            // User needs to re-upload with crop
+            showToast('กรุณา upload รูปใหม่แล้ว crop หรือลบรูปเดิมแล้ว upload ใหม่', true);
         }
 
         function loadImageToCropper() {

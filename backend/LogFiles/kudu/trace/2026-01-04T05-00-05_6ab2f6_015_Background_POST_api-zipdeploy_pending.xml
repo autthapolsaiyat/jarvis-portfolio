@@ -1,0 +1,34 @@
+<step title="BackgroundTrace" date="2026-01-04T05:00:05.839" instance="6ab2f6" url="/api/zipdeploy" method="POST" >
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-01-04T05:00:06.300" /><!-- duration: 67ms -->
+  <step title="Creating temporary deployment" date="2026-01-04T05:00:06.399" /><!-- duration: 239ms -->
+  <step title="Performing fetch based deployment" date="2026-01-04T05:00:07.062" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/0137d869-f5ae-49ac-9a72-47319b7a9d72.zip (8.16 MB) to /tmp/zipdeploy/extracted" date="2026-01-04T05:00:08.531" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 192" date="2026-01-04T05:00:14.017" /><!-- duration: 6ms -->
+    </step><!-- duration: 5505ms -->
+    <step title="Deployment timer started" date="2026-01-04T05:00:16.062" >
+      <step title="DeploymentManager.Deploy(id:b468bdb2-361b-484e-b11d-8dcdadb81ba2)" date="2026-01-04T05:00:16.067" >
+        <step title="Collecting changeset information" date="2026-01-04T05:00:16.094" /><!-- duration: 78ms -->
+        <step title="Updating submodules" date="2026-01-04T05:00:16.177" /><!-- duration: 1142ms -->
+        <step title="Determining deployment builder" date="2026-01-04T05:00:17.546" >
+          <step title="Builder is BasicBuilder" date="2026-01-04T05:00:17.569" /><!-- duration: 3ms -->
+        </step><!-- duration: 34ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-01-04T05:00:17.632" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-01-04T05:00:17.751" >
+            <step title="Building" date="2026-01-04T05:00:17.877" >
+              <step title="Executing external process" date="2026-01-04T05:00:18.214" type="process" path="starter.sh" arguments="/opt/Kudu/Scripts/parallel_rsync.sh /tmp/zipdeploy/extracted /home/site/wwwroot 8 /tmp/ False True  " >
+                <step title="Cpu: rsync(2235,0.190s)+rsync(2231,0.080s)+rsync(2229,0.310s)+bash(2208,0.030s)+rsync(2238,0.200s)+rsync(2225,0.090s)+rsync(2212,0.330s)+bash(2209,0.000s)+rsync(2239,0.210s)+rsync(2232,0.050s)+rsync(2227,0.470s)+bash(2210,0.020s)+rsync(2236,0.220s)+rsync(2224,0.070s)+rsync(2216,0.350s)+bash(2213,0.000s)+rsync(2240,0.180s)+rsync(2228,0.070s)+rsync(2219,0.400s)+bash(2214,0.000s)+rsync(2234,0.190s)+rsync(2230,0.070s)+rsync(2222,0.300s)+bash(2215,0.010s)+rsync(2237,0.180s)+rsync(2226,0.070s)+rsync(2221,0.320s)+bash(2217,0.000s)+rsync(2233,0.170s)+rsync(2223,0.130s)+rsync(2220,0.270s)+bash(2218,0.000s)+xargs(2206,0.000s)+parallel_rsync.sh(2195,0.020s)=total(5.000s)" date="2026-01-04T05:01:20.481" /><!-- duration: 18ms -->
+                <step title="starter.sh: no io activity for 61s, prev-cpu=-1.000s, current-cpu=5.000s" date="2026-01-04T05:01:20.532" /><!-- duration: 38ms -->
+              </step><!-- duration: 95848ms -->
+              <step title="Triggering recycle (preview mode disabled)." date="2026-01-04T05:01:54.262" /><!-- duration: 2ms -->
+              <step title="Modified file to trigger a restart of the app container." date="2026-01-04T05:01:54.280" /><!-- duration: 1ms -->
+              <step title="Skip function trigger and logicapp sync because function is not enabled." date="2026-01-04T05:01:54.285" /><!-- duration: 1ms -->
+            </step><!-- duration: 97158ms -->
+          </step><!-- duration: 97287ms -->
+          <step title="Cleaning up temp files" date="2026-01-04T05:01:55.041" /><!-- duration: 4ms -->
+          <step title="Cleaning up temp files" date="2026-01-04T05:01:55.047" /><!-- duration: 504ms -->
+          <step title="Reloading status file with latest updates" date="2026-01-04T05:01:55.625" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-01-04T05:01:55.628" /><!-- duration: 22ms -->
+          </step><!-- duration: 28ms -->
+          <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2026-01-04T05:01:55.663" /><!-- duration: 4ms -->
+        </step><!-- duration: 98109ms -->
+      </step><!-- duration: 99682ms -->

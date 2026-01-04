@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2026-01-04T14:08:53.504" instance="6ab2f6" url="/api/deployments/latest" method="GET" type="request" pid="835,1,32" Accept="*/*" Host="jarvis-portfolio-api.scm.azurewebsites.net" User-Agent="AZURECLI/2.78.0 (HOMEBREW)" Accept-Encoding="gzip, deflate" Authorization="Bea..." x-ms-client-request-id="dec22050-e976-11f0-a8c4-c6eea053c943" X-ARR-LOG-ID="dec22050-e976-11f0-a8c4-c6eea053c943" CLIENT-IP="184.22.107.190:49782" X-SITE-DEPLOYMENT-ID="jarvis-portfolio-api" WAS-DEFAULT-HOSTNAME="jarvis-portfolio-api.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest" X-Client-IP="184.22.107.190" X-Client-Port="49782" >
+  <step title="Cleanup Xml Logs" date="2026-01-04T14:08:53.515" /><!-- duration: 32ms -->
+  <step title="DeploymentService.GetResult" date="2026-01-04T14:08:53.586" >
+    <step title="DeploymentService.GetLatestDeployment" date="2026-01-04T14:08:53.588" >
+      <step title="DeploymentManager.GetResults" date="2026-01-04T14:08:53.605" /><!-- duration: 530ms -->
+    </step><!-- duration: 550ms -->
+  </step><!-- duration: 556ms -->
+  <step title="Outgoing response" date="2026-01-04T14:08:54.149" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 2ms -->
+</step><!-- duration: 649ms -->

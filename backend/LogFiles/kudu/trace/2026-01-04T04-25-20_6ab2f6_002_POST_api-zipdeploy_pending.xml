@@ -1,0 +1,20 @@
+<step title="Incoming Request" date="2026-01-04T04:25:20.329" instance="6ab2f6" url="/api/zipdeploy?isAsync=true" method="POST" type="request" pid="835,1,34" Accept="*/*" Host="jarvis-portfolio-api.scm.azurewebsites.net" User-Agent="AZURECLI/2.78.0 (HOMEBREW)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Content-Length="8448236" x-ms-client-request-id="58c323f6-e925-11f0-b18f-c6eea053c943" x-ms-artifact-checksum="dbef576e054470b8bdc58c924b56fb247a231cd09ddf3e4ffcb21c7b2f37f390" X-ARR-LOG-ID="58c323f6-e925-11f0-b18f-c6eea053c943" CLIENT-IP="184.22.107.190:54211" X-SITE-DEPLOYMENT-ID="jarvis-portfolio-api" WAS-DEFAULT-HOSTNAME="jarvis-portfolio-api.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/zipdeploy?isAsync=true" X-Client-IP="184.22.107.190" X-Client-Port="54211" >
+  <step title="ZipPushDeploy" date="2026-01-04T04:25:21.428" >
+    <step title="ZipDeploy. Extract zip." date="2026-01-04T04:25:21.461" /><!-- duration: 2ms -->
+    <step title="None repository commit" date="2026-01-04T04:25:21.474" >
+      <step title="Commit id: afca8674-a74f-4bf8-98ae-a9e0dae175a6" date="2026-01-04T04:25:21.476" Message="N/A" AuthorName="N/A" AuthorEmail="N/A" /><!-- duration: 2ms -->
+    </step><!-- duration: 6ms -->
+    <step title="Starting PushDeployAsync" date="2026-01-04T04:25:21.483" /><!-- duration: 2ms -->
+    <step title="Removing node_modules symlink" date="2026-01-04T04:25:21.507" >
+      <step title="Removing _del_node_modules symlink" date="2026-01-04T04:25:21.613" >
+        <step title="Writing artifact to /tmp/zipdeploy/97eaf364-adee-40d4-8129-abebd1b7176a.zip" date="2026-01-04T04:25:21.664" >
+          <step title="Writing multipart request body to /tmp/zipdeploy/97eaf364-adee-40d4-8129-abebd1b7176a.zip" date="2026-01-04T04:25:21.672" /><!-- duration: 11ms -->
+        </step><!-- duration: 533ms -->
+        <step title="Removing previous build artifact&apos;s manifest file" date="2026-01-04T04:25:22.208" >
+          <step title="Start deployment in the background" date="2026-01-04T04:25:22.227" >
+            <step title="Acquiring Deployment Lock" date="2026-01-04T04:25:22.259" /><!-- duration: 2ms -->
+            <step title="Acquired Deployment Lock" date="2026-01-04T04:25:22.349" /><!-- duration: 29ms -->
+          </step><!-- duration: 263ms -->
+        </step><!-- duration: 293ms -->
+        <step title="Outgoing response" date="2026-01-04T04:25:22.534" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 2ms -->
+      </step><!-- duration: 925ms -->

@@ -1,0 +1,15 @@
+<step title="Incoming Request" date="2026-01-04T05:19:33.963" instance="6ab2f6" url="/api/zipdeploy?isAsync=true" method="POST" type="request" pid="835,1,25" Accept="*/*" Host="jarvis-portfolio-api.scm.azurewebsites.net" User-Agent="AZURECLI/2.78.0 (HOMEBREW)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Content-Length="16994390" x-ms-client-request-id="f1e2c6e8-e92c-11f0-b5a4-c6eea053c943" x-ms-artifact-checksum="ab63b6ca3d733eccc045d535115d4fdb3fb9a87b723541541820ccdd62752283" X-ARR-LOG-ID="f1e2c6e8-e92c-11f0-b5a4-c6eea053c943" CLIENT-IP="184.22.107.190:52384" X-SITE-DEPLOYMENT-ID="jarvis-portfolio-api" WAS-DEFAULT-HOSTNAME="jarvis-portfolio-api.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/zipdeploy?isAsync=true" X-Client-IP="184.22.107.190" X-Client-Port="52384" >
+  <step title="Cleanup Xml Logs" date="2026-01-04T05:19:33.967" /><!-- duration: 5ms -->
+  <step title="ZipPushDeploy" date="2026-01-04T05:19:34.025" >
+    <step title="ZipDeploy. Extract zip." date="2026-01-04T05:19:34.030" /><!-- duration: 2ms -->
+    <step title="Starting PushDeployAsync" date="2026-01-04T05:19:34.037" /><!-- duration: 2ms -->
+    <step title="Writing artifact to /tmp/zipdeploy/e7a956e0-fb63-4ff4-b62e-3fc1d465ee09.zip" date="2026-01-04T05:19:34.051" >
+      <step title="Writing multipart request body to /tmp/zipdeploy/e7a956e0-fb63-4ff4-b62e-3fc1d465ee09.zip" date="2026-01-04T05:19:34.059" /><!-- duration: 7ms -->
+    </step><!-- duration: 834ms -->
+    <step title="Start deployment in the background" date="2026-01-04T05:19:34.891" >
+      <step title="Acquiring Deployment Lock" date="2026-01-04T05:19:34.944" /><!-- duration: 3ms -->
+      <step title="Acquired Deployment Lock" date="2026-01-04T05:19:34.968" /><!-- duration: 3ms -->
+    </step><!-- duration: 173ms -->
+  </step><!-- duration: 1043ms -->
+  <step title="Outgoing response" date="2026-01-04T05:19:35.074" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 6ms -->
+</step><!-- duration: 1120ms -->

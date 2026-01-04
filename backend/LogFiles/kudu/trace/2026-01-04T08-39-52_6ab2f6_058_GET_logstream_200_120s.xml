@@ -1,0 +1,6 @@
+<step title="Incoming Request" date="2026-01-04T08:39:52.569" instance="6ab2f6" url="/logstream" method="GET" type="request" pid="835,1,51" Host="jarvis-portfolio-api.scm.azurewebsites.net" User-Agent="AZURECLI/2.78.0 (HOMEBREW)" Accept-Encoding="identity" Authorization="Bea..." x-ms-client-request-id="ee0056aa-e948-11f0-a115-c6eea053c943" X-ARR-LOG-ID="ee0056aa-e948-11f0-a115-c6eea053c943" CLIENT-IP="184.22.107.190:56752" X-SITE-DEPLOYMENT-ID="jarvis-portfolio-api" WAS-DEFAULT-HOSTNAME="jarvis-portfolio-api.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/logstream" X-Client-IP="184.22.107.190" X-Client-Port="56752" >
+  <step title="Cleanup Xml Logs" date="2026-01-04T08:39:52.572" /><!-- duration: 5ms -->
+  <step title="LogStreamHandlerMiddleware.Invoke" date="2026-01-04T08:39:52.587" /><!-- duration: 167ms -->
+  <step title="Error occurred" date="2026-01-04T08:41:52.752" type="error" text="LogStreamManager: ProcessRequest end" /><!-- duration: 4ms -->
+  <step title="Outgoing response" date="2026-01-04T08:41:52.760" type="response" statusCode="200" statusText="OK" /><!-- duration: 1ms -->
+</step><!-- duration: 120194ms -->

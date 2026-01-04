@@ -1,0 +1,786 @@
+2026-01-04T03:05:13.5963567Z Container start method called.
+2026-01-04T03:05:13.7068203Z Establishing network.
+2026-01-04T03:05:13.7070241Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T03:05:14.6319343Z Image appsvc/node:20-lts_20251016.4.tuxprod is pulled from registry 10.1.0.5:13209
+2026-01-04T03:05:14.6332299Z Container is starting.
+2026-01-04T03:05:14.6712168Z Establishing user namespace if not established already.
+2026-01-04T03:05:14.6722975Z Establishing network if not established already.
+2026-01-04T03:05:14.6732660Z Mounting volumes.
+2026-01-04T03:05:14.7312347Z Nested mountpoint 
+2026-01-04T03:05:14.8421513Z Nested mountpoint volatile/logs
+2026-01-04T03:05:14.8836269Z Nested mountpoint 
+2026-01-04T03:05:15.0348026Z Nested mountpoint 
+2026-01-04T03:05:15.1138332Z Nested mountpoint 
+2026-01-04T03:05:15.5971967Z Creating container.
+2026-01-04T03:05:15.5981508Z Creating pipes for streaming container io.
+2026-01-04T03:05:15.6058577Z Creating stdout named pipe at /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stdout_283b0d8124994e8bb72e174e86e35509.
+2026-01-04T03:05:15.6083819Z Successfully created stdout named pipe at: /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stdout_283b0d8124994e8bb72e174e86e35509.
+2026-01-04T03:05:15.6153710Z Opening named pipe /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stdout_283b0d8124994e8bb72e174e86e35509 for reading in non-blocking mode.
+2026-01-04T03:05:15.6156514Z Successfully opened named pipe: /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stdout_283b0d8124994e8bb72e174e86e35509.
+2026-01-04T03:05:15.6158674Z Successfully removed non-blocking flag from /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stdout_283b0d8124994e8bb72e174e86e35509.
+2026-01-04T03:05:15.6162247Z Creating stderr named pipe at /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stderr_c7270ef39ff2497185c41751d7f4f2fd.
+2026-01-04T03:05:15.6176570Z Successfully created stderr named pipe at: /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stderr_c7270ef39ff2497185c41751d7f4f2fd.
+2026-01-04T03:05:15.6179919Z Opening named pipe /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stderr_c7270ef39ff2497185c41751d7f4f2fd for reading in non-blocking mode.
+2026-01-04T03:05:15.6182531Z Successfully opened named pipe: /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stderr_c7270ef39ff2497185c41751d7f4f2fd.
+2026-01-04T03:05:15.6258841Z Successfully removed non-blocking flag from /podr/container/pipe/c770e07150a0_jarvis-portfolio-api/stderr_c7270ef39ff2497185c41751d7f4f2fd.
+2026-01-04T03:05:15.6260041Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T03:05:16.4155896Z Starting container: c770e07150a0_jarvis-portfolio-api.
+2026-01-04T03:05:16.5642361Z Starting watchers and probes.
+2026-01-04T03:05:16.5664512Z Starting metrics collection.
+2026-01-04T03:05:16.5945515Z Container is running.
+2026-01-04T03:05:16.8062991Z Container start method finished after 3100 ms.
+2026-01-04T03:05:57.8941484Z Site startup probe succeeded after 41.0586988 seconds.
+2026-01-04T03:05:59.9173264Z Site is running with deployment version: de0568f6-1423-4dd2-9243-5b49865c8e5d
+2026-01-04T03:05:59.9189337Z Site started.
+2026-01-04T03:06:00.1512699Z Site is running with patch version NODE 20.19.5
+2026-01-04T03:24:24.6801960Z Container start method called.
+2026-01-04T03:24:24.7890789Z Establishing network.
+2026-01-04T03:24:24.7902355Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T03:24:25.6140884Z Container is starting.
+2026-01-04T03:24:25.6231527Z Establishing user namespace if not established already.
+2026-01-04T03:24:25.6246724Z Establishing network if not established already.
+2026-01-04T03:24:25.6328506Z Mounting volumes.
+2026-01-04T03:24:25.6345782Z Nested mountpoint 
+2026-01-04T03:24:25.6850016Z Nested mountpoint volatile/logs
+2026-01-04T03:24:25.7256423Z Nested mountpoint 
+2026-01-04T03:24:25.7352524Z Nested mountpoint 
+2026-01-04T03:24:25.7538373Z Nested mountpoint 
+2026-01-04T03:24:26.4382967Z Creating container.
+2026-01-04T03:24:26.4395478Z Creating pipes for streaming container io.
+2026-01-04T03:24:26.4405204Z Creating stdout named pipe at /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stdout_86c59606ba504bc6a2b8d7357005059f.
+2026-01-04T03:24:26.4792745Z Successfully created stdout named pipe at: /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stdout_86c59606ba504bc6a2b8d7357005059f.
+2026-01-04T03:24:26.4882539Z Opening named pipe /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stdout_86c59606ba504bc6a2b8d7357005059f for reading in non-blocking mode.
+2026-01-04T03:24:26.4889794Z Successfully opened named pipe: /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stdout_86c59606ba504bc6a2b8d7357005059f.
+2026-01-04T03:24:26.4895789Z Successfully removed non-blocking flag from /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stdout_86c59606ba504bc6a2b8d7357005059f.
+2026-01-04T03:24:26.4901618Z Creating stderr named pipe at /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stderr_3754ba727c744b2a9bd32a0bb9a5cdf7.
+2026-01-04T03:24:26.4907843Z Successfully created stderr named pipe at: /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stderr_3754ba727c744b2a9bd32a0bb9a5cdf7.
+2026-01-04T03:24:26.4982708Z Opening named pipe /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stderr_3754ba727c744b2a9bd32a0bb9a5cdf7 for reading in non-blocking mode.
+2026-01-04T03:24:26.4992635Z Successfully opened named pipe: /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stderr_3754ba727c744b2a9bd32a0bb9a5cdf7.
+2026-01-04T03:24:26.5007198Z Successfully removed non-blocking flag from /podr/container/pipe/dee36a2e1e99_jarvis-portfolio-api/stderr_3754ba727c744b2a9bd32a0bb9a5cdf7.
+2026-01-04T03:24:26.5083911Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T03:24:28.0406614Z Starting container: dee36a2e1e99_jarvis-portfolio-api.
+2026-01-04T03:24:30.8920914Z Starting watchers and probes.
+2026-01-04T03:24:30.8926382Z Starting metrics collection.
+2026-01-04T03:24:30.8928202Z Container is running.
+2026-01-04T03:24:32.0902221Z Container start method finished after 7409 ms.
+2026-01-04T03:25:41.4812311Z Site startup probe succeeded after 69.1840203 seconds.
+2026-01-04T03:25:54.9781057Z Site is running with deployment version: de0568f6-1423-4dd2-9243-5b49865c8e5d
+2026-01-04T03:25:54.9789807Z Site started.
+2026-01-04T03:25:54.9987879Z Site is running with patch version NODE 20.19.5
+2026-01-04T03:26:15.1502134Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T03:26:15.1641523Z Stop and delete container. Retry count = 0
+2026-01-04T03:26:15.1698729Z Stopping container: c770e07150a0_jarvis-portfolio-api.
+2026-01-04T03:26:20.3150214Z Deleting container: c770e07150a0_jarvis-portfolio-api. Retry count = 0
+2026-01-04T03:26:20.9638126Z Container spec TerminationMessagePolicy  path 
+2026-01-04T03:26:20.9707785Z Container is terminated. Total time elapsed: 5819 ms.
+2026-01-04T03:26:21.0119627Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:25:50.4633667Z Container start method called.
+2026-01-04T04:25:50.4705210Z Establishing network.
+2026-01-04T04:25:50.4772587Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T04:25:50.8271535Z Container is starting.
+2026-01-04T04:25:50.8325756Z Establishing user namespace if not established already.
+2026-01-04T04:25:50.8344241Z Establishing network if not established already.
+2026-01-04T04:25:50.8350125Z Mounting volumes.
+2026-01-04T04:25:50.8389676Z Nested mountpoint 
+2026-01-04T04:25:50.9038965Z Nested mountpoint volatile/logs
+2026-01-04T04:25:50.9233297Z Nested mountpoint 
+2026-01-04T04:25:50.9437803Z Nested mountpoint 
+2026-01-04T04:25:50.9459013Z Nested mountpoint 
+2026-01-04T04:25:51.9649730Z Creating container.
+2026-01-04T04:25:51.9663888Z Creating pipes for streaming container io.
+2026-01-04T04:25:51.9762475Z Creating stdout named pipe at /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stdout_3ec87e470efb4077950d27f88153edfb.
+2026-01-04T04:25:52.0141526Z Successfully created stdout named pipe at: /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stdout_3ec87e470efb4077950d27f88153edfb.
+2026-01-04T04:25:52.0151823Z Opening named pipe /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stdout_3ec87e470efb4077950d27f88153edfb for reading in non-blocking mode.
+2026-01-04T04:25:52.0160711Z Successfully opened named pipe: /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stdout_3ec87e470efb4077950d27f88153edfb.
+2026-01-04T04:25:52.0341845Z Successfully removed non-blocking flag from /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stdout_3ec87e470efb4077950d27f88153edfb.
+2026-01-04T04:25:52.0447773Z Creating stderr named pipe at /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stderr_38367b59460e4f77b6c1bcb8eb55fdc0.
+2026-01-04T04:25:52.0455404Z Successfully created stderr named pipe at: /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stderr_38367b59460e4f77b6c1bcb8eb55fdc0.
+2026-01-04T04:25:52.0462058Z Opening named pipe /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stderr_38367b59460e4f77b6c1bcb8eb55fdc0 for reading in non-blocking mode.
+2026-01-04T04:25:52.0469813Z Successfully opened named pipe: /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stderr_38367b59460e4f77b6c1bcb8eb55fdc0.
+2026-01-04T04:25:52.0557021Z Successfully removed non-blocking flag from /podr/container/pipe/a38c843a7169_jarvis-portfolio-api/stderr_38367b59460e4f77b6c1bcb8eb55fdc0.
+2026-01-04T04:25:52.0639673Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T04:25:53.9853223Z Starting container: a38c843a7169_jarvis-portfolio-api.
+2026-01-04T04:25:54.1769185Z Starting watchers and probes.
+2026-01-04T04:25:54.1868514Z Starting metrics collection.
+2026-01-04T04:25:54.1958140Z Container is running.
+2026-01-04T04:25:54.4971112Z Container start method finished after 4029 ms.
+2026-01-04T04:26:44.9091880Z Site startup probe succeeded after 50.2893961 seconds.
+2026-01-04T04:26:52.9823990Z Site is running with deployment version: afca8674-a74f-4bf8-98ae-a9e0dae175a6
+2026-01-04T04:26:52.9851130Z Site started.
+2026-01-04T04:26:53.0018139Z Site is running with patch version NODE 20.19.5
+2026-01-04T04:27:13.3742761Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T04:27:13.6051526Z Stop and delete container. Retry count = 0
+2026-01-04T04:27:13.6053650Z Stopping container: dee36a2e1e99_jarvis-portfolio-api.
+2026-01-04T04:27:18.9657048Z Deleting container: dee36a2e1e99_jarvis-portfolio-api. Retry count = 0
+2026-01-04T04:27:22.2863304Z Container spec TerminationMessagePolicy  path 
+2026-01-04T04:27:22.3161466Z Container is terminated. Total time elapsed: 8920 ms.
+2026-01-04T04:27:22.3467546Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:41:04.5348809Z Container start method called.
+2026-01-04T04:41:04.5427414Z Establishing network.
+2026-01-04T04:41:04.5438336Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T04:41:04.8990552Z Container is starting.
+2026-01-04T04:41:04.9044429Z Establishing user namespace if not established already.
+2026-01-04T04:41:04.9055819Z Establishing network if not established already.
+2026-01-04T04:41:04.9057074Z Mounting volumes.
+2026-01-04T04:41:04.9143714Z Nested mountpoint 
+2026-01-04T04:41:04.9850184Z Nested mountpoint volatile/logs
+2026-01-04T04:41:05.0147259Z Nested mountpoint 
+2026-01-04T04:41:05.1165177Z Nested mountpoint 
+2026-01-04T04:41:05.1263990Z Nested mountpoint 
+2026-01-04T04:41:05.8506899Z Creating container.
+2026-01-04T04:41:05.8594694Z Creating pipes for streaming container io.
+2026-01-04T04:41:05.8600513Z Creating stdout named pipe at /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stdout_12a33d992ff140b389ac4b8c975a1785.
+2026-01-04T04:41:06.0821322Z Successfully created stdout named pipe at: /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stdout_12a33d992ff140b389ac4b8c975a1785.
+2026-01-04T04:41:06.0833878Z Opening named pipe /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stdout_12a33d992ff140b389ac4b8c975a1785 for reading in non-blocking mode.
+2026-01-04T04:41:06.0863825Z Successfully opened named pipe: /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stdout_12a33d992ff140b389ac4b8c975a1785.
+2026-01-04T04:41:06.0946375Z Successfully removed non-blocking flag from /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stdout_12a33d992ff140b389ac4b8c975a1785.
+2026-01-04T04:41:06.0962072Z Creating stderr named pipe at /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stderr_c8a8e8b8bdfd4d048ef4c8b826bc7a91.
+2026-01-04T04:41:06.0971399Z Successfully created stderr named pipe at: /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stderr_c8a8e8b8bdfd4d048ef4c8b826bc7a91.
+2026-01-04T04:41:06.1044776Z Opening named pipe /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stderr_c8a8e8b8bdfd4d048ef4c8b826bc7a91 for reading in non-blocking mode.
+2026-01-04T04:41:06.1045993Z Successfully opened named pipe: /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stderr_c8a8e8b8bdfd4d048ef4c8b826bc7a91.
+2026-01-04T04:41:06.1046797Z Successfully removed non-blocking flag from /podr/container/pipe/3343f95eafe1_jarvis-portfolio-api/stderr_c8a8e8b8bdfd4d048ef4c8b826bc7a91.
+2026-01-04T04:41:06.1063567Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T04:41:07.1105932Z Starting container: 3343f95eafe1_jarvis-portfolio-api.
+2026-01-04T04:41:07.2502672Z Starting watchers and probes.
+2026-01-04T04:41:07.2739610Z Starting metrics collection.
+2026-01-04T04:41:07.2790776Z Container is running.
+2026-01-04T04:41:07.4712974Z Container start method finished after 2936 ms.
+2026-01-04T04:41:40.2065285Z Container has finished running with exit code: 1.
+2026-01-04T04:41:40.2080892Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T04:41:40.2207663Z Stop and delete container. Retry count = 0
+2026-01-04T04:41:40.2216297Z Stopping container: 3343f95eafe1_jarvis-portfolio-api.
+2026-01-04T04:41:40.3086781Z Deleting container: 3343f95eafe1_jarvis-portfolio-api. Retry count = 0
+2026-01-04T04:41:40.9056052Z Container spec TerminationMessagePolicy  path 
+2026-01-04T04:41:40.9137979Z Container is terminated. Total time elapsed: 696 ms.
+2026-01-04T04:41:40.9148144Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T04:41:41.7052475Z Site startup probe failed after 34.1134591 seconds.
+2026-01-04T04:41:41.9572537Z Failed to start site. Revert by stopping site.
+2026-01-04T04:41:41.9693325Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:42:03.3128174Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T04:42:03.4645118Z Stop and delete container. Retry count = 0
+2026-01-04T04:42:03.4650658Z Stopping container: a38c843a7169_jarvis-portfolio-api.
+2026-01-04T04:42:08.7917462Z Deleting container: a38c843a7169_jarvis-portfolio-api. Retry count = 0
+2026-01-04T04:42:09.8216044Z Container spec TerminationMessagePolicy  path 
+2026-01-04T04:42:09.8289022Z Container is terminated. Total time elapsed: 6508 ms.
+2026-01-04T04:42:09.8490598Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:56:22.2429283Z Container start method called.
+2026-01-04T04:56:22.2469427Z Establishing network.
+2026-01-04T04:56:22.2481890Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T04:56:22.4219164Z Container is starting.
+2026-01-04T04:56:22.4226329Z Establishing user namespace if not established already.
+2026-01-04T04:56:22.4229996Z Establishing network if not established already.
+2026-01-04T04:56:22.4233590Z Mounting volumes.
+2026-01-04T04:56:22.4269763Z Nested mountpoint 
+2026-01-04T04:56:22.5208602Z Nested mountpoint volatile/logs
+2026-01-04T04:56:22.5925275Z Nested mountpoint 
+2026-01-04T04:56:22.6522244Z Nested mountpoint 
+2026-01-04T04:56:22.6616630Z Nested mountpoint 
+2026-01-04T04:56:22.9696902Z Creating container.
+2026-01-04T04:56:22.9701915Z Creating pipes for streaming container io.
+2026-01-04T04:56:22.9707955Z Creating stdout named pipe at /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stdout_4c00ad0acc214c8d830d655d1e4efcc2.
+2026-01-04T04:56:22.9766589Z Successfully created stdout named pipe at: /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stdout_4c00ad0acc214c8d830d655d1e4efcc2.
+2026-01-04T04:56:22.9775447Z Opening named pipe /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stdout_4c00ad0acc214c8d830d655d1e4efcc2 for reading in non-blocking mode.
+2026-01-04T04:56:22.9778659Z Successfully opened named pipe: /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stdout_4c00ad0acc214c8d830d655d1e4efcc2.
+2026-01-04T04:56:22.9783625Z Successfully removed non-blocking flag from /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stdout_4c00ad0acc214c8d830d655d1e4efcc2.
+2026-01-04T04:56:22.9792026Z Creating stderr named pipe at /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stderr_2a3e869772ba48d3b9fc8111a66bdf58.
+2026-01-04T04:56:22.9837210Z Successfully created stderr named pipe at: /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stderr_2a3e869772ba48d3b9fc8111a66bdf58.
+2026-01-04T04:56:22.9842854Z Opening named pipe /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stderr_2a3e869772ba48d3b9fc8111a66bdf58 for reading in non-blocking mode.
+2026-01-04T04:56:22.9852007Z Successfully opened named pipe: /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stderr_2a3e869772ba48d3b9fc8111a66bdf58.
+2026-01-04T04:56:22.9862374Z Successfully removed non-blocking flag from /podr/container/pipe/d70236d866ad_jarvis-portfolio-api/stderr_2a3e869772ba48d3b9fc8111a66bdf58.
+2026-01-04T04:56:22.9937111Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T04:56:23.7067200Z Starting container: d70236d866ad_jarvis-portfolio-api.
+2026-01-04T04:56:23.7722388Z Starting watchers and probes.
+2026-01-04T04:56:23.8028780Z Starting metrics collection.
+2026-01-04T04:56:23.8037561Z Container is running.
+2026-01-04T04:56:24.6794476Z Container start method finished after 2435 ms.
+2026-01-04T04:57:00.2120142Z Container has finished running with exit code: 1.
+2026-01-04T04:57:00.2180459Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T04:57:00.2279711Z Stop and delete container. Retry count = 0
+2026-01-04T04:57:00.2286414Z Stopping container: d70236d866ad_jarvis-portfolio-api.
+2026-01-04T04:57:00.3601928Z Deleting container: d70236d866ad_jarvis-portfolio-api. Retry count = 0
+2026-01-04T04:57:00.5813311Z Container spec TerminationMessagePolicy  path 
+2026-01-04T04:57:00.5835965Z Container is terminated. Total time elapsed: 363 ms.
+2026-01-04T04:57:00.5907011Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T04:57:00.7435848Z Site startup probe failed after 35.9719346 seconds.
+2026-01-04T04:57:01.1947313Z Failed to start site. Revert by stopping site.
+2026-01-04T04:57:01.2535921Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:57:02.4920379Z Site: jarvis-portfolio-api will be blocked for 1 minutes till 01/04/2026 04:58:02
+2026-01-04T04:58:02.4953375Z Site: jarvis-portfolio-api is unblocked.
+2026-01-04T04:58:06.8798998Z Container start method called.
+2026-01-04T04:58:06.8800547Z Establishing network.
+2026-01-04T04:58:06.8801620Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T04:58:07.2512273Z Container is starting.
+2026-01-04T04:58:07.2513835Z Establishing user namespace if not established already.
+2026-01-04T04:58:07.2610031Z Establishing network if not established already.
+2026-01-04T04:58:07.2612055Z Mounting volumes.
+2026-01-04T04:58:07.2703869Z Nested mountpoint 
+2026-01-04T04:58:07.3299895Z Nested mountpoint volatile/logs
+2026-01-04T04:58:07.3331401Z Nested mountpoint 
+2026-01-04T04:58:07.3426804Z Nested mountpoint 
+2026-01-04T04:58:07.3601362Z Nested mountpoint 
+2026-01-04T04:58:07.7728095Z Creating container.
+2026-01-04T04:58:07.7733009Z Creating pipes for streaming container io.
+2026-01-04T04:58:07.7739962Z Creating stdout named pipe at /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stdout_9c856f3ff59148f4b290b4875b1aba2e.
+2026-01-04T04:58:07.7745158Z Successfully created stdout named pipe at: /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stdout_9c856f3ff59148f4b290b4875b1aba2e.
+2026-01-04T04:58:07.7751918Z Opening named pipe /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stdout_9c856f3ff59148f4b290b4875b1aba2e for reading in non-blocking mode.
+2026-01-04T04:58:07.7756472Z Successfully opened named pipe: /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stdout_9c856f3ff59148f4b290b4875b1aba2e.
+2026-01-04T04:58:07.7829544Z Successfully removed non-blocking flag from /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stdout_9c856f3ff59148f4b290b4875b1aba2e.
+2026-01-04T04:58:07.7841296Z Creating stderr named pipe at /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stderr_4c737c00f7cd41b09f4e3b8861ac09ea.
+2026-01-04T04:58:07.7845920Z Successfully created stderr named pipe at: /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stderr_4c737c00f7cd41b09f4e3b8861ac09ea.
+2026-01-04T04:58:07.7847184Z Opening named pipe /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stderr_4c737c00f7cd41b09f4e3b8861ac09ea for reading in non-blocking mode.
+2026-01-04T04:58:07.7848587Z Successfully opened named pipe: /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stderr_4c737c00f7cd41b09f4e3b8861ac09ea.
+2026-01-04T04:58:07.7849792Z Successfully removed non-blocking flag from /podr/container/pipe/47e4157dee23_jarvis-portfolio-api/stderr_4c737c00f7cd41b09f4e3b8861ac09ea.
+2026-01-04T04:58:07.7851005Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T04:58:08.4112826Z Starting container: 47e4157dee23_jarvis-portfolio-api.
+2026-01-04T04:58:08.5034337Z Starting watchers and probes.
+2026-01-04T04:58:08.5124350Z Starting metrics collection.
+2026-01-04T04:58:08.5127103Z Container is running.
+2026-01-04T04:58:08.6730047Z Container start method finished after 1792 ms.
+2026-01-04T04:58:36.8685548Z Container has finished running with exit code: 1.
+2026-01-04T04:58:36.8760091Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T04:58:36.8773126Z Stop and delete container. Retry count = 0
+2026-01-04T04:58:36.8774046Z Stopping container: 47e4157dee23_jarvis-portfolio-api.
+2026-01-04T04:58:37.9528348Z Deleting container: 47e4157dee23_jarvis-portfolio-api. Retry count = 0
+2026-01-04T04:58:38.1467958Z Container spec TerminationMessagePolicy  path 
+2026-01-04T04:58:38.1552799Z Container is terminated. Total time elapsed: 1278 ms.
+2026-01-04T04:58:38.1566794Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T04:58:38.3076598Z Site startup probe failed after 29.6327627 seconds.
+2026-01-04T04:58:38.6885131Z Failed to start site. Revert by stopping site.
+2026-01-04T04:58:38.6973395Z Site: jarvis-portfolio-api stopped.
+2026-01-04T04:58:39.7421060Z Site: jarvis-portfolio-api will be blocked for 1 minutes till 01/04/2026 04:59:39
+2026-01-04T04:59:39.7407879Z Site: jarvis-portfolio-api is unblocked.
+2026-01-04T05:02:09.9974261Z Container start method called.
+2026-01-04T05:02:10.0065532Z Establishing network.
+2026-01-04T05:02:10.0358681Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T05:02:10.8087247Z Container is starting.
+2026-01-04T05:02:10.8093835Z Establishing user namespace if not established already.
+2026-01-04T05:02:10.8097010Z Establishing network if not established already.
+2026-01-04T05:02:10.8098238Z Mounting volumes.
+2026-01-04T05:02:10.8100553Z Nested mountpoint 
+2026-01-04T05:02:10.8885720Z Nested mountpoint volatile/logs
+2026-01-04T05:02:10.8995138Z Nested mountpoint 
+2026-01-04T05:02:10.9097864Z Nested mountpoint 
+2026-01-04T05:02:10.9402285Z Nested mountpoint 
+2026-01-04T05:02:11.6847388Z Creating container.
+2026-01-04T05:02:11.6849247Z Creating pipes for streaming container io.
+2026-01-04T05:02:11.6850794Z Creating stdout named pipe at /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stdout_54854a3c68794e129fff542d1a9de939.
+2026-01-04T05:02:11.7124624Z Successfully created stdout named pipe at: /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stdout_54854a3c68794e129fff542d1a9de939.
+2026-01-04T05:02:11.7135539Z Opening named pipe /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stdout_54854a3c68794e129fff542d1a9de939 for reading in non-blocking mode.
+2026-01-04T05:02:11.7139143Z Successfully opened named pipe: /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stdout_54854a3c68794e129fff542d1a9de939.
+2026-01-04T05:02:11.7141213Z Successfully removed non-blocking flag from /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stdout_54854a3c68794e129fff542d1a9de939.
+2026-01-04T05:02:11.7142556Z Creating stderr named pipe at /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stderr_10bc6071f55d4a419ec3ad50e70a791d.
+2026-01-04T05:02:11.7144292Z Successfully created stderr named pipe at: /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stderr_10bc6071f55d4a419ec3ad50e70a791d.
+2026-01-04T05:02:11.7145290Z Opening named pipe /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stderr_10bc6071f55d4a419ec3ad50e70a791d for reading in non-blocking mode.
+2026-01-04T05:02:11.7148131Z Successfully opened named pipe: /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stderr_10bc6071f55d4a419ec3ad50e70a791d.
+2026-01-04T05:02:11.7239070Z Successfully removed non-blocking flag from /podr/container/pipe/0ea0c3ea4906_jarvis-portfolio-api/stderr_10bc6071f55d4a419ec3ad50e70a791d.
+2026-01-04T05:02:11.7252815Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T05:02:13.1821980Z Starting container: 0ea0c3ea4906_jarvis-portfolio-api.
+2026-01-04T05:02:13.2938407Z Starting watchers and probes.
+2026-01-04T05:02:13.2947013Z Starting metrics collection.
+2026-01-04T05:02:13.3141070Z Container is running.
+2026-01-04T05:02:14.0262865Z Container start method finished after 4028 ms.
+2026-01-04T05:02:55.5481313Z Container has finished running with exit code: 1.
+2026-01-04T05:02:55.5659055Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T05:02:55.5853445Z Stop and delete container. Retry count = 0
+2026-01-04T05:02:55.5855573Z Stopping container: 0ea0c3ea4906_jarvis-portfolio-api.
+2026-01-04T05:02:55.6686141Z Deleting container: 0ea0c3ea4906_jarvis-portfolio-api. Retry count = 0
+2026-01-04T05:02:55.8924508Z Container spec TerminationMessagePolicy  path 
+2026-01-04T05:02:55.9117890Z Container is terminated. Total time elapsed: 344 ms.
+2026-01-04T05:02:55.9133151Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T05:02:56.1032790Z Site startup probe failed after 42.0455364 seconds.
+2026-01-04T05:02:56.5640263Z Failed to start site. Revert by stopping site.
+2026-01-04T05:02:56.5753727Z Site: jarvis-portfolio-api stopped.
+2026-01-04T05:02:57.4501906Z Site: jarvis-portfolio-api will be blocked for 2 minutes till 01/04/2026 05:04:57
+2026-01-04T05:04:57.4501887Z Site: jarvis-portfolio-api is unblocked.
+2026-01-04T05:20:32.2849573Z Container start method called.
+2026-01-04T05:20:32.3228967Z Establishing network.
+2026-01-04T05:20:32.3250920Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T05:20:32.8153848Z Container is starting.
+2026-01-04T05:20:32.8207467Z Establishing user namespace if not established already.
+2026-01-04T05:20:32.8212782Z Establishing network if not established already.
+2026-01-04T05:20:32.8219142Z Mounting volumes.
+2026-01-04T05:20:32.8404992Z Nested mountpoint 
+2026-01-04T05:20:32.9241417Z Nested mountpoint volatile/logs
+2026-01-04T05:20:32.9404977Z Nested mountpoint 
+2026-01-04T05:20:33.0140506Z Nested mountpoint 
+2026-01-04T05:20:33.0426653Z Nested mountpoint 
+2026-01-04T05:20:33.6164513Z Creating container.
+2026-01-04T05:20:33.6167059Z Creating pipes for streaming container io.
+2026-01-04T05:20:33.6364694Z Creating stdout named pipe at /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stdout_0c9d1beec6b64c83b642d5085cc4d759.
+2026-01-04T05:20:33.6443104Z Successfully created stdout named pipe at: /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stdout_0c9d1beec6b64c83b642d5085cc4d759.
+2026-01-04T05:20:33.6446185Z Opening named pipe /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stdout_0c9d1beec6b64c83b642d5085cc4d759 for reading in non-blocking mode.
+2026-01-04T05:20:33.6447622Z Successfully opened named pipe: /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stdout_0c9d1beec6b64c83b642d5085cc4d759.
+2026-01-04T05:20:33.6455331Z Successfully removed non-blocking flag from /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stdout_0c9d1beec6b64c83b642d5085cc4d759.
+2026-01-04T05:20:33.6456903Z Creating stderr named pipe at /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stderr_9841a214225d47368f986c151a2cca28.
+2026-01-04T05:20:33.6458577Z Successfully created stderr named pipe at: /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stderr_9841a214225d47368f986c151a2cca28.
+2026-01-04T05:20:33.6459776Z Opening named pipe /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stderr_9841a214225d47368f986c151a2cca28 for reading in non-blocking mode.
+2026-01-04T05:20:33.6460960Z Successfully opened named pipe: /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stderr_9841a214225d47368f986c151a2cca28.
+2026-01-04T05:20:33.6462250Z Successfully removed non-blocking flag from /podr/container/pipe/eca886701fc7_jarvis-portfolio-api/stderr_9841a214225d47368f986c151a2cca28.
+2026-01-04T05:20:33.6836336Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T05:20:34.3980050Z Starting container: eca886701fc7_jarvis-portfolio-api.
+2026-01-04T05:20:34.6632075Z Starting watchers and probes.
+2026-01-04T05:20:34.6707871Z Starting metrics collection.
+2026-01-04T05:20:34.6718203Z Container is running.
+2026-01-04T05:20:36.5837038Z Container start method finished after 4298 ms.
+2026-01-04T05:21:21.7764782Z Site startup probe succeeded after 45.062618 seconds.
+2026-01-04T05:21:28.8337593Z Site is running with deployment version: 641debb8-c827-4f0c-90e8-cdd21e88b008
+2026-01-04T05:21:28.8541647Z Site started.
+2026-01-04T05:21:29.0957565Z Site is running with patch version NODE 20.19.5
+2026-01-04T06:29:07.5443418Z Container start method called.
+2026-01-04T06:29:07.5518674Z Establishing network.
+2026-01-04T06:29:07.5540660Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T06:29:08.6785439Z Container is starting.
+2026-01-04T06:29:08.6790165Z Establishing user namespace if not established already.
+2026-01-04T06:29:08.6797648Z Establishing network if not established already.
+2026-01-04T06:29:08.6800078Z Mounting volumes.
+2026-01-04T06:29:08.6916376Z Nested mountpoint 
+2026-01-04T06:29:08.7601875Z Nested mountpoint volatile/logs
+2026-01-04T06:29:08.7718392Z Nested mountpoint 
+2026-01-04T06:29:08.8808362Z Nested mountpoint 
+2026-01-04T06:29:08.9008450Z Nested mountpoint 
+2026-01-04T06:29:09.4432278Z Creating container.
+2026-01-04T06:29:09.4454675Z Creating pipes for streaming container io.
+2026-01-04T06:29:09.4455612Z Creating stdout named pipe at /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stdout_d45c790cc9ce46b798147f30640ec52d.
+2026-01-04T06:29:09.4538458Z Successfully created stdout named pipe at: /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stdout_d45c790cc9ce46b798147f30640ec52d.
+2026-01-04T06:29:09.4539352Z Opening named pipe /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stdout_d45c790cc9ce46b798147f30640ec52d for reading in non-blocking mode.
+2026-01-04T06:29:09.4540267Z Successfully opened named pipe: /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stdout_d45c790cc9ce46b798147f30640ec52d.
+2026-01-04T06:29:09.4541026Z Successfully removed non-blocking flag from /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stdout_d45c790cc9ce46b798147f30640ec52d.
+2026-01-04T06:29:09.4541793Z Creating stderr named pipe at /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stderr_dc37b26140a548999a16158118ec2acf.
+2026-01-04T06:29:09.4542878Z Successfully created stderr named pipe at: /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stderr_dc37b26140a548999a16158118ec2acf.
+2026-01-04T06:29:09.4543606Z Opening named pipe /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stderr_dc37b26140a548999a16158118ec2acf for reading in non-blocking mode.
+2026-01-04T06:29:09.4544418Z Successfully opened named pipe: /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stderr_dc37b26140a548999a16158118ec2acf.
+2026-01-04T06:29:09.4545201Z Successfully removed non-blocking flag from /podr/container/pipe/bec1ba8cc941_jarvis-portfolio-api/stderr_dc37b26140a548999a16158118ec2acf.
+2026-01-04T06:29:09.4648575Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T06:29:10.2800723Z Starting container: bec1ba8cc941_jarvis-portfolio-api.
+2026-01-04T06:29:10.4319605Z Starting watchers and probes.
+2026-01-04T06:29:10.4386131Z Starting metrics collection.
+2026-01-04T06:29:10.4450100Z Container is running.
+2026-01-04T06:29:10.6490874Z Container start method finished after 3104 ms.
+2026-01-04T06:29:59.9015778Z Site startup probe succeeded after 49.1695146 seconds.
+2026-01-04T06:30:20.7650163Z Site is running with deployment version: 9b3ecfec-ff03-41c5-a1bd-2ae64f2ec659
+2026-01-04T06:30:20.7943397Z Site started.
+2026-01-04T06:30:20.8079518Z Site is running with patch version NODE 20.19.5
+2026-01-04T06:30:41.0191274Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T06:30:41.1004477Z Stop and delete container. Retry count = 0
+2026-01-04T06:30:41.1017539Z Stopping container: eca886701fc7_jarvis-portfolio-api.
+2026-01-04T06:30:46.4774604Z Deleting container: eca886701fc7_jarvis-portfolio-api. Retry count = 0
+2026-01-04T06:30:47.8127757Z Container spec TerminationMessagePolicy  path 
+2026-01-04T06:30:47.8151191Z Container is terminated. Total time elapsed: 6790 ms.
+2026-01-04T06:30:47.8343882Z Site: jarvis-portfolio-api stopped.
+2026-01-04T08:42:41.6977495Z Container start method called.
+2026-01-04T08:42:41.7083327Z Establishing network.
+2026-01-04T08:42:41.7199839Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T08:42:42.0966382Z Container is starting.
+2026-01-04T08:42:42.0996088Z Establishing user namespace if not established already.
+2026-01-04T08:42:42.0997086Z Establishing network if not established already.
+2026-01-04T08:42:42.0997975Z Mounting volumes.
+2026-01-04T08:42:42.1096331Z Nested mountpoint 
+2026-01-04T08:42:42.1809487Z Nested mountpoint volatile/logs
+2026-01-04T08:42:42.1920483Z Nested mountpoint 
+2026-01-04T08:42:42.2706829Z Nested mountpoint 
+2026-01-04T08:42:42.3830558Z Nested mountpoint 
+2026-01-04T08:42:42.8058357Z Creating container.
+2026-01-04T08:42:42.8149213Z Creating pipes for streaming container io.
+2026-01-04T08:42:42.8233425Z Creating stdout named pipe at /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stdout_bcdb90af99474db58b51d9249cb1a62d.
+2026-01-04T08:42:42.8241448Z Successfully created stdout named pipe at: /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stdout_bcdb90af99474db58b51d9249cb1a62d.
+2026-01-04T08:42:42.8247624Z Opening named pipe /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stdout_bcdb90af99474db58b51d9249cb1a62d for reading in non-blocking mode.
+2026-01-04T08:42:42.8249294Z Successfully opened named pipe: /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stdout_bcdb90af99474db58b51d9249cb1a62d.
+2026-01-04T08:42:42.8256827Z Successfully removed non-blocking flag from /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stdout_bcdb90af99474db58b51d9249cb1a62d.
+2026-01-04T08:42:42.8263031Z Creating stderr named pipe at /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stderr_4d26ca0685bd4045a659fe96236ac3ce.
+2026-01-04T08:42:42.8333381Z Successfully created stderr named pipe at: /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stderr_4d26ca0685bd4045a659fe96236ac3ce.
+2026-01-04T08:42:42.8334326Z Opening named pipe /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stderr_4d26ca0685bd4045a659fe96236ac3ce for reading in non-blocking mode.
+2026-01-04T08:42:42.8335325Z Successfully opened named pipe: /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stderr_4d26ca0685bd4045a659fe96236ac3ce.
+2026-01-04T08:42:42.8336166Z Successfully removed non-blocking flag from /podr/container/pipe/e5df99c0799e_jarvis-portfolio-api/stderr_4d26ca0685bd4045a659fe96236ac3ce.
+2026-01-04T08:42:42.8363013Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T08:42:44.1413449Z Starting container: e5df99c0799e_jarvis-portfolio-api.
+2026-01-04T08:42:44.5211792Z Starting watchers and probes.
+2026-01-04T08:42:44.5616286Z Starting metrics collection.
+2026-01-04T08:42:44.5822423Z Container is running.
+2026-01-04T08:42:45.1330795Z Container start method finished after 3435 ms.
+2026-01-04T08:43:26.7501302Z Site startup probe succeeded after 41.3657523 seconds.
+2026-01-04T08:43:36.1048821Z Site is running with deployment version: 1101d5bc-1be6-4e3d-a559-d077b876fab5
+2026-01-04T08:43:36.1132301Z Site started.
+2026-01-04T08:43:36.1228902Z Site is running with patch version NODE 20.19.5
+2026-01-04T08:43:56.2013172Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T08:43:56.3764126Z Stop and delete container. Retry count = 0
+2026-01-04T08:43:56.3819869Z Stopping container: bec1ba8cc941_jarvis-portfolio-api.
+2026-01-04T08:44:01.4487041Z Deleting container: bec1ba8cc941_jarvis-portfolio-api. Retry count = 0
+2026-01-04T08:44:03.9236966Z Container spec TerminationMessagePolicy  path 
+2026-01-04T08:44:03.9318712Z Container is terminated. Total time elapsed: 7728 ms.
+2026-01-04T08:44:03.9352365Z Site: jarvis-portfolio-api stopped.
+2026-01-04T09:34:48.0750097Z Container start method called.
+2026-01-04T09:34:48.0852088Z Establishing network.
+2026-01-04T09:34:48.1063899Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T09:34:49.0104837Z Container is starting.
+2026-01-04T09:34:49.0116748Z Establishing user namespace if not established already.
+2026-01-04T09:34:49.0206068Z Establishing network if not established already.
+2026-01-04T09:34:49.0299175Z Mounting volumes.
+2026-01-04T09:34:49.0493694Z Nested mountpoint 
+2026-01-04T09:34:49.1091242Z Nested mountpoint volatile/logs
+2026-01-04T09:34:49.1117619Z Nested mountpoint 
+2026-01-04T09:34:49.2617609Z Nested mountpoint 
+2026-01-04T09:34:49.2626121Z Nested mountpoint 
+2026-01-04T09:34:49.6723284Z Creating container.
+2026-01-04T09:34:49.6741756Z Creating pipes for streaming container io.
+2026-01-04T09:34:49.6751386Z Creating stdout named pipe at /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stdout_0c4d90db9114452d80af708a3b580bc7.
+2026-01-04T09:34:49.6840255Z Successfully created stdout named pipe at: /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stdout_0c4d90db9114452d80af708a3b580bc7.
+2026-01-04T09:34:49.6854920Z Opening named pipe /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stdout_0c4d90db9114452d80af708a3b580bc7 for reading in non-blocking mode.
+2026-01-04T09:34:49.6931515Z Successfully opened named pipe: /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stdout_0c4d90db9114452d80af708a3b580bc7.
+2026-01-04T09:34:49.6937766Z Successfully removed non-blocking flag from /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stdout_0c4d90db9114452d80af708a3b580bc7.
+2026-01-04T09:34:49.6953837Z Creating stderr named pipe at /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stderr_82b9f45ff6ea49c4b2861457a4790b0e.
+2026-01-04T09:34:49.7024899Z Successfully created stderr named pipe at: /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stderr_82b9f45ff6ea49c4b2861457a4790b0e.
+2026-01-04T09:34:49.7025988Z Opening named pipe /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stderr_82b9f45ff6ea49c4b2861457a4790b0e for reading in non-blocking mode.
+2026-01-04T09:34:49.7027014Z Successfully opened named pipe: /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stderr_82b9f45ff6ea49c4b2861457a4790b0e.
+2026-01-04T09:34:49.7027723Z Successfully removed non-blocking flag from /podr/container/pipe/790c53fa77a0_jarvis-portfolio-api/stderr_82b9f45ff6ea49c4b2861457a4790b0e.
+2026-01-04T09:34:49.7038555Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.6:13209 and fully qualified image name: 10.1.0.6:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T09:34:50.5855249Z Starting container: 790c53fa77a0_jarvis-portfolio-api.
+2026-01-04T09:34:50.8194112Z Starting watchers and probes.
+2026-01-04T09:34:50.8351890Z Starting metrics collection.
+2026-01-04T09:34:50.8760494Z Container is running.
+2026-01-04T09:34:51.1179871Z Container start method finished after 3042 ms.
+2026-01-04T09:35:39.2855589Z Site startup probe succeeded after 48.0756876 seconds.
+2026-01-04T09:35:50.1707263Z Site is running with deployment version: b69efcc4-bb76-4dee-b31f-3beb07368f82
+2026-01-04T09:35:50.1896386Z Site started.
+2026-01-04T09:35:50.2189558Z Site is running with patch version NODE 20.19.5
+2026-01-04T09:36:10.3359309Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T09:36:10.3964391Z Stop and delete container. Retry count = 0
+2026-01-04T09:36:10.4051279Z Stopping container: e5df99c0799e_jarvis-portfolio-api.
+2026-01-04T09:36:15.5408609Z Deleting container: e5df99c0799e_jarvis-portfolio-api. Retry count = 0
+2026-01-04T09:36:16.2778805Z Container spec TerminationMessagePolicy  path 
+2026-01-04T09:36:16.2966428Z Container is terminated. Total time elapsed: 5936 ms.
+2026-01-04T09:36:16.2997181Z Site: jarvis-portfolio-api stopped.
+2026-01-04T12:00:03.4384090Z Container start method called.
+2026-01-04T12:00:03.4589695Z Establishing network.
+2026-01-04T12:00:03.4792568Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T12:00:04.2652650Z Container is starting.
+2026-01-04T12:00:04.2846823Z Establishing user namespace if not established already.
+2026-01-04T12:00:04.2850307Z Establishing network if not established already.
+2026-01-04T12:00:04.2857273Z Mounting volumes.
+2026-01-04T12:00:04.2964614Z Nested mountpoint 
+2026-01-04T12:00:04.4714925Z Nested mountpoint volatile/logs
+2026-01-04T12:00:04.5538120Z Nested mountpoint 
+2026-01-04T12:00:04.7045172Z Nested mountpoint 
+2026-01-04T12:00:04.8341053Z Nested mountpoint 
+2026-01-04T12:00:05.7376984Z Creating container.
+2026-01-04T12:00:05.7671558Z Creating pipes for streaming container io.
+2026-01-04T12:00:05.7678969Z Creating stdout named pipe at /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stdout_6906652c91934172af49c2ead00cbb29.
+2026-01-04T12:00:05.7983921Z Successfully created stdout named pipe at: /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stdout_6906652c91934172af49c2ead00cbb29.
+2026-01-04T12:00:05.7989736Z Opening named pipe /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stdout_6906652c91934172af49c2ead00cbb29 for reading in non-blocking mode.
+2026-01-04T12:00:05.8369771Z Successfully opened named pipe: /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stdout_6906652c91934172af49c2ead00cbb29.
+2026-01-04T12:00:05.8375549Z Successfully removed non-blocking flag from /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stdout_6906652c91934172af49c2ead00cbb29.
+2026-01-04T12:00:05.8674222Z Creating stderr named pipe at /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stderr_ef07c8ddcefc4bd7873be6b3cdda6878.
+2026-01-04T12:00:05.8677411Z Successfully created stderr named pipe at: /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stderr_ef07c8ddcefc4bd7873be6b3cdda6878.
+2026-01-04T12:00:05.8678241Z Opening named pipe /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stderr_ef07c8ddcefc4bd7873be6b3cdda6878 for reading in non-blocking mode.
+2026-01-04T12:00:05.8679200Z Successfully opened named pipe: /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stderr_ef07c8ddcefc4bd7873be6b3cdda6878.
+2026-01-04T12:00:05.8679970Z Successfully removed non-blocking flag from /podr/container/pipe/a4b85142e0ac_jarvis-portfolio-api/stderr_ef07c8ddcefc4bd7873be6b3cdda6878.
+2026-01-04T12:00:05.8689634Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T12:00:10.4139596Z Starting container: a4b85142e0ac_jarvis-portfolio-api.
+2026-01-04T12:00:11.0459177Z Starting watchers and probes.
+2026-01-04T12:00:11.0787869Z Starting metrics collection.
+2026-01-04T12:00:11.0875705Z Container is running.
+2026-01-04T12:00:12.2043806Z Container start method finished after 8765 ms.
+2026-01-04T12:01:02.7006345Z Site startup probe succeeded after 50.1807895 seconds.
+2026-01-04T12:01:12.1947636Z Site is running with deployment version: 36e653e5-c09e-4ab9-8405-657110837cc0
+2026-01-04T12:01:12.2130210Z Site started.
+2026-01-04T12:01:12.2170203Z Site is running with patch version NODE 20.19.5
+2026-01-04T12:01:32.3183477Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T12:01:32.4035584Z Stop and delete container. Retry count = 0
+2026-01-04T12:01:32.4046144Z Stopping container: 790c53fa77a0_jarvis-portfolio-api.
+2026-01-04T12:01:37.5623332Z Deleting container: 790c53fa77a0_jarvis-portfolio-api. Retry count = 0
+2026-01-04T12:01:38.3396553Z Container spec TerminationMessagePolicy  path 
+2026-01-04T12:01:38.3477311Z Container is terminated. Total time elapsed: 6028 ms.
+2026-01-04T12:01:38.3508165Z Site: jarvis-portfolio-api stopped.
+2026-01-04T12:41:57.0452671Z Container start method called.
+2026-01-04T12:41:57.0499203Z Establishing network.
+2026-01-04T12:41:57.0520486Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T12:41:57.4533440Z Container is starting.
+2026-01-04T12:41:57.4547650Z Establishing user namespace if not established already.
+2026-01-04T12:41:57.4549322Z Establishing network if not established already.
+2026-01-04T12:41:57.4557895Z Mounting volumes.
+2026-01-04T12:41:57.4647742Z Nested mountpoint 
+2026-01-04T12:41:57.5359482Z Nested mountpoint volatile/logs
+2026-01-04T12:41:57.5521783Z Nested mountpoint 
+2026-01-04T12:41:57.6528894Z Nested mountpoint 
+2026-01-04T12:41:57.7608996Z Nested mountpoint 
+2026-01-04T12:41:58.1426002Z Creating container.
+2026-01-04T12:41:58.1612918Z Creating pipes for streaming container io.
+2026-01-04T12:41:58.1625462Z Creating stdout named pipe at /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stdout_b4e5ee40f02e4abf9a452736dd72f2de.
+2026-01-04T12:41:58.1807643Z Successfully created stdout named pipe at: /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stdout_b4e5ee40f02e4abf9a452736dd72f2de.
+2026-01-04T12:41:58.1819776Z Opening named pipe /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stdout_b4e5ee40f02e4abf9a452736dd72f2de for reading in non-blocking mode.
+2026-01-04T12:41:58.1833240Z Successfully opened named pipe: /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stdout_b4e5ee40f02e4abf9a452736dd72f2de.
+2026-01-04T12:41:58.1917773Z Successfully removed non-blocking flag from /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stdout_b4e5ee40f02e4abf9a452736dd72f2de.
+2026-01-04T12:41:58.1930507Z Creating stderr named pipe at /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stderr_f5d7a0cd97a74a948f61d58bd1dbfebc.
+2026-01-04T12:41:58.2014257Z Successfully created stderr named pipe at: /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stderr_f5d7a0cd97a74a948f61d58bd1dbfebc.
+2026-01-04T12:41:58.2015286Z Opening named pipe /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stderr_f5d7a0cd97a74a948f61d58bd1dbfebc for reading in non-blocking mode.
+2026-01-04T12:41:58.2016348Z Successfully opened named pipe: /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stderr_f5d7a0cd97a74a948f61d58bd1dbfebc.
+2026-01-04T12:41:58.2020823Z Successfully removed non-blocking flag from /podr/container/pipe/550ccff4aa36_jarvis-portfolio-api/stderr_f5d7a0cd97a74a948f61d58bd1dbfebc.
+2026-01-04T12:41:58.2122089Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T12:41:59.0231355Z Starting container: 550ccff4aa36_jarvis-portfolio-api.
+2026-01-04T12:41:59.1168433Z Starting watchers and probes.
+2026-01-04T12:41:59.2616836Z Starting metrics collection.
+2026-01-04T12:41:59.2734966Z Container is running.
+2026-01-04T12:41:59.7546842Z Container start method finished after 2708 ms.
+2026-01-04T12:43:07.9149116Z Site startup probe succeeded after 68.0446945 seconds.
+2026-01-04T12:43:17.7483003Z Site is running with deployment version: 111bb599-1ee0-4b95-bbbd-d3dffaab53b4
+2026-01-04T12:43:17.7502153Z Site started.
+2026-01-04T12:43:17.7792142Z Site is running with patch version NODE 20.19.5
+2026-01-04T12:43:37.8577974Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T12:43:38.0728029Z Stop and delete container. Retry count = 0
+2026-01-04T12:43:38.0801024Z Stopping container: a4b85142e0ac_jarvis-portfolio-api.
+2026-01-04T12:43:43.0923671Z Deleting container: a4b85142e0ac_jarvis-portfolio-api. Retry count = 0
+2026-01-04T12:43:44.7986911Z Container spec TerminationMessagePolicy  path 
+2026-01-04T12:43:44.8085039Z Container is terminated. Total time elapsed: 6949 ms.
+2026-01-04T12:43:44.8268348Z Site: jarvis-portfolio-api stopped.
+2026-01-04T12:53:30.5768092Z Container start method called.
+2026-01-04T12:53:30.5818116Z Establishing network.
+2026-01-04T12:53:30.5832311Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T12:53:31.0937728Z Container is starting.
+2026-01-04T12:53:31.0943228Z Establishing user namespace if not established already.
+2026-01-04T12:53:31.0975036Z Establishing network if not established already.
+2026-01-04T12:53:31.0976667Z Mounting volumes.
+2026-01-04T12:53:31.1015857Z Nested mountpoint 
+2026-01-04T12:53:31.1680190Z Nested mountpoint volatile/logs
+2026-01-04T12:53:31.1790080Z Nested mountpoint 
+2026-01-04T12:53:31.2085023Z Nested mountpoint 
+2026-01-04T12:53:31.2106437Z Nested mountpoint 
+2026-01-04T12:53:31.7611168Z Creating container.
+2026-01-04T12:53:31.7619877Z Creating pipes for streaming container io.
+2026-01-04T12:53:31.7637043Z Creating stdout named pipe at /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stdout_523d548cfe81471492bb1ae517a27eaf.
+2026-01-04T12:53:31.8005528Z Successfully created stdout named pipe at: /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stdout_523d548cfe81471492bb1ae517a27eaf.
+2026-01-04T12:53:31.8012784Z Opening named pipe /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stdout_523d548cfe81471492bb1ae517a27eaf for reading in non-blocking mode.
+2026-01-04T12:53:31.8016082Z Successfully opened named pipe: /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stdout_523d548cfe81471492bb1ae517a27eaf.
+2026-01-04T12:53:31.8019955Z Successfully removed non-blocking flag from /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stdout_523d548cfe81471492bb1ae517a27eaf.
+2026-01-04T12:53:31.8024639Z Creating stderr named pipe at /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stderr_952dff218cc04c5da76d49bf86aa5a2e.
+2026-01-04T12:53:31.8027939Z Successfully created stderr named pipe at: /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stderr_952dff218cc04c5da76d49bf86aa5a2e.
+2026-01-04T12:53:31.8031964Z Opening named pipe /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stderr_952dff218cc04c5da76d49bf86aa5a2e for reading in non-blocking mode.
+2026-01-04T12:53:31.8036901Z Successfully opened named pipe: /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stderr_952dff218cc04c5da76d49bf86aa5a2e.
+2026-01-04T12:53:31.8110662Z Successfully removed non-blocking flag from /podr/container/pipe/0a58a0f7e0b4_jarvis-portfolio-api/stderr_952dff218cc04c5da76d49bf86aa5a2e.
+2026-01-04T12:53:31.8129230Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T12:53:32.6322683Z Starting container: 0a58a0f7e0b4_jarvis-portfolio-api.
+2026-01-04T12:53:32.7814967Z Starting watchers and probes.
+2026-01-04T12:53:32.8012327Z Starting metrics collection.
+2026-01-04T12:53:32.8123978Z Container is running.
+2026-01-04T12:53:34.1727132Z Container start method finished after 3595 ms.
+2026-01-04T12:54:23.5069160Z Site startup probe succeeded after 49.185999 seconds.
+2026-01-04T12:54:32.5837084Z Site is running with deployment version: abc2c341-0703-49a6-9854-d6b50a452950
+2026-01-04T12:54:32.5849885Z Site started.
+2026-01-04T12:54:32.5956475Z Site is running with patch version NODE 20.19.5
+2026-01-04T12:54:52.7240275Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T12:54:52.7721880Z Stop and delete container. Retry count = 0
+2026-01-04T12:54:52.7728040Z Stopping container: 550ccff4aa36_jarvis-portfolio-api.
+2026-01-04T12:54:57.9003111Z Deleting container: 550ccff4aa36_jarvis-portfolio-api. Retry count = 0
+2026-01-04T12:54:58.8287173Z Container spec TerminationMessagePolicy  path 
+2026-01-04T12:54:58.8319482Z Container is terminated. Total time elapsed: 6105 ms.
+2026-01-04T12:54:58.8406750Z Site: jarvis-portfolio-api stopped.
+2026-01-04T13:02:46.9709329Z Container start method called.
+2026-01-04T13:02:46.9801453Z Establishing network.
+2026-01-04T13:02:46.9824666Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T13:02:47.3335292Z Container is starting.
+2026-01-04T13:02:47.3421870Z Establishing user namespace if not established already.
+2026-01-04T13:02:47.3547288Z Establishing network if not established already.
+2026-01-04T13:02:47.3638357Z Mounting volumes.
+2026-01-04T13:02:47.3644147Z Nested mountpoint 
+2026-01-04T13:02:47.4147885Z Nested mountpoint volatile/logs
+2026-01-04T13:02:47.4826294Z Nested mountpoint 
+2026-01-04T13:02:47.5654126Z Nested mountpoint 
+2026-01-04T13:02:47.5741278Z Nested mountpoint 
+2026-01-04T13:02:48.2558711Z Creating container.
+2026-01-04T13:02:48.2572720Z Creating pipes for streaming container io.
+2026-01-04T13:02:48.2846855Z Creating stdout named pipe at /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stdout_25b58da832634606b0f17e1926922e10.
+2026-01-04T13:02:48.2869344Z Successfully created stdout named pipe at: /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stdout_25b58da832634606b0f17e1926922e10.
+2026-01-04T13:02:48.3256645Z Opening named pipe /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stdout_25b58da832634606b0f17e1926922e10 for reading in non-blocking mode.
+2026-01-04T13:02:48.3269708Z Successfully opened named pipe: /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stdout_25b58da832634606b0f17e1926922e10.
+2026-01-04T13:02:48.3276791Z Successfully removed non-blocking flag from /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stdout_25b58da832634606b0f17e1926922e10.
+2026-01-04T13:02:48.3465508Z Creating stderr named pipe at /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stderr_4f66bbb41f3e42cfa9708aaa2de5f4fd.
+2026-01-04T13:02:48.3477253Z Successfully created stderr named pipe at: /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stderr_4f66bbb41f3e42cfa9708aaa2de5f4fd.
+2026-01-04T13:02:48.3656928Z Opening named pipe /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stderr_4f66bbb41f3e42cfa9708aaa2de5f4fd for reading in non-blocking mode.
+2026-01-04T13:02:48.3658979Z Successfully opened named pipe: /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stderr_4f66bbb41f3e42cfa9708aaa2de5f4fd.
+2026-01-04T13:02:48.3665442Z Successfully removed non-blocking flag from /podr/container/pipe/4a1febea08ca_jarvis-portfolio-api/stderr_4f66bbb41f3e42cfa9708aaa2de5f4fd.
+2026-01-04T13:02:48.3675006Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T13:02:49.1513799Z Starting container: 4a1febea08ca_jarvis-portfolio-api.
+2026-01-04T13:02:49.2307137Z Starting watchers and probes.
+2026-01-04T13:02:49.2309430Z Starting metrics collection.
+2026-01-04T13:02:49.2484448Z Container is running.
+2026-01-04T13:02:49.4927058Z Container start method finished after 2520 ms.
+2026-01-04T13:03:35.5945374Z Site startup probe succeeded after 46.0536727 seconds.
+2026-01-04T13:03:48.9261919Z Site is running with deployment version: aa33f24c-9d25-4620-9451-7b1ebd98188d
+2026-01-04T13:03:48.9478587Z Site started.
+2026-01-04T13:03:48.9761343Z Site is running with patch version NODE 20.19.5
+2026-01-04T13:04:09.0841433Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T13:04:09.1160631Z Stop and delete container. Retry count = 0
+2026-01-04T13:04:09.1172299Z Stopping container: 0a58a0f7e0b4_jarvis-portfolio-api.
+2026-01-04T13:04:14.5076294Z Deleting container: 0a58a0f7e0b4_jarvis-portfolio-api. Retry count = 0
+2026-01-04T13:04:15.5722581Z Container spec TerminationMessagePolicy  path 
+2026-01-04T13:04:15.5731474Z Container is terminated. Total time elapsed: 6484 ms.
+2026-01-04T13:04:15.5746027Z Site: jarvis-portfolio-api stopped.
+2026-01-04T14:09:11.5775830Z Container start method called.
+2026-01-04T14:09:11.5795243Z Establishing network.
+2026-01-04T14:09:11.5864602Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T14:09:11.9836293Z Container is starting.
+2026-01-04T14:09:11.9897653Z Establishing user namespace if not established already.
+2026-01-04T14:09:11.9906300Z Establishing network if not established already.
+2026-01-04T14:09:11.9913499Z Mounting volumes.
+2026-01-04T14:09:12.0021037Z Nested mountpoint 
+2026-01-04T14:09:12.0798256Z Nested mountpoint volatile/logs
+2026-01-04T14:09:12.1711515Z Nested mountpoint 
+2026-01-04T14:09:12.2301514Z Nested mountpoint 
+2026-01-04T14:09:12.4107341Z Nested mountpoint 
+2026-01-04T14:09:12.7326312Z Creating container.
+2026-01-04T14:09:12.7336177Z Creating pipes for streaming container io.
+2026-01-04T14:09:12.7344472Z Creating stdout named pipe at /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stdout_ac7cd0dc2e46416dbfc49bbd3ce984cd.
+2026-01-04T14:09:12.7422338Z Successfully created stdout named pipe at: /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stdout_ac7cd0dc2e46416dbfc49bbd3ce984cd.
+2026-01-04T14:09:12.7423937Z Opening named pipe /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stdout_ac7cd0dc2e46416dbfc49bbd3ce984cd for reading in non-blocking mode.
+2026-01-04T14:09:12.7432694Z Successfully opened named pipe: /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stdout_ac7cd0dc2e46416dbfc49bbd3ce984cd.
+2026-01-04T14:09:12.7435432Z Successfully removed non-blocking flag from /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stdout_ac7cd0dc2e46416dbfc49bbd3ce984cd.
+2026-01-04T14:09:12.7439784Z Creating stderr named pipe at /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stderr_45bab1389c2f46e591934b0407a4e0d5.
+2026-01-04T14:09:12.7448641Z Successfully created stderr named pipe at: /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stderr_45bab1389c2f46e591934b0407a4e0d5.
+2026-01-04T14:09:12.7519556Z Opening named pipe /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stderr_45bab1389c2f46e591934b0407a4e0d5 for reading in non-blocking mode.
+2026-01-04T14:09:12.7521250Z Successfully opened named pipe: /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stderr_45bab1389c2f46e591934b0407a4e0d5.
+2026-01-04T14:09:12.7522164Z Successfully removed non-blocking flag from /podr/container/pipe/a5aa0214c296_jarvis-portfolio-api/stderr_45bab1389c2f46e591934b0407a4e0d5.
+2026-01-04T14:09:12.7536303Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T14:09:13.6770894Z Starting container: a5aa0214c296_jarvis-portfolio-api.
+2026-01-04T14:09:14.7582966Z Starting watchers and probes.
+2026-01-04T14:09:14.7774860Z Starting metrics collection.
+2026-01-04T14:09:14.7788094Z Container is running.
+2026-01-04T14:09:15.7162790Z Container start method finished after 4138 ms.
+2026-01-04T14:10:13.9095665Z Site startup probe succeeded after 58.0726432 seconds.
+2026-01-04T14:10:24.7763329Z Site is running with deployment version: c3ced728-c936-460d-949d-2ce08e23d0dc
+2026-01-04T14:10:24.8047549Z Site started.
+2026-01-04T14:10:24.8254740Z Site is running with patch version NODE 20.19.5
+2026-01-04T14:10:44.9437869Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T14:10:45.0679391Z Stop and delete container. Retry count = 0
+2026-01-04T14:10:45.1217483Z Stopping container: 4a1febea08ca_jarvis-portfolio-api.
+2026-01-04T14:10:50.1210872Z Deleting container: 4a1febea08ca_jarvis-portfolio-api. Retry count = 0
+2026-01-04T14:10:50.7750498Z Container spec TerminationMessagePolicy  path 
+2026-01-04T14:10:50.7842834Z Container is terminated. Total time elapsed: 5837 ms.
+2026-01-04T14:10:50.8166498Z Site: jarvis-portfolio-api stopped.
+2026-01-04T14:16:55.9003696Z Container start method called.
+2026-01-04T14:16:55.9307733Z Establishing network.
+2026-01-04T14:16:55.9715838Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T14:16:56.3112205Z Container is starting.
+2026-01-04T14:16:56.3134452Z Establishing user namespace if not established already.
+2026-01-04T14:16:56.3206761Z Establishing network if not established already.
+2026-01-04T14:16:56.3213260Z Mounting volumes.
+2026-01-04T14:16:56.3229998Z Nested mountpoint 
+2026-01-04T14:16:56.4308733Z Nested mountpoint volatile/logs
+2026-01-04T14:16:56.4816369Z Nested mountpoint 
+2026-01-04T14:16:56.6223249Z Nested mountpoint 
+2026-01-04T14:16:56.6420077Z Nested mountpoint 
+2026-01-04T14:16:57.0686345Z Creating container.
+2026-01-04T14:16:57.0865851Z Creating pipes for streaming container io.
+2026-01-04T14:16:57.0893003Z Creating stdout named pipe at /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stdout_5090c46a04a94775a2179f513f35d58d.
+2026-01-04T14:16:57.0965592Z Successfully created stdout named pipe at: /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stdout_5090c46a04a94775a2179f513f35d58d.
+2026-01-04T14:16:57.0968304Z Opening named pipe /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stdout_5090c46a04a94775a2179f513f35d58d for reading in non-blocking mode.
+2026-01-04T14:16:57.0969890Z Successfully opened named pipe: /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stdout_5090c46a04a94775a2179f513f35d58d.
+2026-01-04T14:16:57.0970945Z Successfully removed non-blocking flag from /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stdout_5090c46a04a94775a2179f513f35d58d.
+2026-01-04T14:16:57.0974132Z Creating stderr named pipe at /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stderr_bde7966a9c0549a49a0580eec7f10b5d.
+2026-01-04T14:16:57.0984237Z Successfully created stderr named pipe at: /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stderr_bde7966a9c0549a49a0580eec7f10b5d.
+2026-01-04T14:16:57.0985652Z Opening named pipe /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stderr_bde7966a9c0549a49a0580eec7f10b5d for reading in non-blocking mode.
+2026-01-04T14:16:57.0988707Z Successfully opened named pipe: /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stderr_bde7966a9c0549a49a0580eec7f10b5d.
+2026-01-04T14:16:57.0991914Z Successfully removed non-blocking flag from /podr/container/pipe/63e9a6ad2b6c_jarvis-portfolio-api/stderr_bde7966a9c0549a49a0580eec7f10b5d.
+2026-01-04T14:16:57.1061956Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T14:16:57.7647147Z Starting container: 63e9a6ad2b6c_jarvis-portfolio-api.
+2026-01-04T14:16:57.8484323Z Starting watchers and probes.
+2026-01-04T14:16:57.8593264Z Starting metrics collection.
+2026-01-04T14:16:57.8603962Z Container is running.
+2026-01-04T14:16:57.9913673Z Container start method finished after 2081 ms.
+2026-01-04T14:17:58.4276880Z Container has finished running with exit code: 1.
+2026-01-04T14:17:58.4282972Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T14:17:58.4682679Z Stop and delete container. Retry count = 0
+2026-01-04T14:17:58.4776182Z Stopping container: 63e9a6ad2b6c_jarvis-portfolio-api.
+2026-01-04T14:17:58.6696511Z Deleting container: 63e9a6ad2b6c_jarvis-portfolio-api. Retry count = 0
+2026-01-04T14:17:59.4018353Z Container spec TerminationMessagePolicy  path 
+2026-01-04T14:17:59.4161494Z Container is terminated. Total time elapsed: 968 ms.
+2026-01-04T14:17:59.4223827Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T14:18:00.7585545Z Site startup probe failed after 62.6587738 seconds.
+2026-01-04T14:18:06.6740417Z Failed to start site. Revert by stopping site.
+2026-01-04T14:18:06.6872415Z Site: jarvis-portfolio-api stopped.
+2026-01-04T14:18:28.7696916Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T14:18:28.7795898Z Stop and delete container. Retry count = 0
+2026-01-04T14:18:28.7803035Z Stopping container: a5aa0214c296_jarvis-portfolio-api.
+2026-01-04T14:18:33.9139698Z Deleting container: a5aa0214c296_jarvis-portfolio-api. Retry count = 0
+2026-01-04T14:18:34.7396276Z Container spec TerminationMessagePolicy  path 
+2026-01-04T14:18:34.7410664Z Container is terminated. Total time elapsed: 5970 ms.
+2026-01-04T14:18:34.7488292Z Site: jarvis-portfolio-api stopped.
+2026-01-04T14:21:15.1233171Z Container start method called.
+2026-01-04T14:21:15.1347854Z Establishing network.
+2026-01-04T14:21:15.1444967Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T14:21:15.6016346Z Container is starting.
+2026-01-04T14:21:15.6101082Z Establishing user namespace if not established already.
+2026-01-04T14:21:15.6106491Z Establishing network if not established already.
+2026-01-04T14:21:15.6110532Z Mounting volumes.
+2026-01-04T14:21:15.6120898Z Nested mountpoint 
+2026-01-04T14:21:15.6410492Z Nested mountpoint volatile/logs
+2026-01-04T14:21:15.6720670Z Nested mountpoint 
+2026-01-04T14:21:15.6809234Z Nested mountpoint 
+2026-01-04T14:21:15.6899935Z Nested mountpoint 
+2026-01-04T14:21:16.0935367Z Creating container.
+2026-01-04T14:21:16.1027082Z Creating pipes for streaming container io.
+2026-01-04T14:21:16.1040220Z Creating stdout named pipe at /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stdout_9d94d1ffc7244f05ac7fa9610cb5acc1.
+2026-01-04T14:21:16.1217996Z Successfully created stdout named pipe at: /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stdout_9d94d1ffc7244f05ac7fa9610cb5acc1.
+2026-01-04T14:21:16.1224585Z Opening named pipe /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stdout_9d94d1ffc7244f05ac7fa9610cb5acc1 for reading in non-blocking mode.
+2026-01-04T14:21:16.1428806Z Successfully opened named pipe: /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stdout_9d94d1ffc7244f05ac7fa9610cb5acc1.
+2026-01-04T14:21:16.1517583Z Successfully removed non-blocking flag from /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stdout_9d94d1ffc7244f05ac7fa9610cb5acc1.
+2026-01-04T14:21:16.1524443Z Creating stderr named pipe at /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stderr_3530560e11774651b2bc82ce5b79398d.
+2026-01-04T14:21:16.1532572Z Successfully created stderr named pipe at: /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stderr_3530560e11774651b2bc82ce5b79398d.
+2026-01-04T14:21:16.1539043Z Opening named pipe /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stderr_3530560e11774651b2bc82ce5b79398d for reading in non-blocking mode.
+2026-01-04T14:21:16.1616876Z Successfully opened named pipe: /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stderr_3530560e11774651b2bc82ce5b79398d.
+2026-01-04T14:21:16.1623443Z Successfully removed non-blocking flag from /podr/container/pipe/2993f35fa162_jarvis-portfolio-api/stderr_3530560e11774651b2bc82ce5b79398d.
+2026-01-04T14:21:16.1632225Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T14:21:16.7267321Z Starting container: 2993f35fa162_jarvis-portfolio-api.
+2026-01-04T14:21:16.8770341Z Starting watchers and probes.
+2026-01-04T14:21:16.8774340Z Starting metrics collection.
+2026-01-04T14:21:16.8776038Z Container is running.
+2026-01-04T14:21:17.0184460Z Container start method finished after 1894 ms.
+2026-01-04T14:21:56.2752212Z Container has finished running with exit code: 1.
+2026-01-04T14:21:56.2756571Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T14:21:56.2766787Z Stop and delete container. Retry count = 0
+2026-01-04T14:21:56.2774112Z Stopping container: 2993f35fa162_jarvis-portfolio-api.
+2026-01-04T14:21:56.3663590Z Deleting container: 2993f35fa162_jarvis-portfolio-api. Retry count = 0
+2026-01-04T14:21:56.9812905Z Container spec TerminationMessagePolicy  path 
+2026-01-04T14:21:56.9820992Z Container is terminated. Total time elapsed: 705 ms.
+2026-01-04T14:21:56.9895347Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T14:21:58.9416454Z Site startup probe failed after 41.7916301 seconds.
+2026-01-04T14:22:00.3849709Z Failed to start site. Revert by stopping site.
+2026-01-04T14:22:00.4273607Z Site: jarvis-portfolio-api stopped.
+2026-01-04T14:22:45.8267412Z Container start method called.
+2026-01-04T14:22:45.8865226Z Establishing network.
+2026-01-04T14:22:45.9069995Z Pulling image: appsvc/node:20-lts_20251016.4.tuxprod.
+2026-01-04T14:22:46.4886752Z Container is starting.
+2026-01-04T14:22:46.4890026Z Establishing user namespace if not established already.
+2026-01-04T14:22:46.4895662Z Establishing network if not established already.
+2026-01-04T14:22:46.4903898Z Mounting volumes.
+2026-01-04T14:22:46.4906503Z Nested mountpoint 
+2026-01-04T14:22:46.5106688Z Nested mountpoint volatile/logs
+2026-01-04T14:22:46.7392617Z Nested mountpoint 
+2026-01-04T14:22:46.7401115Z Nested mountpoint 
+2026-01-04T14:22:46.7706952Z Nested mountpoint 
+2026-01-04T14:22:47.4840187Z Creating container.
+2026-01-04T14:22:47.4847486Z Creating pipes for streaming container io.
+2026-01-04T14:22:47.4850853Z Creating stdout named pipe at /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stdout_05af8d203d304da28f6875e21abe03ed.
+2026-01-04T14:22:47.5125533Z Successfully created stdout named pipe at: /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stdout_05af8d203d304da28f6875e21abe03ed.
+2026-01-04T14:22:47.5129001Z Opening named pipe /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stdout_05af8d203d304da28f6875e21abe03ed for reading in non-blocking mode.
+2026-01-04T14:22:47.5130242Z Successfully opened named pipe: /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stdout_05af8d203d304da28f6875e21abe03ed.
+2026-01-04T14:22:47.5131128Z Successfully removed non-blocking flag from /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stdout_05af8d203d304da28f6875e21abe03ed.
+2026-01-04T14:22:47.5135188Z Creating stderr named pipe at /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stderr_52d18dc5e155400998d8c45e51d4f780.
+2026-01-04T14:22:47.5137162Z Successfully created stderr named pipe at: /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stderr_52d18dc5e155400998d8c45e51d4f780.
+2026-01-04T14:22:47.5139001Z Opening named pipe /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stderr_52d18dc5e155400998d8c45e51d4f780 for reading in non-blocking mode.
+2026-01-04T14:22:47.5152031Z Successfully opened named pipe: /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stderr_52d18dc5e155400998d8c45e51d4f780.
+2026-01-04T14:22:47.5229621Z Successfully removed non-blocking flag from /podr/container/pipe/8feb2d9efa52_jarvis-portfolio-api/stderr_52d18dc5e155400998d8c45e51d4f780.
+2026-01-04T14:22:47.5231086Z Creating container with image: appsvc/node:20-lts_20251016.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20251016.4.tuxprod
+2026-01-04T14:22:48.1000061Z Starting container: 8feb2d9efa52_jarvis-portfolio-api.
+2026-01-04T14:22:48.1675043Z Starting watchers and probes.
+2026-01-04T14:22:48.1677905Z Starting metrics collection.
+2026-01-04T14:22:48.1679037Z Container is running.
+2026-01-04T14:22:48.2681205Z Container start method finished after 2374 ms.
+2026-01-04T14:23:35.0971617Z Container has finished running with exit code: 1.
+2026-01-04T14:23:35.1059904Z Container is terminating. Grace period: 5 seconds.
+2026-01-04T14:23:35.1073796Z Stop and delete container. Retry count = 0
+2026-01-04T14:23:35.1152216Z Stopping container: 8feb2d9efa52_jarvis-portfolio-api.
+2026-01-04T14:23:35.1851048Z Deleting container: 8feb2d9efa52_jarvis-portfolio-api. Retry count = 0
+2026-01-04T14:23:36.0610976Z Container spec TerminationMessagePolicy  path 
+2026-01-04T14:23:36.0622712Z Container is terminated. Total time elapsed: 955 ms.
+2026-01-04T14:23:36.0699182Z Site container: jarvis-portfolio-api terminated during site startup.
+2026-01-04T14:23:36.2007315Z Site startup probe failed after 47.9302931 seconds.
+2026-01-04T14:23:38.6928452Z Failed to start site. Revert by stopping site.
+2026-01-04T14:23:38.7109367Z Site: jarvis-portfolio-api stopped.
