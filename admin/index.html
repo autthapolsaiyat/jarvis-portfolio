@@ -1498,14 +1498,27 @@
             body.innerHTML = html;
             modal.classList.add('active');
 
-            // Add form handlers
-            setTimeout(() => {
-                document.getElementById('experienceForm')?.addEventListener('submit', saveExperience);
-                document.getElementById('projectForm')?.addEventListener('submit', saveProject);
-                document.getElementById('skillForm')?.addEventListener('submit', saveSkill);
-                document.getElementById('certForm')?.addEventListener('submit', saveCertification);
-                document.getElementById('deliveryForm')?.addEventListener('submit', saveDelivery);
-            }, 100);
+            // Add form handlers - bind immediately after innerHTML is set
+            // Using requestAnimationFrame for reliable DOM update timing
+            requestAnimationFrame(() => {
+                const forms = {
+                    'experienceForm': saveExperience,
+                    'projectForm': saveProject,
+                    'skillForm': saveSkill,
+                    'certForm': saveCertification,
+                    'deliveryForm': saveDelivery
+                };
+                
+                Object.entries(forms).forEach(([formId, handler]) => {
+                    const form = document.getElementById(formId);
+                    if (form) {
+                        // Remove any existing listeners to prevent duplicates
+                        form.removeEventListener('submit', handler);
+                        form.addEventListener('submit', handler);
+                        console.log(`✓ Form handler bound: ${formId}`);
+                    }
+                });
+            });
         }
 
         function closeModal() {
@@ -1554,12 +1567,21 @@
 
         async function saveCertification(e) {
             e.preventDefault();
+            console.log('saveCertification triggered');
+            
             const id = document.getElementById('certId').value;
             const data = {
                 name: document.getElementById('certName').value,
                 issuer: document.getElementById('certIssuer').value,
                 year: document.getElementById('certYear').value
             };
+            
+            console.log('Certification data:', { id, data });
+
+            if (!data.name) {
+                showToast('Certification name is required', true);
+                return;
+            }
 
             await saveItem('certifications', id, data);
         }
@@ -1585,6 +1607,8 @@
 
         async function saveItem(endpoint, id, data) {
             try {
+                console.log(`Saving to ${endpoint}:`, { id, data });
+                
                 const url = id ? `${API_URL}/${endpoint}/${id}` : `${API_URL}/${endpoint}`;
                 const method = id ? 'PUT' : 'POST';
 
@@ -1597,15 +1621,21 @@
                     body: JSON.stringify(data)
                 });
 
+                const responseData = await res.json().catch(() => null);
+                console.log('Server response:', res.status, responseData);
+
                 if (res.ok) {
                     showToast('Saved successfully!');
                     closeModal();
                     await loadAllData();
                 } else {
-                    showToast('Error saving', true);
+                    const errorMsg = responseData?.error || `Error ${res.status}: ${res.statusText}`;
+                    showToast(errorMsg, true);
+                    console.error('Save error:', errorMsg);
                 }
             } catch (err) {
-                showToast('Connection error', true);
+                console.error('Connection error:', err);
+                showToast('Connection error: ' + err.message, true);
             }
         }
 
