@@ -112,6 +112,14 @@
         .project-meta { display: flex; justify-content: space-between; align-items: center; }
         .project-category { font-size: 0.8rem; color: var(--jarvis-gold); }
         .project-images-count { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+        .project-links { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .project-link { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; text-decoration: none; transition: all 0.3s; font-family: 'Share Tech Mono', monospace; }
+        .project-link.demo { background: rgba(0,212,255,0.15); border: 1px solid var(--jarvis-blue); color: var(--jarvis-blue); }
+        .project-link.demo:hover { background: var(--jarvis-blue); color: var(--bg-dark); }
+        .project-link.github { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); }
+        .project-link.github:hover { background: rgba(255,255,255,0.2); color: #fff; }
+        .project-link.gallery { background: rgba(212,175,55,0.15); border: 1px solid var(--jarvis-gold); color: var(--jarvis-gold); }
+        .project-link.gallery:hover { background: var(--jarvis-gold); color: var(--bg-dark); }
         
         .skills-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 60px; }
         .skill-item { margin-bottom: 20px; }
@@ -326,6 +334,7 @@
             <img src="" alt="" class="lightbox-img" id="lightboxImg">
             <div class="lightbox-caption" id="lightboxCaption"></div>
             <div class="lightbox-counter" id="lightboxCounter"></div>
+            <div class="lightbox-links" id="lightboxLinks" style="display:flex;gap:10px;justify-content:center;margin-top:15px;"></div>
         </div>
     </div>
 
@@ -434,10 +443,10 @@
             ).join('');
             
             document.getElementById('projectsGrid').innerHTML = projs.map((proj, idx) => `
-                <div class="project-card" data-category="${proj.category}" onclick="openGallery(${idx})">
-                    <div class="project-thumbnail">
+                <div class="project-card" data-category="${proj.category}">
+                    <div class="project-thumbnail" onclick="openGallery(${idx})">
                         ${proj.thumbnail_url ? `<img src="${proj.thumbnail_url}" alt="${proj.name}">` : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
-                        <div class="project-overlay"><button class="view-btn">VIEW</button></div>
+                        <div class="project-overlay"><button class="view-btn">VIEW GALLERY</button></div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-name">${proj.name}</h3>
@@ -445,6 +454,11 @@
                         <div class="project-meta">
                             <span class="project-category">${proj.category || '-'}</span>
                             <span class="project-images-count">📷 ${(proj.images || []).length}</span>
+                        </div>
+                        <div class="project-links">
+                            ${proj.demo_url ? `<a href="${proj.demo_url}" target="_blank" class="project-link demo" onclick="event.stopPropagation()">🔗 Demo</a>` : ''}
+                            ${proj.github_url ? `<a href="${proj.github_url}" target="_blank" class="project-link github" onclick="event.stopPropagation()">📦 GitHub</a>` : ''}
+                            ${(proj.images || []).length > 0 ? `<button class="project-link gallery" onclick="event.stopPropagation(); openGallery(${idx})">📷 Gallery</button>` : ''}
                         </div>
                     </div>
                 </div>
@@ -567,6 +581,16 @@
             if (currentImages.length === 0) {
                 currentImages = [{ image_url: '', caption: project.name + ' - No images' }];
             }
+            
+            // Build links HTML for lightbox
+            let linksHtml = '';
+            if (project.demo_url) {
+                linksHtml += `<a href="${project.demo_url}" target="_blank" class="project-link demo">🔗 Open Demo</a>`;
+            }
+            if (project.github_url) {
+                linksHtml += `<a href="${project.github_url}" target="_blank" class="project-link github">📦 GitHub</a>`;
+            }
+            document.getElementById('lightboxLinks').innerHTML = linksHtml;
             
             updateLightbox();
             document.getElementById('lightbox').classList.add('active');
