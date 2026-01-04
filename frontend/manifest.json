@@ -1,0 +1,27 @@
+{
+  "name": "JARVIS Portfolio - Autthapol Saiyat",
+  "short_name": "JARVIS Portfolio",
+  "description": "Portfolio of Autthapol Saiyat - Team Lead Developer & Forensic Tech Specialist",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00d4ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "business", "technology"],
+  "lang": "th",
+  "dir": "ltr"
+}

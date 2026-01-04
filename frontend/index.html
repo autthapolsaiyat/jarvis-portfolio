@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J.A.R.V.I.S. Portfolio | Autthapol Saiyat</title>
     <meta name="description" content="Portfolio of Autthapol Saiyat - Team Lead Developer & Forensic Tech Specialist">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JARVIS Portfolio">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,6 +43,74 @@
         
         .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.5s; }
         .loading-screen.hidden { opacity: 0; visibility: hidden; }
+        
+        /* PWA Install Banner */
+        .pwa-install-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0, 20, 40, 0.95), rgba(0, 40, 60, 0.95));
+            border: 2px solid var(--jarvis-blue);
+            border-radius: 15px;
+            padding: 15px 25px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 2000;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.1);
+            animation: slideUp 0.5s ease-out;
+            max-width: 90%;
+        }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .pwa-install-banner.show { display: flex; }
+        .pwa-install-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--jarvis-blue);
+        }
+        .pwa-install-text {
+            flex: 1;
+        }
+        .pwa-install-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--jarvis-blue);
+            margin-bottom: 3px;
+        }
+        .pwa-install-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .pwa-install-btn {
+            background: linear-gradient(135deg, var(--jarvis-blue), #0099cc);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .pwa-install-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        .pwa-install-close {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .pwa-install-close:hover { color: #fff; }
         .arc-reactor { width: 120px; height: 120px; position: relative; }
         .arc-reactor-ring { position: absolute; border: 3px solid var(--jarvis-blue); border-radius: 50%; animation: rotate 3s linear infinite; }
         .arc-reactor-ring:nth-child(1) { top: 0; left: 0; right: 0; bottom: 0; border-top-color: transparent; }
@@ -245,6 +328,17 @@
             <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </header>
+
+    <!-- PWA Install Banner -->
+    <div class="pwa-install-banner" id="pwaInstallBanner">
+        <img src="/icons/icon-192.png" alt="JARVIS" class="pwa-install-icon">
+        <div class="pwa-install-text">
+            <div class="pwa-install-title">📱 ติดตั้ง JARVIS Portfolio</div>
+            <div class="pwa-install-desc">เพิ่มไปยังหน้าจอหลักเพื่อเข้าถึงได้เร็วขึ้น</div>
+        </div>
+        <button class="pwa-install-btn" id="pwaInstallBtn">ติดตั้ง</button>
+        <button class="pwa-install-close" id="pwaInstallClose">×</button>
+    </div>
 
     <main class="main-container">
         <section class="hero" id="profile">
@@ -655,6 +749,56 @@
         document.getElementById('menuToggle').onclick = () => document.getElementById('mainNav').classList.toggle('active');
 
         loadPortfolio();
+
+        // ==================== PWA ====================
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('JARVIS: Service Worker registered', reg.scope))
+                    .catch(err => console.log('JARVIS: Service Worker registration failed', err));
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const pwaInstallBanner = document.getElementById('pwaInstallBanner');
+        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+        const pwaInstallClose = document.getElementById('pwaInstallClose');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install banner after 3 seconds
+            setTimeout(() => {
+                // Don't show if already dismissed or installed
+                if (localStorage.getItem('pwa-install-dismissed')) return;
+                pwaInstallBanner.classList.add('show');
+            }, 3000);
+        });
+
+        pwaInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log('JARVIS: Install prompt outcome:', outcome);
+            deferredPrompt = null;
+            pwaInstallBanner.classList.remove('show');
+        });
+
+        pwaInstallClose.addEventListener('click', () => {
+            pwaInstallBanner.classList.remove('show');
+            localStorage.setItem('pwa-install-dismissed', 'true');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('JARVIS: PWA installed successfully');
+            pwaInstallBanner.classList.remove('show');
+            deferredPrompt = null;
+        });
     </script>
 </body>
 </html>
