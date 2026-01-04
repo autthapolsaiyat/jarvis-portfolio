@@ -1884,11 +1884,18 @@
         function cropExistingImage(imageUrl, imageId) {
             replaceImageId = imageId;
             
-            // For existing images, fetch and convert to base64 to avoid CORS
+            // Use proxy endpoint to bypass CORS
             showToast('Loading image...');
             
-            fetch(imageUrl)
-                .then(res => res.blob())
+            const proxyUrl = `${API_URL}/image-proxy?url=${encodeURIComponent(imageUrl)}`;
+            
+            fetch(proxyUrl, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to load');
+                    return res.blob();
+                })
                 .then(blob => {
                     const reader = new FileReader();
                     reader.onload = (e) => {

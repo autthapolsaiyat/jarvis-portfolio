@@ -991,6 +991,31 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Image proxy for CORS bypass (for cropping existing images)
+app.get('/api/image-proxy', authenticateToken, async (req, res) => {
+    try {
+        const imageUrl = req.query.url;
+        if (!imageUrl) {
+            return res.status(400).json({ error: 'URL required' });
+        }
+        
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(imageUrl);
+        
+        if (!response.ok) {
+            return res.status(response.status).json({ error: 'Failed to fetch image' });
+        }
+        
+        const buffer = await response.buffer();
+        const contentType = response.headers.get('content-type') || 'image/jpeg';
+        
+        res.set('Content-Type', contentType);
+        res.send(buffer);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Start server
 app.listen(PORT, async () => {
     console.log(`🚀 JARVIS API Server running on port ${PORT}`);
