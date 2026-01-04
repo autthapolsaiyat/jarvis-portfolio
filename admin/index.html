@@ -587,6 +587,17 @@
         }
 
         .tag-input:focus { outline: none; }
+
+        /* Settings Toggle Styles */
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .setting-item { background: rgba(0,212,255,0.05); border: 1px solid var(--border-glow); border-radius: 8px; padding: 15px; }
+        .toggle-label { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+        .toggle-label input { display: none; }
+        .toggle-slider { position: relative; width: 50px; height: 26px; background: rgba(255,255,255,0.1); border-radius: 13px; transition: all 0.3s; }
+        .toggle-slider::before { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: rgba(255,255,255,0.5); border-radius: 50%; transition: all 0.3s; }
+        .toggle-label input:checked + .toggle-slider { background: var(--jarvis-blue); }
+        .toggle-label input:checked + .toggle-slider::before { left: 27px; background: #fff; }
+        .toggle-text { font-size: 1rem; color: rgba(255,255,255,0.9); }
     </style>
 </head>
 <body>
@@ -887,9 +898,59 @@
                 <div class="page-header">
                     <h1 class="page-title">◈ Settings</h1>
                 </div>
+                
+                <!-- Section Visibility Settings -->
+                <div class="panel" style="margin-bottom: 20px;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">🎛️ Section Visibility</h3>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px; font-size: 0.9rem;">
+                        Control which sections are visible on the public portfolio website.
+                    </p>
+                    <div class="settings-grid" id="visibilitySettings">
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting_show_experience" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">📋 Experience</span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting_show_projects" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">💼 Projects</span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting_show_skills" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">⚡ Skills</span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting_show_certifications" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">🏆 Certifications</span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting_show_deliveries" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">📦 Project Deliveries</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 20px;" onclick="saveVisibilitySettings()">💾 Save Visibility Settings</button>
+                </div>
+
+                <!-- Change Password -->
                 <div class="panel">
                     <div class="panel-header">
-                        <h3 class="panel-title">Change Password</h3>
+                        <h3 class="panel-title">🔐 Change Password</h3>
                     </div>
                     <form id="passwordForm">
                         <div class="form-group" style="max-width: 400px;">
@@ -1008,8 +1069,53 @@
                 renderCertifications();
                 renderDeliveries();
                 loadActivityLog();
+                loadVisibilitySettings();
             } catch (err) {
                 console.error('Error loading data:', err);
+            }
+        }
+
+        // ==================== VISIBILITY SETTINGS ====================
+        function loadVisibilitySettings() {
+            const settings = currentData.settings || {};
+            const settingKeys = ['show_experience', 'show_projects', 'show_skills', 'show_certifications', 'show_deliveries'];
+            
+            settingKeys.forEach(key => {
+                const checkbox = document.getElementById(`setting_${key}`);
+                if (checkbox) {
+                    // Default to true if not set
+                    checkbox.checked = settings[key] !== false;
+                }
+            });
+        }
+
+        async function saveVisibilitySettings() {
+            const settings = {
+                show_experience: document.getElementById('setting_show_experience').checked.toString(),
+                show_projects: document.getElementById('setting_show_projects').checked.toString(),
+                show_skills: document.getElementById('setting_show_skills').checked.toString(),
+                show_certifications: document.getElementById('setting_show_certifications').checked.toString(),
+                show_deliveries: document.getElementById('setting_show_deliveries').checked.toString()
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/settings`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(settings)
+                });
+
+                if (res.ok) {
+                    showToast('Visibility settings saved!');
+                    await loadAllData();
+                } else {
+                    showToast('Error saving settings', true);
+                }
+            } catch (err) {
+                showToast('Connection error', true);
             }
         }
 

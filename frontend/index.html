@@ -378,6 +378,30 @@
 
         function renderAll() {
             document.getElementById('loadingScreen').classList.add('hidden');
+            
+            // Apply visibility settings
+            const settings = portfolioData.settings || {};
+            
+            // Show/hide sections based on settings
+            const sectionMap = {
+                'show_experience': 'experience',
+                'show_projects': 'projects',
+                'show_skills': 'skills',
+                'show_certifications': 'certifications',
+                'show_deliveries': 'deliveries'
+            };
+            
+            Object.entries(sectionMap).forEach(([key, sectionId]) => {
+                const section = document.getElementById(sectionId);
+                const navLink = document.querySelector(`a[href="#${sectionId}"]`);
+                if (section) {
+                    section.style.display = settings[key] === false ? 'none' : 'block';
+                }
+                if (navLink) {
+                    navLink.style.display = settings[key] === false ? 'none' : 'inline-block';
+                }
+            });
+            
             renderProfile();
             renderExperience();
             renderProjects();

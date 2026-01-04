@@ -196,6 +196,14 @@ async function initDatabase() {
                 sort_order INT DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
+
+            -- Site settings table
+            CREATE TABLE IF NOT EXISTS site_settings (
+                id SERIAL PRIMARY KEY,
+                setting_key VARCHAR(100) UNIQUE NOT NULL,
+                setting_value TEXT,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
         `);
 
         // Insert default admin if not exists
@@ -223,6 +231,19 @@ async function initDatabase() {
                     'contact@example.com',
                     'ผู้นำทีมพัฒนาระบบเทคโนโลยีนิติวิทยาศาสตร์และฐานข้อมูลสำหรับสำนักงานตำรวจแห่งชาติ'
                 )
+            `);
+        }
+
+        // Insert default site settings if not exists
+        const settingsExist = await client.query("SELECT * FROM site_settings LIMIT 1");
+        if (settingsExist.rows.length === 0) {
+            await client.query(`
+                INSERT INTO site_settings (setting_key, setting_value) VALUES
+                ('show_deliveries', 'true'),
+                ('show_certifications', 'true'),
+                ('show_skills', 'true'),
+                ('show_projects', 'true'),
+                ('show_experience', 'true')
             `);
         }
 
@@ -699,7 +720,7 @@ app.get('/api/stats', async (req, res) => {
 // ==================== ALL DATA (for frontend) ====================
 app.get('/api/portfolio', async (req, res) => {
     try {
-        const [profile, experiences, projects, skills, techStack, certifications, deliveries] = await Promise.all([
+        const [profile, experiences, projects, skills, techStack, certifications, deliveries, settingsResult] = await Promise.all([
             pool.query('SELECT * FROM profile LIMIT 1'),
             pool.query('SELECT * FROM experiences ORDER BY sort_order, start_date DESC'),
             pool.query(`
@@ -726,8 +747,15 @@ app.get('/api/portfolio', async (req, res) => {
                 LEFT JOIN delivery_images di ON d.id = di.delivery_id
                 GROUP BY d.id
                 ORDER BY d.year DESC, d.sort_order
-            `)
+            `),
+            pool.query('SELECT setting_key, setting_value FROM site_settings')
         ]);
+
+        // Parse settings
+        const settings = {};
+        settingsResult.rows.forEach(row => {
+            settings[row.setting_key] = row.setting_value === 'true';
+        });
 
         // Calculate delivery stats
         const deliveryStats = {
@@ -747,7 +775,8 @@ app.get('/api/portfolio', async (req, res) => {
             techStack: techStack.rows,
             certifications: certifications.rows,
             deliveries: deliveries.rows,
-            deliveryStats
+            deliveryStats,
+            settings
         });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -911,6 +940,45 @@ app.delete('/api/delivery-images/:id', authenticateToken, async (req, res) => {
     try {
         await pool.query('DELETE FROM delivery_images WHERE id = $1', [req.params.id]);
         res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ==================== SITE SETTINGS ====================
+app.get('/api/settings', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT setting_key, setting_value FROM site_settings');
+        const settings = {};
+        result.rows.forEach(row => {
+            settings[row.setting_key] = row.setting_value;
+        });
+        res.json(settings);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/settings', authenticateToken, async (req, res) => {
+    try {
+        const settings = req.body;
+        
+        for (const [key, value] of Object.entries(settings)) {
+            await pool.query(`
+                INSERT INTO site_settings (setting_key, setting_value, updated_at)
+                VALUES ($1, $2, CURRENT_TIMESTAMP)
+                ON CONFLICT (setting_key) 
+                DO UPDATE SET setting_value = $2, updated_at = CURRENT_TIMESTAMP
+            `, [key, value]);
+        }
+        
+        // Log activity
+        await pool.query(
+            'INSERT INTO activity_log (action, details, user_id) VALUES ($1, $2, $3)',
+            ['UPDATE_SETTINGS', `Updated settings: ${Object.keys(settings).join(', ')}`, req.user.id]
+        );
+        
+        res.json({ success: true, settings });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
