@@ -1000,20 +1000,33 @@
                 <button class="modal-close" onclick="closeImageCropper()">✕</button>
             </div>
             <div style="padding: 20px;">
-                <div id="imageCropperContainer" style="position: relative; width: 100%; height: 400px; background: #000; overflow: hidden; border-radius: 8px;">
+                <div id="imageCropperContainer" style="position: relative; width: 100%; height: 400px; background: #000; overflow: hidden; border-radius: 8px; user-select: none;">
                     <img id="imageToCrop" src="" style="max-width: 100%; max-height: 100%; display: block; margin: auto;">
-                    <div id="cropBox" style="position: absolute; border: 2px dashed var(--jarvis-blue); background: rgba(0,212,255,0.1); cursor: move;"></div>
+                    <div id="cropOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+                        <div id="cropBox" style="position: absolute; border: 2px solid var(--jarvis-blue); background: rgba(0,212,255,0.1); cursor: move; box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);">
+                            <!-- Resize handles -->
+                            <div class="crop-handle" data-handle="nw" style="position:absolute;top:-5px;left:-5px;width:10px;height:10px;background:var(--jarvis-blue);cursor:nw-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="n" style="position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--jarvis-blue);cursor:n-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="ne" style="position:absolute;top:-5px;right:-5px;width:10px;height:10px;background:var(--jarvis-blue);cursor:ne-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="w" style="position:absolute;top:50%;left:-5px;transform:translateY(-50%);width:10px;height:10px;background:var(--jarvis-blue);cursor:w-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="e" style="position:absolute;top:50%;right:-5px;transform:translateY(-50%);width:10px;height:10px;background:var(--jarvis-blue);cursor:e-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="sw" style="position:absolute;bottom:-5px;left:-5px;width:10px;height:10px;background:var(--jarvis-blue);cursor:sw-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="s" style="position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--jarvis-blue);cursor:s-resize;border-radius:2px;"></div>
+                            <div class="crop-handle" data-handle="se" style="position:absolute;bottom:-5px;right:-5px;width:10px;height:10px;background:var(--jarvis-blue);cursor:se-resize;border-radius:2px;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+                <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <label style="font-size: 0.9rem;">Aspect Ratio:</label>
                         <select id="cropAspectRatio" class="form-input" style="width: auto;" onchange="updateCropAspect()">
-                            <option value="free">Free</option>
-                            <option value="16:9" selected>16:9 (Landscape)</option>
+                            <option value="free" selected>Free (อิสระ)</option>
+                            <option value="16:9">16:9 (Landscape)</option>
                             <option value="4:3">4:3</option>
                             <option value="1:1">1:1 (Square)</option>
                             <option value="9:16">9:16 (Portrait)</option>
                         </select>
+                        <span id="cropSizeInfo" style="font-size: 0.85rem; color: rgba(255,255,255,0.6);"></span>
                     </div>
                     <div style="display: flex; gap: 10px;">
                         <button class="btn" style="border: 1px solid var(--jarvis-blue);" onclick="closeImageCropper()">Cancel</button>
@@ -1849,13 +1862,16 @@
         let cropBox = { x: 0, y: 0, width: 200, height: 112 };
         let isDragging = false;
         let isResizing = false;
+        let resizeHandle = null;
         let dragStart = { x: 0, y: 0 };
+        let cropStart = { x: 0, y: 0, width: 0, height: 0 };
         let imageInfo = { width: 0, height: 0, naturalWidth: 0, naturalHeight: 0 };
-        let replaceImageId = null; // For replacing existing image
+        let replaceImageId = null;
+        let aspectRatio = null; // null = free
 
         function openImageCropper(file) {
             if (!file) return;
-            replaceImageId = null; // New upload mode
+            replaceImageId = null;
             
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -1866,7 +1882,7 @@
         }
 
         function cropExistingImage(imageUrl, imageId) {
-            replaceImageId = imageId; // Replace mode
+            replaceImageId = imageId;
             cropperImage = imageUrl;
             loadImageToCropper();
         }
@@ -1879,7 +1895,6 @@
                 const container = document.getElementById('imageCropperContainer');
                 const containerRect = container.getBoundingClientRect();
                 
-                // Calculate displayed image size
                 const scale = Math.min(
                     containerRect.width / img.naturalWidth,
                     containerRect.height / img.naturalHeight
@@ -1895,7 +1910,10 @@
                     scale: scale
                 };
                 
-                // Initialize crop box (16:9 default)
+                // Reset to free aspect ratio
+                document.getElementById('cropAspectRatio').value = 'free';
+                aspectRatio = null;
+                
                 initCropBox();
                 document.getElementById('imageCropperModal').classList.add('active');
                 setupCropperEvents();
@@ -1904,21 +1922,23 @@
 
         function initCropBox() {
             const aspect = document.getElementById('cropAspectRatio').value;
-            let ratio = 16/9;
             
-            if (aspect === '4:3') ratio = 4/3;
-            else if (aspect === '1:1') ratio = 1;
-            else if (aspect === '9:16') ratio = 9/16;
-            else if (aspect === 'free') ratio = null;
+            if (aspect === '16:9') aspectRatio = 16/9;
+            else if (aspect === '4:3') aspectRatio = 4/3;
+            else if (aspect === '1:1') aspectRatio = 1;
+            else if (aspect === '9:16') aspectRatio = 9/16;
+            else aspectRatio = null;
             
-            // Set initial crop box size (60% of image)
-            let boxWidth = imageInfo.width * 0.6;
-            let boxHeight = ratio ? boxWidth / ratio : imageInfo.height * 0.6;
+            let boxWidth = imageInfo.width * 0.8;
+            let boxHeight = aspectRatio ? boxWidth / aspectRatio : imageInfo.height * 0.8;
             
-            // Ensure it fits
             if (boxHeight > imageInfo.height * 0.9) {
                 boxHeight = imageInfo.height * 0.9;
-                boxWidth = ratio ? boxHeight * ratio : boxWidth;
+                boxWidth = aspectRatio ? boxHeight * aspectRatio : boxWidth;
+            }
+            if (boxWidth > imageInfo.width * 0.9) {
+                boxWidth = imageInfo.width * 0.9;
+                boxHeight = aspectRatio ? boxWidth / aspectRatio : boxHeight;
             }
             
             cropBox = {
@@ -1941,40 +1961,110 @@
             box.style.top = cropBox.y + 'px';
             box.style.width = cropBox.width + 'px';
             box.style.height = cropBox.height + 'px';
+            
+            // Update size info
+            const realWidth = Math.round(cropBox.width / imageInfo.scale);
+            const realHeight = Math.round(cropBox.height / imageInfo.scale);
+            document.getElementById('cropSizeInfo').textContent = `${realWidth} × ${realHeight} px`;
         }
 
         function setupCropperEvents() {
             const box = document.getElementById('cropBox');
             const container = document.getElementById('imageCropperContainer');
+            const handles = document.querySelectorAll('.crop-handle');
             
+            // Handle resize
+            handles.forEach(handle => {
+                handle.onmousedown = (e) => {
+                    isResizing = true;
+                    resizeHandle = handle.dataset.handle;
+                    dragStart = { x: e.clientX, y: e.clientY };
+                    cropStart = { ...cropBox };
+                    e.stopPropagation();
+                    e.preventDefault();
+                };
+            });
+            
+            // Handle drag (move)
             box.onmousedown = (e) => {
+                if (e.target.classList.contains('crop-handle')) return;
                 isDragging = true;
                 dragStart = { x: e.clientX - cropBox.x, y: e.clientY - cropBox.y };
                 e.preventDefault();
             };
             
-            container.onmousemove = (e) => {
-                if (!isDragging) return;
+            // Mouse move
+            document.onmousemove = (e) => {
+                if (isDragging) {
+                    let newX = e.clientX - dragStart.x;
+                    let newY = e.clientY - dragStart.y;
+                    
+                    newX = Math.max(imageInfo.offsetX, Math.min(newX, imageInfo.offsetX + imageInfo.width - cropBox.width));
+                    newY = Math.max(imageInfo.offsetY, Math.min(newY, imageInfo.offsetY + imageInfo.height - cropBox.height));
+                    
+                    cropBox.x = newX;
+                    cropBox.y = newY;
+                    updateCropBoxDisplay();
+                }
                 
-                let newX = e.clientX - dragStart.x;
-                let newY = e.clientY - dragStart.y;
-                
-                // Constrain to image bounds
-                newX = Math.max(imageInfo.offsetX, Math.min(newX, imageInfo.offsetX + imageInfo.width - cropBox.width));
-                newY = Math.max(imageInfo.offsetY, Math.min(newY, imageInfo.offsetY + imageInfo.height - cropBox.height));
-                
-                cropBox.x = newX;
-                cropBox.y = newY;
-                updateCropBoxDisplay();
+                if (isResizing) {
+                    const dx = e.clientX - dragStart.x;
+                    const dy = e.clientY - dragStart.y;
+                    
+                    let newBox = { ...cropStart };
+                    const minSize = 50;
+                    
+                    // Calculate new dimensions based on handle
+                    if (resizeHandle.includes('e')) {
+                        newBox.width = Math.max(minSize, cropStart.width + dx);
+                    }
+                    if (resizeHandle.includes('w')) {
+                        const newWidth = Math.max(minSize, cropStart.width - dx);
+                        newBox.x = cropStart.x + cropStart.width - newWidth;
+                        newBox.width = newWidth;
+                    }
+                    if (resizeHandle.includes('s')) {
+                        newBox.height = Math.max(minSize, cropStart.height + dy);
+                    }
+                    if (resizeHandle.includes('n')) {
+                        const newHeight = Math.max(minSize, cropStart.height - dy);
+                        newBox.y = cropStart.y + cropStart.height - newHeight;
+                        newBox.height = newHeight;
+                    }
+                    
+                    // Apply aspect ratio if set
+                    if (aspectRatio) {
+                        if (resizeHandle.includes('e') || resizeHandle.includes('w')) {
+                            newBox.height = newBox.width / aspectRatio;
+                        } else {
+                            newBox.width = newBox.height * aspectRatio;
+                        }
+                    }
+                    
+                    // Constrain to image bounds
+                    newBox.x = Math.max(imageInfo.offsetX, newBox.x);
+                    newBox.y = Math.max(imageInfo.offsetY, newBox.y);
+                    newBox.width = Math.min(newBox.width, imageInfo.offsetX + imageInfo.width - newBox.x);
+                    newBox.height = Math.min(newBox.height, imageInfo.offsetY + imageInfo.height - newBox.y);
+                    
+                    cropBox = newBox;
+                    updateCropBoxDisplay();
+                }
             };
             
-            container.onmouseup = () => { isDragging = false; };
-            container.onmouseleave = () => { isDragging = false; };
+            // Mouse up
+            document.onmouseup = () => {
+                isDragging = false;
+                isResizing = false;
+                resizeHandle = null;
+            };
         }
 
         function closeImageCropper() {
             document.getElementById('imageCropperModal').classList.remove('active');
             cropperImage = null;
+            document.onmousemove = null;
+            document.onmouseup = null;
         }
 
         async function saveCroppedImage() {
