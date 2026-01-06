@@ -567,12 +567,18 @@
             
             document.getElementById('projectsGrid').innerHTML = projs.map((proj, idx) => {
                 // Use thumbnail_url or first image from images array
-                const thumbnailImg = proj.thumbnail_url || (proj.images && proj.images.length > 0 ? proj.images[0].image_url : null);
+                let thumbnailImg = proj.thumbnail_url;
+                if (!thumbnailImg && proj.images && proj.images.length > 0 && proj.images[0].image_url) {
+                    thumbnailImg = proj.images[0].image_url;
+                }
                 
                 return `
                 <div class="project-card" data-category="${proj.category}">
                     <div class="project-thumbnail" onclick="openGallery(${idx})">
-                        ${thumbnailImg ? `<img src="${thumbnailImg}" alt="${proj.name}">` : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
+                        ${thumbnailImg 
+                            ? `<img src="${thumbnailImg}" alt="${proj.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                               <span style="font-size:3rem;color:var(--jarvis-blue);display:none;align-items:center;justify-content:center;width:100%;height:100%;">◈</span>` 
+                            : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
                         <div class="project-overlay"><button class="view-btn">VIEW GALLERY</button></div>
                     </div>
                     <div class="project-info">
