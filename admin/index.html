@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J.A.R.V.I.S. Admin Panel</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JARVIS Admin">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -2532,6 +2547,36 @@
                 showToast('Connection error', true);
             }
         }
+
+        // ==================== PWA ====================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('JARVIS Admin: Service Worker registered', reg.scope))
+                    .catch(err => console.log('JARVIS Admin: Service Worker registration failed', err));
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install hint after login
+            setTimeout(() => {
+                if (localStorage.getItem('pwa-admin-dismissed')) return;
+                if (document.getElementById('loginScreen').style.display === 'none') {
+                    showToast('📱 กด Share > Add to Home Screen เพื่อติดตั้ง App');
+                    localStorage.setItem('pwa-admin-dismissed', 'true');
+                }
+            }, 5000);
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('JARVIS Admin: PWA installed successfully');
+            deferredPrompt = null;
+        });
     </script>
 </body>
 </html>
