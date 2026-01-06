@@ -417,6 +417,7 @@
             <div class="status-item"><span class="status-dot"></span>SYSTEM: ONLINE</div>
             <div class="status-item">LAST UPDATE: <span id="lastUpdate">-</span></div>
             <div class="status-item">VERSION: 4.0.0</div>
+            <a href="https://ashy-coast-0da3a1300.2.azurestaticapps.net" target="_blank" class="status-item" style="color: var(--jarvis-gold); text-decoration: none; cursor: pointer;">🔐 ADMIN</a>
         </div>
     </footer>
 
@@ -564,10 +565,14 @@
                 `<button class="filter-tab ${i === 0 ? 'active' : ''}" data-filter="${cat}">${cat === 'all' ? 'All' : cat}</button>`
             ).join('');
             
-            document.getElementById('projectsGrid').innerHTML = projs.map((proj, idx) => `
+            document.getElementById('projectsGrid').innerHTML = projs.map((proj, idx) => {
+                // Use thumbnail_url or first image from images array
+                const thumbnailImg = proj.thumbnail_url || (proj.images && proj.images.length > 0 ? proj.images[0].image_url : null);
+                
+                return `
                 <div class="project-card" data-category="${proj.category}">
                     <div class="project-thumbnail" onclick="openGallery(${idx})">
-                        ${proj.thumbnail_url ? `<img src="${proj.thumbnail_url}" alt="${proj.name}">` : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
+                        ${thumbnailImg ? `<img src="${thumbnailImg}" alt="${proj.name}">` : '<span style="font-size:3rem;color:var(--jarvis-blue)">◈</span>'}
                         <div class="project-overlay"><button class="view-btn">VIEW GALLERY</button></div>
                     </div>
                     <div class="project-info">
@@ -584,7 +589,7 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
