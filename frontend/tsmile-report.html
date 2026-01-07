@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSmile API v86 - Hologram Test Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-soft: rgba(124, 58, 237, 0.2);
+            --primary-strong: #6366f1;
+            --accent: #22d3ee;
+            --accent-soft: rgba(34, 211, 238, 0.25);
+            --success: #10b981;
+            --warning: #fbbf24;
+            --danger: #f97373;
+            --gradient-main: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #ec4899 80%, #22d3ee 100%);
+        }
+
+        /* Light Theme */
+        :root[data-theme="light"] {
+            --bg-primary: #e5e7eb;
+            --bg-secondary: rgba(255,255,255,0.92);
+            --bg-card: rgba(255,255,255,0.94);
+            --bg-holo: rgba(248,250,252,0.6);
+            --text-primary: #0f172a;
+            --text-secondary: #6b7280;
+            --border-color: rgba(148,163,184,0.5);
+            --shadow-soft: 0 22px 70px rgba(15,23,42,0.2);
+            --shadow-card: 0 18px 45px rgba(15,23,42,0.18);
+            --glow: 0 0 45px rgba(94,234,212,0.55);
+        }
+
+        /* Dark Theme */
+        :root[data-theme="dark"] {
+            --bg-primary: radial-gradient(circle at top, #111827 0, #020617 42%, #020617 100%);
+            --bg-secondary: rgba(15,23,42,0.96);
+            --bg-card: rgba(15,23,42,0.96);
+            --bg-holo: rgba(15,23,42,0.72);
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(55,65,81,0.9);
+            --shadow-soft: 0 22px 70px rgba(0,0,0,0.75);
+            --shadow-card: 0 18px 45px rgba(15,23,42,0.9);
+            --glow: 0 0 55px rgba(94,234,212,0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* HOLOGRAM BACKGROUND LAYERS */
+        .bg-orbit {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -3;
+        }
+
+        .bg-orbit::before,
+        .bg-orbit::after {
+            content: '';
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.9;
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .bg-orbit::before {
+            background: radial-gradient(circle at center, rgba(94,234,212,0.8), transparent 70%);
+            top: -150px;
+            left: -120px;
+        }
+
+        .bg-orbit::after {
+            background: radial-gradient(circle at center, rgba(251,113,133,0.8), transparent 70%);
+            bottom: -160px;
+            right: -120px;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px);
+            background-size: 70px 70px;
+            opacity: 0.35;
+            z-index: -2;
+            transform: translateZ(0);
+        }
+
+        .bg-noise {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+            mix-blend-mode: soft-light;
+            opacity: 0.55;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.95) 0, rgba(15,23,42,0.98) 40%, #020617 100%);
+            backdrop-filter: blur(30px);
+            z-index: 9999;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-shell {
+            position: relative;
+            padding: 2px;
+            border-radius: 28px;
+            background: conic-gradient(from 130deg, rgba(96,165,250,0.65), rgba(244,114,182,0.9), rgba(45,212,191,0.8), rgba(96,165,250,0.65));
+            box-shadow: var(--glow);
+        }
+
+        .login-box {
+            background: radial-gradient(circle at top left, rgba(148,163,184,0.08), transparent 55%),
+                        var(--bg-holo);
+            border-radius: 26px;
+            padding: 40px 34px 34px;
+            width: 92vw;
+            max-width: 420px;
+            border: 1px solid rgba(148,163,184,0.4);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            background: radial-gradient(circle at center, rgba(59,130,246,0.18), transparent 65%);
+            top: -80px;
+            right: -60px;
+            pointer-events: none;
+        }
+
+        .login-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.4);
+            background: linear-gradient(135deg, rgba(15,23,42,0.7), rgba(15,23,42,0.3));
+            color: #e5e7eb;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 16px;
+        }
+
+        .login-badge i {
+            color: #22d3ee;
+        }
+
+        .login-box .logo {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-box h2 {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 26px;
+        }
+
+        .login-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .login-form .input-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .login-form label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .input-holo-frame {
+            position: relative;
+            padding: 1px;
+            border-radius: 999px;
+            background: radial-gradient(circle at top left, rgba(129,140,248,0.8), rgba(94,234,212,0.0));
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 11px 16px 11px 44px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.6);
+            background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(15,23,42,0.75));
+            color: #e5e7eb;
+            font-size: 0.92rem;
+            font-family: 'Prompt', sans-serif;
+            outline: none;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .login-form input::placeholder {
+            color: rgba(148,163,184,0.75);
+        }
+
+        .login-form input:focus {
+            border-color: rgba(94,234,212,0.9);
+            box-shadow: 0 0 0 1px rgba(94,234,212,0.5);
+            background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.85));
+        }
+
+        .login-form .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 32px;
+            color: rgba(148,163,184,0.9);
+            font-size: 0.95rem;
+        }
+
+        .login-form button {
+            margin-top: 10px;
+            width: 100%;
+            padding: 11px 18px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(120deg, #4f46e5, #7c3aed, #ec4899, #22d3ee);
+            background-size: 250% 250%;
+            animation: gradientFlow 6s ease infinite;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 16px 35px rgba(79,70,229,0.55);
+        }
+
+        .login-form button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 20px 50px rgba(79,70,229,0.9);
+        }
+
+        .login-form button i {
+            font-size: 0.95rem;
+        }
+
+        .login-hint {
+            margin-top: 12px;
+            font-size: 0.78rem;
+            color: rgba(148,163,184,0.8);
+        }
+
+        .login-hint code {
+            font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+            background: rgba(15,23,42,0.85);
+            border-radius: 999px;
+            padding: 3px 9px;
+            border: 1px dashed rgba(148,163,184,0.7);
+        }
+
+        .login-error {
+            margin-top: 14px;
+            font-size: 0.82rem;
+            color: #fecaca;
+            background: rgba(239,68,68,0.16);
+            border-radius: 12px;
+            padding: 8px 10px;
+            display: none;
+            border: 1px solid rgba(248,113,113,0.4);
+        }
+
+        .login-error.show {
+            display: block;
+            animation: shake 0.4s;
+        }
+
+        .login-error i {
+            margin-right: 6px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 30%; }
+            50% { background-position: 100% 70%; }
+            100% { background-position: 0% 30%; }
+        }
+
+        /* Theme Toggle & Logout */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 26px;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .control-btn {
+            pointer-events: auto;
+            border: none;
+            border-radius: 999px;
+            padding: 9px 16px;
+            font-size: 0.85rem;
+            font-family: 'Prompt', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            background: rgba(15,23,42,0.92);
+            color: #e5e7eb;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.85);
+            border: 1px solid rgba(148,163,184,0.6);
+            backdrop-filter: blur(16px);
+            transition: all 0.2s ease;
+        }
+
+        .control-btn span {
+            white-space: nowrap;
+        }
+
+        .control-btn i {
+            font-size: 0.95rem;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(94,234,212,0.8);
+            color: #e5e7eb;
+        }
+
+        #themeToggle {
+            background: radial-gradient(circle at top left, rgba(56,189,248,0.3), rgba(15,23,42,0.96));
+        }
+
+        #logoutBtn {
+            background: radial-gradient(circle at top left, rgba(248,113,113,0.3), rgba(15,23,42,0.96));
+        }
+
+        .control-btn.hidden {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content.visible {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 88px 18px 120px;
+            overflow: hidden;
+        }
+
+        .hero-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+            gap: 26px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .hero-holo-card {
+            position: relative;
+            padding: 1px;
+            border-radius: 28px;
+            background: radial-gradient(circle at top left, rgba(96,165,250,0.55), rgba(56,189,248,0.15), rgba(15,23,42,0.2));
+            box-shadow: var(--shadow-card);
+        }
+
+        .hero-holo-inner {
+            border-radius: 27px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.85));
+            padding: 26px 26px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-holo-inner::before {
+            content: '';
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle at center, rgba(94,234,212,0.18), transparent 70%);
+            top: -140px;
+            right: -110px;
+            opacity: 0.8;
+        }
+
+        .hero-logo-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hero-logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: radial-gradient(circle at top left, #22d3ee, #6366f1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #0b1220;
+            font-size: 1.3rem;
+            box-shadow: 0 12px 32px rgba(56,189,248,0.85);
+        }
+
+        .hero-logo-text {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #e5e7eb;
+            opacity: 0.85;
+        }
+
+        .hero-title {
+            font-size: clamp(2.1rem, 3.2vw, 2.8rem);
+            font-weight: 700;
+            color: #f9fafb;
+            margin-bottom: 8px;
+        }
+
+        .hero-title span {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            color: rgba(148,163,184,0.92);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+            font-size: 0.86rem;
+            color: rgba(148,163,184,0.9);
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 11px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.9);
+            border: 1px solid rgba(75,85,99,0.8);
+        }
+
+        .meta-pill i {
+            font-size: 0.9rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .hero-badge {
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(94,234,212,0.65);
+            color: #a5f3fc;
+            background: radial-gradient(circle at top left, rgba(34,211,238,0.35), transparent 70%);
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .hero-badge i {
+            font-size: 0.85rem;
+        }
+
+        .hero-metrics-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .metric-chip {
+            flex: 1;
+            min-width: 120px;
+            border-radius: 16px;
+            padding: 10px 14px;
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(30,64,175,0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .metric-label {
+            font-size: 0.78rem;
+            color: rgba(148,163,184,0.85);
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .metric-value span {
+            font-size: 0.86rem;
+            margin-left: 5px;
+            color: #6ee7b7;
+        }
+
+        .metric-tag {
+            font-size: 0.75rem;
+            color: #a5b4fc;
+        }
+
+        /* Pass Rate Block */
+        .rate-orb-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .rate-orb-shell {
+            position: relative;
+            width: 270px;
+            height: 270px;
+            border-radius: 50%;
+            background: radial-gradient(circle at top, rgba(56,189,248,0.9), rgba(129,140,248,0.65), rgba(15,23,42,1));
+            box-shadow: 0 0 0 1px rgba(148,163,184,0.5), 0 0 70px rgba(56,189,248,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rate-orb-inner {
+            width: 215px;
+            height: 215px;
+            border-radius: 50%;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,1));
+            border: 1px solid rgba(148,163,184,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rate-orb-inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: conic-gradient(from 0deg, rgba(34,211,238,0.15), transparent 55%, rgba(94,234,212,0.2), transparent 100%);
+            mix-blend-mode: screen;
+            opacity: 0.7;
+            animation: rotateHalo 10s linear infinite;
+        }
+
+        .rate-number {
+            position: relative;
+            font-size: 3.3rem;
+            font-weight: 700;
+            color: #bbf7d0;
+            text-shadow: 0 0 25px rgba(16,185,129,0.9);
+        }
+
+        .rate-label {
+            position: relative;
+            font-size: 0.9rem;
+            color: rgba(148,163,184,0.9);
+        }
+
+        .rate-sub {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: rgba(148,163,184,0.85);
+        }
+
+        .rate-chip {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(22,163,74,0.15);
+            border: 1px solid rgba(34,197,94,0.65);
+            color: #bbf7d0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rate-chip i {
+            font-size: 0.85rem;
+        }
+
+        @keyframes rotateHalo {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+
+        .rate-caption {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: rgba(209,213,219,0.95);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            max-width: 1180px;
+            margin: -36px auto 0;
+            padding: 0 18px 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .stat-card {
+            position: relative;
+            padding: 1px;
+            border-radius: 20px;
+            background: radial-gradient(circle at top left, rgba(56,189,248,0.65), rgba(15,23,42,0.95));
+            min-width: 160px;
+            flex: 1;
+            max-width: 260px;
+        }
+
+        .stat-inner {
+            border-radius: 19px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88));
+            padding: 14px 16px 14px;
+            border: 1px solid rgba(55,65,81,0.9);
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: rgba(148,163,184,0.9);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .stat-tag {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: rgba(148,163,184,0.95);
+        }
+
+        .stat-icon {
+            position: absolute;
+            right: 12px;
+            top: 10px;
+            font-size: 1rem;
+            color: rgba(96,165,250,0.8);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 14px 18px 64px;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: left;
+            margin: 45px 0 24px;
+        }
+
+        .section-title h2 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title h2 i {
+            color: var(--accent);
+        }
+
+        .section-title p {
+            margin-top: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Module Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .module-card {
+            position: relative;
+            padding: 1px;
+            border-radius: 18px;
+            background: radial-gradient(circle at top left, rgba(56,189,248,0.35), rgba(56,189,248,0.02));
+            box-shadow: 0 12px 32px rgba(15,23,42,0.7);
+            overflow: hidden;
+        }
+
+        .module-inner {
+            border-radius: 17px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.9));
+            border: 1px solid rgba(55,65,81,0.95);
+            padding: 16px 16px 14px;
+            position: relative;
+        }
+
+        .module-inner::before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 999px;
+            background: radial-gradient(circle at center, rgba(94,234,212,0.14), transparent 70%);
+            top: -100px;
+            right: -80px;
+            opacity: 0.6;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .module-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.75);
+        }
+
+        .module-icon.auth { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .module-icon.users { background: linear-gradient(135deg, #3b82f6, #22d3ee); }
+        .module-icon.social { background: linear-gradient(135deg, #ec4899, #f97316); }
+        .module-icon.shop { background: linear-gradient(135deg, #f97316, #facc15); }
+        .module-icon.address { background: linear-gradient(135deg, #84cc16, #22c55e); }
+        .module-icon.cart { background: linear-gradient(135deg, #22c55e, #14b8a6); }
+        .module-icon.orders { background: linear-gradient(135deg, #4f46e5, #22c55e); }
+        .module-icon.payment { background: linear-gradient(135deg, #6366f1, #14b8a6); }
+        .module-icon.live { background: linear-gradient(135deg, #ef4444, #f97316); }
+        .module-icon.message { background: linear-gradient(135deg, #0ea5e9, #22d3ee); }
+        .module-icon.moderation { background: linear-gradient(135deg, #6b7280, #ec4899); }
+        .module-icon.notification { background: linear-gradient(135deg, #f97316, #facc15); }
+        .module-icon.recommendation { background: linear-gradient(135deg, #14b8a6, #6366f1); }
+        .module-icon.analytics { background: linear-gradient(135deg, #8b5cf6, #22d3ee); }
+        .module-icon.feed { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+
+        .module-text {
+            position: relative;
+        }
+
+        .module-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .module-tests {
+            font-size: 0.84rem;
+            color: rgba(148,163,184,0.9);
+        }
+
+        .module-progress {
+            position: relative;
+            margin-top: 10px;
+            height: 6px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(31,41,55,0.9);
+        }
+
+        .module-progress-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #34d399, #22d3ee);
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        .module-status {
+            position: relative;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            border-radius: 999px;
+            padding: 4px 9px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(22,163,74,0.16);
+            border: 1px solid rgba(34,197,94,0.7);
+            color: #bbf7d0;
+        }
+
+        .status-badge i {
+            font-size: 0.82rem;
+        }
+
+        .status-percent {
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+
+        /* API Info */
+        .api-info {
+            margin-top: 44px;
+            position: relative;
+            padding: 1px;
+            border-radius: 22px;
+            background: radial-gradient(circle at top left, rgba(59,130,246,0.45), rgba(15,23,42,0.9));
+            box-shadow: 0 18px 45px rgba(15,23,42,0.9);
+        }
+
+        .api-info-inner {
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.94));
+            border: 1px solid rgba(55,65,81,0.9);
+            padding: 22px 20px 24px;
+        }
+
+        .api-url {
+            margin-top: 16px;
+            border-radius: 14px;
+            background: radial-gradient(circle at left, rgba(15,23,42,0.96), rgba(15,23,42,1));
+            border: 1px solid rgba(55,65,81,0.95);
+            padding: 12px 44px 12px 14px;
+            font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+            font-size: 0.78rem;
+            color: #e5e7eb;
+            position: relative;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .api-url i {
+            margin-right: 7px;
+            color: #22d3ee;
+        }
+
+        .api-url-copy {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            border-radius: 999px;
+            padding: 3px 8px;
+            border: 1px solid rgba(148,163,184,0.8);
+            background: rgba(15,23,42,0.9);
+            color: #e5e7eb;
+            cursor: pointer;
+        }
+
+        .api-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .api-stat-item {
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.9));
+            border: 1px solid rgba(55,65,81,0.9);
+            padding: 9px 11px;
+            text-align: left;
+        }
+
+        .api-stat-item strong {
+            font-size: 0.78rem;
+            color: rgba(148,163,184,0.9);
+        }
+
+        .api-stat-value {
+            margin-top: 4px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .api-stat-item.status .api-stat-value {
+            font-size: 1rem;
+            color: #6ee7b7;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .tech-stack {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .tech-card,
+        .coverage-card {
+            position: relative;
+            padding: 1px;
+            border-radius: 20px;
+            background: radial-gradient(circle at top left, rgba(56,189,248,0.4), rgba(15,23,42,0.9));
+            box-shadow: 0 18px 45px rgba(15,23,42,0.9);
+        }
+
+        .tech-inner,
+        .coverage-inner {
+            border-radius: 19px;
+            background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.95));
+            border: 1px solid rgba(55,65,81,0.95);
+            padding: 18px 16px 16px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .tech-item {
+            border-radius: 14px;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(15,23,42,1));
+            border: 1px solid rgba(55,65,81,0.9);
+            padding: 12px 10px 10px;
+            text-align: center;
+        }
+
+        .tech-item i {
+            font-size: 1.6rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .tech-item span {
+            display: block;
+            font-size: 0.86rem;
+            color: #e5e7eb;
+        }
+
+        /* Coverage Section */
+        .coverage-grid {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 10px;
+        }
+
+        .coverage-item {
+            border-radius: 14px;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(15,23,42,1));
+            border: 1px solid rgba(55,65,81,0.9);
+            padding: 10px 10px 9px;
+        }
+
+        .coverage-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            font-size: 0.86rem;
+        }
+
+        .coverage-item-name {
+            color: #e5e7eb;
+        }
+
+        .coverage-item-percent {
+            color: #6ee7b7;
+            font-weight: 600;
+            font-size: 0.86rem;
+        }
+
+        .coverage-bar {
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(31,41,55,0.9);
+            overflow: hidden;
+        }
+
+        .coverage-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #22c55e, #22d3ee);
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        .coverage-total {
+            margin-top: 12px;
+            border-top: 1px solid rgba(55,65,81,0.9);
+            padding-top: 10px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: rgba(148,163,184,0.9);
+        }
+
+        .coverage-total span {
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid rgba(55,65,81,0.9);
+            padding: 26px 18px 24px;
+            background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(15,23,42,1));
+        }
+
+        .footer-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.88rem;
+        }
+
+        .footer-inner h3 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-contact {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .footer-contact a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.86rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .footer-contact a:hover {
+            color: #38bdf8;
+        }
+
+        .footer-contact i {
+            font-size: 0.9rem;
+        }
+
+        .footer-copy {
+            margin-top: 14px;
+            font-size: 0.78rem;
+            color: #6b7280;
+        }
+
+        /* Intersection Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 640px) {
+            .stat-card {
+                min-width: 100%;
+            }
+
+            .hero-inner {
+                gap: 20px;
+            }
+
+            .top-controls {
+                padding: 0 12px;
+                top: 14px;
+            }
+
+            .control-btn {
+                padding: 7px 11px;
+                font-size: 0.78rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-orbit"></div>
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-shell">
+        <div class="login-box">
+            <div class="login-badge">
+                <i class="fas fa-shield-alt"></i>
+                TSmile · Internal API Test Report
+            </div>
+            <div class="logo">
+                <i class="fas fa-shopping-bag"></i> TSmile
+            </div>
+            <h2>เข้าถึงรายงานทดสอบระบบ</h2>
+            <div class="login-subtitle">
+                TSmile API v86 · Production Ready Social Commerce Platform
+            </div>
+
+            <div class="login-meta">
+                <span><i class="fas fa-code-branch"></i> Version: v86</span>
+                <span><i class="fas fa-calendar-day"></i> 8 Dec 2025</span>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <i class="fas fa-user input-icon"></i>
+                    <div class="input-holo-frame">
+                        <input type="text" id="username" placeholder="tsmile" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="input-holo-frame">
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-right-to-bracket"></i>
+                    <span>เข้าสู่ระบบเพื่อดูรายงาน</span>
+                </button>
+            </form>
+
+            <div class="login-hint">
+                Demo Access · <code>tsmile / demo2025</code>
+            </div>
+
+            <div class="login-error" id="loginError">
+                <i class="fas fa-circle-exclamation"></i>
+                Username หรือ Password ไม่ถูกต้อง
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOP CONTROLS -->
+<div class="top-controls">
+    <button class="control-btn hidden" id="logoutBtn">
+        <i class="fas fa-arrow-left-long"></i>
+        <span>ออกจากรายงาน</span>
+    </button>
+    <button class="control-btn hidden" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeText">Dark Mode</span>
+    </button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-shell">
+            <div class="hero-inner">
+                <div class="hero-holo-card animate-on-scroll">
+                    <div class="hero-holo-inner">
+                        <div class="hero-logo-line">
+                            <div class="hero-logo-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="hero-logo-text">TSMILE · SOCIAL COMMERCE API</div>
+                        </div>
+                        <h1 class="hero-title">
+                            TSmile API <span>v86</span> Test Report
+                        </h1>
+                        <p class="hero-subtitle">
+                            แพลตฟอร์ม Social Commerce ที่รวมโครงสร้างแบบ TikTok / Shopee
+                            พร้อม API ครบชุด ตั้งแต่ Auth, Feed, Live Shopping, Payment, Messaging, Moderation ฯลฯ
+                        </p>
+                        <div class="hero-meta">
+                            <span class="meta-pill">
+                                <i class="fas fa-code"></i> 120+ Endpoints
+                            </span>
+                            <span class="meta-pill">
+                                <i class="fas fa-cubes"></i> 15 Modules
+                            </span>
+                            <span class="meta-pill">
+                                <i class="fas fa-shield"></i> 83 Tests · 100% Pass
+                            </span>
+                        </div>
+                        <div class="hero-badges">
+                            <div class="hero-badge">
+                                <i class="fas fa-rocket"></i> Production Ready
+                            </div>
+                            <div class="hero-badge">
+                                <i class="fas fa-cloud"></i> Azure · Container Apps · PostgreSQL · Redis
+                            </div>
+                        </div>
+                        <div class="hero-metrics-row">
+                            <div class="metric-chip">
+                                <div class="metric-label">Test Suite</div>
+                                <div class="metric-value">83<span>cases</span></div>
+                                <div class="metric-tag">Auth · Shop · Live · Messaging · Moderation ฯลฯ</div>
+                            </div>
+                            <div class="metric-chip">
+                                <div class="metric-label">API Coverage</div>
+                                <div class="metric-value">~85%<span>TikTok / Shopee parity</span></div>
+                                <div class="metric-tag">Core E-Commerce · Live Shopping · Social Graph</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="animate-on-scroll">
+                    <div class="rate-orb-wrap">
+                        <div class="rate-orb-shell">
+                            <div class="rate-orb-inner">
+                                <div class="rate-number">100%</div>
+                                <div class="rate-label">Pass Rate</div>
+                                <div class="rate-sub">83 / 83 Tests</div>
+                                <div class="rate-chip">
+                                    <i class="fas fa-circle-check"></i>
+                                    All critical journeys verified
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rate-caption">
+                        🔐 Auth · 👤 Users · 🤝 Social · 🏪 Shop · 🛒 Cart · 📦 Orders · 💳 Payment · 📺 Live · 💬 Messaging ·
+                        🛡️ Moderation · 🔔 Notifications · 🎯 Recommendation · 📊 Analytics · 📰 Feed
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS ROW -->
+    <section class="stats-row">
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-inner">
+                <div class="stat-icon"><i class="fas fa-vial-circle-check"></i></div>
+                <div class="stat-label">TOTAL TESTS</div>
+                <div class="stat-value">83</div>
+                <div class="stat-tag">จาก test suite shell script ครอบคลุม 15 โมดูลหลัก</div>
+            </div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-inner">
+                <div class="stat-icon"><i class="fas fa-circle-check"></i></div>
+                <div class="stat-label">PASSED</div>
+                <div class="stat-value">83</div>
+                <div class="stat-tag">ทุก endpoint สำคัญตอบกลับ status code ตาม design</div>
+            </div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-inner">
+                <div class="stat-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <div class="stat-label">FAILED</div>
+                <div class="stat-value" style="color:#f97373;">0</div>
+                <div class="stat-tag">ไม่มี error case ที่ไม่คาดคิดใน flow ทดสอบนี้</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- MODULES -->
+        <section>
+            <div class="section-title">
+                <h2><i class="fas fa-cubes"></i> Module Test Results</h2>
+                <p>ทดสอบครบทั้ง 15 โมดูลใน TSmile API v86</p>
+            </div>
+            <div class="modules-grid">
+                <!-- Auth -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon auth"><i class="fas fa-lock"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Authentication</div>
+                                <div class="module-tests">Register, Login, Refresh Token, Error Cases</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 5 / 5</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon users"><i class="fas fa-user"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Users</div>
+                                <div class="module-tests">Profile, Update, Search, Get by ID</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 4 / 4</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon social"><i class="fas fa-users"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Social</div>
+                                <div class="module-tests">Follow, Followers, Block, Suggestions</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 10 / 10</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon shop"><i class="fas fa-store"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Shop</div>
+                                <div class="module-tests">Products, Shops, Product Detail, Shop Products</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 6 / 6</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Addresses -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon address"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Addresses</div>
+                                <div class="module-tests">Create, List, Update</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 3 / 3</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart & Checkout -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon cart"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Cart & Checkout</div>
+                                <div class="module-tests">Get Cart, Add, Update, Checkout</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 4 / 4</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon orders"><i class="fas fa-box"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Orders</div>
+                                <div class="module-tests">Get My Orders, Order Detail</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 2 / 2</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon payment"><i class="fas fa-credit-card"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Payment</div>
+                                <div class="module-tests">PromptPay QR, Simulate Payment</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 2 / 2</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon live"><i class="fas fa-video"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Live Streaming</div>
+                                <div class="module-tests">List, Start, Join, Chat, Products, Stats</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 12 / 12</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messaging -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon message"><i class="fas fa-comments"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Messaging</div>
+                                <div class="module-tests">Conversations, Send, Get, Read</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 5 / 5</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Moderation -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon moderation"><i class="fas fa-shield-alt"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Moderation</div>
+                                <div class="module-tests">Filter, Reports, Warnings, Admin Stats</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 9 / 9</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon notification"><i class="fas fa-bell"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Notifications</div>
+                                <div class="module-tests">List, Unread Count, Preferences</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 5 / 5</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon recommendation"><i class="fas fa-magic"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Recommendation</div>
+                                <div class="module-tests">Track, Activities, For You, Trending, Similar</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 9 / 9</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon analytics"><i class="fas fa-chart-line"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Analytics</div>
+                                <div class="module-tests">Track, Platform, Realtime, Me</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 4 / 4</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feed -->
+                <div class="module-card animate-on-scroll">
+                    <div class="module-inner">
+                        <div class="module-header">
+                            <div class="module-icon feed"><i class="fas fa-rss"></i></div>
+                            <div class="module-text">
+                                <div class="module-name">Feed</div>
+                                <div class="module-tests">For You, Following, Trending</div>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <div class="module-progress-bar" data-progress="100"></div>
+                        </div>
+                        <div class="module-status">
+                            <span class="status-badge"><i class="fas fa-check"></i> 3 / 3</span>
+                            <span class="status-percent">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API INFO / TECH / COVERAGE -->
+        <section>
+            <div class="api-info animate-on-scroll">
+                <div class="api-info-inner">
+                    <div class="section-title" style="margin: 0 0 4px;">
+                        <h2><i class="fas fa-server"></i> API Information</h2>
+                    </div>
+                    <div class="api-url" id="apiUrlBox">
+                        <i class="fas fa-link"></i>
+                        https://tsmile-api-social.wonderfulsea-31bfa46e.southeastasia.azurecontainerapps.io/api/v1
+                        <button class="api-url-copy" id="copyApiBtn">Copy</button>
+                    </div>
+                    <div class="api-stats">
+                        <div class="api-stat-item">
+                            <strong><i class="fas fa-code"></i> Endpoints</strong>
+                            <div class="api-stat-value">120+</div>
+                        </div>
+                        <div class="api-stat-item">
+                            <strong><i class="fas fa-cubes"></i> Modules</strong>
+                            <div class="api-stat-value">15</div>
+                        </div>
+                        <div class="api-stat-item">
+                            <strong><i class="fas fa-code-branch"></i> Version</strong>
+                            <div class="api-stat-value">v86</div>
+                        </div>
+                        <div class="api-stat-item status">
+                            <strong><i class="fas fa-check-double"></i> Status</strong>
+                            <div class="api-stat-value">Production Ready 🚀</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <div class="tech-card animate-on-scroll">
+                    <div class="tech-inner">
+                        <div class="section-title" style="margin: 0 0 6px;">
+                            <h2><i class="fas fa-layer-group"></i> Tech Stack</h2>
+                            <p>Backend Tech ที่ใช้สร้าง TSmile API</p>
+                        </div>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fab fa-node-js"></i>
+                                <span>NestJS (Node.js)</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-database"></i>
+                                <span>PostgreSQL</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-bolt"></i>
+                                <span>Redis Cache</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-microsoft"></i>
+                                <span>Azure Container Apps</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-docker"></i>
+                                <span>Docker / ACR</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-plug"></i>
+                                <span>WebSocket (Socket.io)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coverage-card animate-on-scroll">
+                    <div class="coverage-inner">
+                        <div class="section-title" style="margin: 0 0 6px;">
+                            <h2><i class="fas fa-chart-pie"></i> Platform Coverage</h2>
+                            <p>TikTok Shop / Shopee Feature Parity (ประมาณการตามฟีเจอร์)</p>
+                        </div>
+                        <div class="coverage-grid">
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">🛒 Core E-Commerce</span>
+                                    <span class="coverage-item-percent">95%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="95"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">📺 Live Shopping</span>
+                                    <span class="coverage-item-percent">90%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="90"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">🔔 Notifications</span>
+                                    <span class="coverage-item-percent">85%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">💬 Messaging</span>
+                                    <span class="coverage-item-percent">80%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="80"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">🤝 Social Graph</span>
+                                    <span class="coverage-item-percent">75%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="75"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">🛡️ Moderation</span>
+                                    <span class="coverage-item-percent">75%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="75"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">📊 Analytics</span>
+                                    <span class="coverage-item-percent">70%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="70"></div>
+                                </div>
+                            </div>
+                            <div class="coverage-item">
+                                <div class="coverage-item-header">
+                                    <span class="coverage-item-name">🎯 Recommendation</span>
+                                    <span class="coverage-item-percent">55%</span>
+                                </div>
+                                <div class="coverage-bar">
+                                    <div class="coverage-bar-fill" data-progress="55"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coverage-total">
+                            Overall Platform Coverage: <span>~85%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <h3>© 2025 Autthapol Saiyat (Boy)</h3>
+            <div>Technology & AI Program Director</div>
+            <div class="footer-contact">
+                <a href="mailto:saiyat2009@gmail.com">
+                    <i class="fas fa-envelope"></i> saiyat2009@gmail.com
+                </a>
+                <a href="#">
+                    <i class="fab fa-line"></i> boy_saiyat
+                </a>
+                <a href="https://github.com/autthapolsaiyat" target="_blank">
+                    <i class="fab fa-github"></i> @autthapolsaiyat
+                </a>
+            </div>
+            <div class="footer-copy">
+                TSmile Social Commerce Platform · All Rights Reserved
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Credentials
+    const validCredentials = {
+        username: 'tsmile',
+        password: 'demo2025'
+    };
+
+    const loginOverlay = document.getElementById('loginOverlay');
+    const mainContent = document.getElementById('mainContent');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+    const loginError = document.getElementById('loginError');
+
+    // Auth state
+    const isLoggedIn = sessionStorage.getItem('tsmile_auth') === 'true';
+
+    function showMain() {
+        loginOverlay.classList.add('hidden');
+        mainContent.classList.add('visible');
+        logoutBtn.classList.remove('hidden');
+        themeToggle.classList.remove('hidden');
+    }
+
+    if (isLoggedIn) {
+        showMain();
+    }
+
+    // Login submit
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value.trim();
+
+        if (user === validCredentials.username && pass === validCredentials.password) {
+            sessionStorage.setItem('tsmile_auth', 'true');
+            loginError.classList.remove('show');
+            showMain();
+        } else {
+            loginError.classList.add('show');
+            setTimeout(() => loginError.classList.remove('show'), 2600);
+        }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('tsmile_auth');
+        location.reload();
+    });
+
+    // Theme
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('tsmile_theme') || 'dark';
+    root.setAttribute('data-theme', savedTheme);
+    updateThemeUI(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('tsmile_theme', next);
+        updateThemeUI(next);
+    });
+
+    function updateThemeUI(theme) {
+        if (theme === 'dark') {
+            themeIcon.className = 'fas fa-sun';
+            themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+            themeText.textContent = 'Dark Mode';
+        }
+    }
+
+    // Copy API URL
+    const copyBtn = document.getElementById('copyApiBtn');
+    const apiUrlBox = document.getElementById('apiUrlBox');
+
+    copyBtn.addEventListener('click', () => {
+        const urlText = apiUrlBox.textContent.replace('Copy', '').trim();
+        navigator.clipboard.writeText(urlText).then(() => {
+            copyBtn.textContent = 'Copied';
+            setTimeout(() => copyBtn.textContent = 'Copy', 1600);
+        }).catch(() => {
+            copyBtn.textContent = 'Error';
+            setTimeout(() => copyBtn.textContent = 'Copy', 1600);
+        });
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+
+                // animate progress bars
+                if (entry.target.classList.contains('module-card') || entry.target.classList.contains('coverage-card')) {
+                    const bars = entry.target.querySelectorAll('.module-progress-bar, .coverage-bar-fill');
+                    bars.forEach(bar => {
+                        const pct = bar.getAttribute('data-progress') || 100;
+                        bar.style.transition = 'transform 0.7s ease-out';
+                        bar.style.transform = 'scaleX(' + (pct / 100) + ')';
+                    });
+                }
+            }
+        });
+    }, {threshold: 0.3});
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    document.querySelectorAll('.module-card').forEach(el => observer.observe(el));
+    document.querySelectorAll('.coverage-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
